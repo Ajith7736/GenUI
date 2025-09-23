@@ -3,11 +3,14 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { LuCopy } from "react-icons/lu";
 import { FaArrowRight } from "react-icons/fa";
+import { useChat } from "@ai-sdk/react";
+
 
 export default function Home() {
   const [onActive, setonActive] = useState<string | null>("Preview")
   const textref = useRef<HTMLTextAreaElement | null>(null);
   const [generatedcode, setgeneratedcode] = useState("")
+  const { messages, sendMessage } = useChat();
 
   const handlepreview = (): void => {
     setonActive("Preview")
@@ -17,25 +20,37 @@ export default function Home() {
     setonActive("Code")
   }
 
-  const generate = async (value: string) => {
-    let res = await fetch("/api/generate-ui", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt: value })
-    });
+  // const generate = async (value: string) => {
+  //   let res = await fetch("/api/generate-ui", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({ prompt: value })
+  //   });
 
-    if(!res.body) return;
+  //   if (!res.body) return;
 
-    
-    
-  }
+  //   const reader = res.body.getReader();
+  //   const decoder = new TextDecoder();
+
+  //   let code = "";
+
+  //   while (true) {
+  //     const { value, done } = await reader.read();
+  //     if (done) break;
+  //     code += decoder.decode(value);
+  //     setgeneratedcode(code);
+  //   }
+  // };
 
   const handletext = (): void => {
-    generate(textref.current?.value!)
+    sendMessage({ text: `Generate a React component for the following UI prompt. Only give code. Do not add explanation:\n${textref.current?.value!}` })
     textref.current && (textref.current.value = "");
   }
+
+  console.log(messages);
+
 
   return (
     <div className="lg:flex">
