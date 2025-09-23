@@ -1,26 +1,33 @@
 @import "tailwindcss";
 
+::-webkit-scrollbar-track {
+  background: #1E1E1E;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background: rgba(32, 35, 44);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+@theme {
+  --color-purple: rgba(91, 19, 255, 1);
+  --color-green: rgba(4, 248, 39, 1);
+  --color-black: rgba(22, 24, 30, 1);
+  --color-white: rgba(215, 208, 237, 1);
+  --color-yellow: rgba(254, 253, 3, 1);
+  --color-grey: rgba(114, 118, 124, 1);
+  --color-darkpurple: rgba(43, 22, 98, 1);
+  --color-lightpurple: rgba(135, 91, 231, 1);
+  --color-darkgrey: rgba(32, 35, 44);
+}
+
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: rgba(22, 24, 30, 1);
+  color: rgba(215, 208, 237, 1);
 }
