@@ -1,16 +1,22 @@
-import { openai } from '@ai-sdk/openai';
-import { streamText, UIMessage, convertToModelMessages } from 'ai';
+import { generateText } from "ai";
+import { groq } from "@ai-sdk/groq";
+import { NextResponse } from "next/server";
 
-
-export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json();
+  try {
+    const { prompt } = await req.json();
 
-  const result = streamText({
-    model: openai('gpt-4o'),
-    messages: convertToModelMessages(messages),
-  });
+    const { text } = await generateText({
+      model: groq("llama-3.3-70b-versatile"),
+      prompt: `Generate a React component for the following UI prompt. Only give code. Do not add explanation:\n${prompt}`
+    })
 
-  return result.toUIMessageStreamResponse();
+    console.log(text);
+
+    return NextResponse.json({ success: true, text }, { status: 200 })
+  } catch (err) {
+    return NextResponse.json({ success: false, message: "Server Error" }, { status: 500 })
+  }
+
 }

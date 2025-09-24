@@ -11,6 +11,7 @@ export default function Home() {
   const textref = useRef<HTMLTextAreaElement | null>(null);
   const [generatedcode, setgeneratedcode] = useState("")
   const { messages, sendMessage } = useChat();
+  const [loading, setloading] = useState(false)
 
   const handlepreview = (): void => {
     setonActive("Preview")
@@ -20,32 +21,28 @@ export default function Home() {
     setonActive("Code")
   }
 
-  // const generate = async (value: string) => {
-  //   let res = await fetch("/api/generate-ui", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({ prompt: value })
-  //   });
+  const generate = async (value: string) => {
+    setloading(true)
+    let res = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt: value })
+    });
 
-  //   if (!res.body) return;
+    let data = await res.json();
 
-  //   const reader = res.body.getReader();
-  //   const decoder = new TextDecoder();
-
-  //   let code = "";
-
-  //   while (true) {
-  //     const { value, done } = await reader.read();
-  //     if (done) break;
-  //     code += decoder.decode(value);
-  //     setgeneratedcode(code);
-  //   }
-  // };
+    if (res.status === 200) {
+      setgeneratedcode(data.text);
+      setloading(false);
+    } else if (res.status === 400 || res.status === 500) {
+      setloading(false)
+    }
+  };
 
   const handletext = (): void => {
-    sendMessage({ text: `Generate a React component for the following UI prompt. Only give code. Do not add explanation:\n${textref.current?.value!}` })
+    generate(textref.current?.value!)
     textref.current && (textref.current.value = "");
   }
 
