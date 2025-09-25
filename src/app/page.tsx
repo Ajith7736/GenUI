@@ -38,10 +38,10 @@ export default function Home() {
     if (res.status === 200) {
       console.log(data.text);
 
-      let jsxcode: string = await codeextrator("jsxcode", data.text);
-      let csscode: string = await codeextrator("csscode", data.text)
-      await setjsxgeneratedcode(jsxcode);
-      await setcssgeneratedcode(csscode);
+      let jsxcode: string | null = await codeextrator("jsxcode", data.text);
+      let csscode: string | null = await codeextrator("csscode", data.text)
+      jsxcode && await setjsxgeneratedcode(jsxcode);
+      csscode && await setcssgeneratedcode(csscode);
       setloading(false);
     } else if (res.status === 400 || res.status === 500) {
       setloading(false)
@@ -58,7 +58,7 @@ export default function Home() {
     toast.success("Code Copied to Clipboard");
   }
 
-  const codeextrator = (language: string, code: string): string => {
+  const codeextrator = (language: string, code: string): string | null => {
     let startdelimeter: string = language;
     let enddelimeter: string = `#end${language}`;
     console.log(enddelimeter);
@@ -74,7 +74,7 @@ export default function Home() {
       let extractedcode: string = code.slice(adjustedindex, endindex);
       return extractedcode;
     } else {
-      return "Something went wrong !";
+      return null;
     }
   }
 
