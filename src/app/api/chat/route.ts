@@ -9,10 +9,9 @@ export async function POST(req: Request) {
 
     const { text } = await generateText({
       model: groq("llama-3.3-70b-versatile"),
-      prompt: `Generate a React component for the following UI prompt. Only give code. Do not add explanation:\n${prompt}`
+      prompt: `Generate a React component and css for the following UI prompt and seperate the code so that i can know the start and end of the code and the end should be #endjsxcode/#endcsscode for each and start of the code as jsxcode/csscode and remove other things. Only give code. Do not add explanation:\n${prompt}`
     })
 
-    console.log(text);
 
     return NextResponse.json({ success: true, text }, { status: 200 })
   } catch (err) {
