@@ -1,9 +1,12 @@
+
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "react-hot-toast";
 import SessionWrapper from "@/components/SessionWrapper";
+import NavbarWrapper from "@/components/NavbarWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +28,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
@@ -32,7 +36,7 @@ export default function RootLayout({
       >
         <SessionWrapper>
           <Toaster position="top-right" reverseOrder={false} />
-          <Navbar />
+          <NavbarWrapper />
           {children}
         </SessionWrapper>
       </body>

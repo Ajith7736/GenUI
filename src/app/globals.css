@@ -24,6 +24,7 @@
   --color-darkpurple: rgba(43, 22, 98, 1);
   --color-lightpurple: rgba(135, 91, 231, 1);
   --color-darkgrey: rgba(32, 35, 44);
+  --breakpoint-xss: 450px;
 }
 
 
