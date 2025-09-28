@@ -3,17 +3,23 @@ import React, { useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { PiEyesFill } from "react-icons/pi";
 import { FaLaptopCode } from "react-icons/fa";
-import { IoIosColorPalette } from "react-icons/io";
+import { IoIosColorPalette, IoLogoIonic } from "react-icons/io";
 import { IoLibrary } from "react-icons/io5";
 import { FaHandshakeSimple } from "react-icons/fa6";
 import { IoSunnyOutline } from "react-icons/io5";
 import { IoMoonOutline } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
 
 
 export default function Home() {
-  const [showtoggle, setshowtoggle] = useState(false)
+  const [showtoggle, setshowtoggle] = useState<boolean>(false)
+  const { data: session }: {
+    data: Session | null
+  } = useSession()
 
   interface Card {
     logo: React.ReactElement,
@@ -54,7 +60,7 @@ export default function Home() {
     }
   ]
 
-  const showToggle = () => {
+  const showToggle = (): void => {
     setshowtoggle(!showtoggle);
   }
 
@@ -62,18 +68,18 @@ export default function Home() {
   return (
     <div>
 
-
+      {/* header section */}
       <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
-        <div className="bg-light-mediumgrey md:text-xl py-2 px-4 rounded-full font-medium">This is your UI partner</div>
+        <div className="bg-light-mediumgrey md:text-xl py-2 px-4 rounded-full font-medium animate-pulse">This is your UI partner</div>
         <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl">A Generative UI Builder Powered By groq.</div>
         <div className="text-light-darkgrey md:text-2xl text-center text-lg ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
         <div className="flex gap-3">
-          <button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 transition-all ease-in-out">Get Started</button>
+          <Link href={session ? "/Dashboard" : "/Login"}><button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 transition-all ease-in-out">Get Started</button></Link>
           <a href="https://github.com/Ajith7736/GenUI"><button className="text-light-black bg-light-white border border-light-grey hover:bg-light-grey/20 transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md">Github</button></a>
         </div>
       </section>
 
-
+      {/* card section */}
       <section className="bg-light-mediumgrey/60 w-full min-h-[80vh] flex flex-col items-center py-5 px-10 gap-8 xl:px-30">
         <div className="text-3xl xl:text-4xl font-bold font-heading">Features</div>
         <div className="text-light-darkgrey text-center text-lg lg:w-[50vw] xl:text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
@@ -86,11 +92,11 @@ export default function Home() {
             </div>)
           })}
         </div>
-
-
         <div className="text-center text-light-darkgrey lg:w-[50vw] xl:text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor inventore nobis eos minima ipsam dicta corrupti ratione incidunt quo omnis?</div>
       </section>
 
+
+      {/* footer section  */}
       <section className="p-10 flex relative flex-col items-center gap-5 select-none">
         <div className="text-center text-3xl xl:text-4xl font-bold">Proudly Open Source</div>
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
@@ -110,6 +116,7 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
+        <IoLogoIonic size={30} />
         <IoSunnyOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey p-2 rounded-xl" onClick={showToggle} />
       </section>
     </div>

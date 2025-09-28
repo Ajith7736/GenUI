@@ -10,10 +10,10 @@ function page() {
 
   const [onActive, setonActive] = useState<string | null>("Code")
   const textref = useRef<HTMLTextAreaElement | null>(null);
-  const [jsxgeneratedcode, setjsxgeneratedcode] = useState("")
-  const [cssgeneratedcode, setcssgeneratedcode] = useState("")
-  const [codeshown, setcodeshown] = useState("jsx")
-  const [loading, setloading] = useState(false)
+  const [jsxgeneratedcode, setjsxgeneratedcode] = useState<string>("")
+  const [cssgeneratedcode, setcssgeneratedcode] = useState<string>("")
+  const [codeshown, setcodeshown] = useState<string>("jsx")
+  const [loading, setloading] = useState<boolean>(false)
 
   const handlepreview = (): void => {
     setonActive("Preview")
@@ -36,8 +36,6 @@ function page() {
     let data = await res.json();
 
     if (res.status === 200) {
-      console.log(data.text);
-
       let jsxcode: string | null = await codeextrator("jsxcode", data.text);
       let csscode: string | null = await codeextrator("csscode", data.text)
       jsxcode && await setjsxgeneratedcode(jsxcode);
@@ -53,8 +51,8 @@ function page() {
     textref.current && (textref.current.value = "");
   }
 
-  const handlecopy = () => {
-    // navigator.clipboard.writeText();
+  const handlecopy = (): void => {
+    navigator.clipboard.writeText(codeshown === "jsx" ? jsxgeneratedcode : cssgeneratedcode);
     toast.success("Code Copied to Clipboard");
   }
 
@@ -78,11 +76,11 @@ function page() {
     }
   }
 
-  const handlejsxcodeshow = () => {
+  const handlejsxcodeshow = (): void => {
     setcodeshown("jsx");
   }
 
-  const handlecsscodeshow = () => {
+  const handlecsscodeshow = (): void => {
     setcodeshown("css");
   }
 
