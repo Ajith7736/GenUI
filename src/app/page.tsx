@@ -1,148 +1,75 @@
 "use client"
-import Image from "next/image";
-import { useRef, useState } from "react";
-import { LuCopy } from "react-icons/lu";
-import { FaArrowRight } from "react-icons/fa";
-import { useChat } from "@ai-sdk/react";
-import toast from "react-hot-toast";
 
+import { string } from "zod";
 
 export default function Home() {
-  const [onActive, setonActive] = useState<string | null>("Code")
-  const textref = useRef<HTMLTextAreaElement | null>(null);
-  const [jsxgeneratedcode, setjsxgeneratedcode] = useState("")
-  const [cssgeneratedcode, setcssgeneratedcode] = useState("")
-  const [codeshown, setcodeshown] = useState("jsx")
-  const [loading, setloading] = useState(false)
-
-  const handlepreview = (): void => {
-    setonActive("Preview")
+  interface Card {
+    logo: string,
+    title: string,
+    description: string
   }
 
-  const handlecode = (): void => {
-    setonActive("Code")
-  }
-
-  const generate = async (value: string) => {
-    setloading(true)
-    let res = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt: value })
-    });
-
-    let data = await res.json();
-
-    if (res.status === 200) {
-      console.log(data.text);
-
-      let jsxcode: string | null = await codeextrator("jsxcode", data.text);
-      let csscode: string | null = await codeextrator("csscode", data.text)
-      jsxcode && await setjsxgeneratedcode(jsxcode);
-      csscode && await setcssgeneratedcode(csscode);
-      setloading(false);
-    } else if (res.status === 400 || res.status === 500) {
-      setloading(false)
+  const featurecard: Card[] = [
+    {
+      logo: "",
+      title: "⚡ Text to UI",
+      description: "Describe your idea and generate UI instantly.",
+    },
+    {
+      logo: "",
+      title: "👀 Live Preview",
+      description: "See your UI before exporting the code.",
+    },
+    {
+      logo: "",
+      title: "💻 Code Export",
+      description: "Copy or download clean React + Tailwind code.",
+    },
+    {
+      logo: "",
+      title: "🎨 Customizable Components",
+      description: "Edit styles, colors, and layouts with ease.",
+    },
+    {
+      logo: "",
+      title: "📚 Templates Library",
+      description: "Start quickly with dashboards, forms, and more.",
+    },
+    {
+      logo: "",
+      title: "🤝 Collaboration",
+      description: "Share your generated UI/code with teammates.",
     }
-  };
-
-  const handletext = (): void => {
-    textref.current?.value !== "" && generate(textref.current?.value!)
-    textref.current && (textref.current.value = "");
-  }
-
-  const handlecopy = () => {
-    // navigator.clipboard.writeText();
-    toast.success("Code Copied to Clipboard");
-  }
-
-  const codeextrator = (language: string, code: string): string | null => {
-    let startdelimeter: string = language;
-    let enddelimeter: string = `#end${language}`;
-    console.log(enddelimeter);
-
-
-    let startindex: number = code.indexOf(startdelimeter);
-    console.log(startindex);
-
-    let endindex: number = code.indexOf(enddelimeter);
-
-    if (startindex !== -1 && endindex !== -1) {
-      let adjustedindex: number = startindex + startdelimeter.length;
-      let extractedcode: string = code.slice(adjustedindex, endindex);
-      return extractedcode;
-    } else {
-      return null;
-    }
-  }
-
-  const handlejsxcodeshow = () => {
-    setcodeshown("jsx");
-  }
-
-  const handlecsscodeshow = () => {
-    setcodeshown("css");
-  }
+  ]
 
 
   return (
-    <div className="lg:flex">
-
-      <div className="bg-darkgrey m-5 border border-gray-800 rounded-md h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
-
-        <div className="w-[100%] h-[100%] relative">
-          <textarea ref={textref} className="bg-black border border-gray-800 w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:text-lg  text-lg" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
-          <button onClick={handletext} className="bg-purple absolute bottom-5 right-5 px-8 py-3 rounded-md font-extrabold text-xl cursor-pointer hover:bg-purple/90  h-[7vh]  lg:w-[20vw]"><FaArrowRight size="25" className="lg:hidden" /><div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center">{loading ? <>Generating.... </> : <>Generate Now</>}</div></button>
+    <div>
+      <div className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[50vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
+        {/* section 1 */}
+        <div className="bg-light-mediumgrey md:text-xl py-2 px-4 rounded-full font-medium">This is your UI partner</div>
+        <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl">An Generative UI Builder Powered By groq.</div>
+        <div className="text-light-darkgrey md:text-2xl text-center text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
+        <div className="flex gap-3">
+          <button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 transition-all ease-in-out">Get Started</button>
+          <button className="text-light-black bg-light-white border border-light-grey hover:bg-light-grey/20 transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md">Github</button>
         </div>
+      </div>
+      {/* section 2 */}
+      <div className="bg-light-mediumgrey/60 w-full min-h-[80vh] flex flex-col items-center py-5 px-10 gap-8">
+        <div className="text-3xl font-bold font-heading">Features</div>
+        <div className="text-light-darkgrey text-center text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
+
+        {featurecard.map((item, index) => {
+          return <div className="bg-light-white w-full min-h-[25vh] rounded-xl border border-light-grey p-10 flex flex-col gap-5 justify-center">
+            <div className="text-2xl font-bold">Logo</div>
+            <div className="text-lg font-medium">{item.title}</div>
+            <div className="font-medium text-light-darkgrey">{item.}</div>
+          </div>
+        })}
 
       </div>
 
-      <div className="bg-black m-5 border border-gray-800 h-[60vh] lg:w-[50vw] rounded-md ">
-
-        <div className="flex justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-gray-700">
-          <div className="text-xl">
-            <button className={onActive === "Preview" ? "border px-7 border-gray-700 py-4 cursor-pointer border-b-0 rounded-tl-md" : " px-7  py-4 cursor-pointer border-b-0 rounded-tl-md"} onClick={handlepreview}>Preview</button>
-            <button className={onActive === "Code" ? "border border-gray-700 px-9 py-4 cursor-pointer border-b-0" : " px-9 py-4 cursor-pointer border-b-0"} onClick={handlecode}>Code</button>
-          </div>
-          <div className="flex items-center gap-2 px-5 cursor-pointer" onClick={handlecopy}>
-            <LuCopy size={20} /> Copy Code
-          </div>
-        </div>
-
-        {onActive === "Preview" ?
-          <>
-            {/* Preview */}
-            < div className=" h-[52vh] p-5 rounded-b-md">
-              Preview
-            </div>
-          </>
-          :
-          <>
-            {/* Code */}
-            <div className=" h-[52vh] rounded-b-md overflow-auto ">
-              {
-                (jsxgeneratedcode || cssgeneratedcode) && <div className="h-[10%] bg-gray-950 border border-x-0 border-t-0 flex items-center border-gray-800">
-                  {jsxgeneratedcode && <div className={codeshown === "jsx" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlejsxcodeshow}>jsx</div>}
-                  {cssgeneratedcode && <div className={codeshown === "css" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlecsscodeshow}>css</div>}
-                </div>
-              }
-              <div className="mx-5">
-                {
-                  codeshown === "jsx" ?
-                    <pre className="whitespace-pre-wrap mb-5">{jsxgeneratedcode}</pre>
-                    :
-                    <pre className="whitespace-pre-wrap mb-5">{cssgeneratedcode}</pre>
-                }
-
-              </div>
-            </div>
-          </>
-        }
-        <div>
-        </div>
-      </div>
-    </div >
+    </div>
   );
 }
