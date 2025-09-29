@@ -99,7 +99,9 @@ function page() {
 
         <div className="w-[100%] h-[100%] relative">
           <textarea ref={textref} className="bg-light-mediumgrey   border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:text-lg text-lg" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
-          <button onClick={handletext} className="bg-light-black text-light-white hover:bg-light-black/90 transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw]"><FaArrowRight size="25" className="lg:hidden" /><div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center">{loading ? <>Generating.... </> : <>Generate Now</>}</div></button>
+          <button onClick={handletext} className="bg-light-black text-light-white hover:bg-light-black/90 transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw] flex items-center lg:justify-center">{loading ? <div className="animate-spin inline-block size-6 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
+            <span className="sr-only">Loading...</span>
+          </div> : <FaArrowRight size="25" className="lg:hidden" />}<div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center lg:text-lg xl:text-xl">{loading ? <>Generating.... </> : <>Generate Now</>}</div></button>
         </div>
 
       </div>
@@ -127,21 +129,26 @@ function page() {
             {/* Code */}
             <div className=" h-[52vh] rounded-b-md overflow-auto">
               {
-                (jsxgeneratedcode || cssgeneratedcode) && <div className="h-[10%] bg-light-mediumgrey border border-x-0 border-t-0 flex items-center border-light-grey">
-                  {jsxgeneratedcode && <div className={codeshown === "jsx" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0 transition-all ease-in-out" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlejsxcodeshow}>jsx</div>}
-                  {cssgeneratedcode && <div className={codeshown === "css" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlecsscodeshow}>css</div>}
-                </div>
+                jsxgeneratedcode.length === 0 ? <div className="m-6">No code to show.</div> : <>
+                  {
+                    (jsxgeneratedcode || cssgeneratedcode) && <div className="h-[10%] bg-light-mediumgrey border border-x-0 border-t-0 flex items-center border-light-grey">
+                      {jsxgeneratedcode && <div className={codeshown === "jsx" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0 transition-all ease-in-out" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlejsxcodeshow}>jsx</div>}
+                      {cssgeneratedcode && <div className={codeshown === "css" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlecsscodeshow}>css</div>}
+                    </div>
+                  }
+                  <div className="mx-5">
+                    {
+                      codeshown === "jsx" ?
+                        <Codeblock code={jsxgeneratedcode} language="jsx" />
+                        :
+                        <Codeblock code={cssgeneratedcode} language="css" />
+
+                    }
+
+                  </div>
+                </>
               }
-              <div className="mx-5">
-                {
-                  codeshown === "jsx" ?
-                    <Codeblock code={jsxgeneratedcode} language="jsx" />
-                    :
-                    <Codeblock code={cssgeneratedcode} language="css" />
 
-                }
-
-              </div>
             </div>
           </>
         }
