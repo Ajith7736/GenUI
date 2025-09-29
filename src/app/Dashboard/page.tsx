@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import { LuCopy } from "react-icons/lu";
 import { FaArrowRight } from "react-icons/fa";
 import toast from "react-hot-toast";
+import Codeblock from "@/components/Codeblock";
+import { LuCheck } from "react-icons/lu";
 
 
 function page() {
@@ -14,6 +16,7 @@ function page() {
   const [cssgeneratedcode, setcssgeneratedcode] = useState<string>("")
   const [codeshown, setcodeshown] = useState<string>("jsx")
   const [loading, setloading] = useState<boolean>(false)
+  const [copycode, setcopycode] = useState<boolean>(false)
 
   const handlepreview = (): void => {
     setonActive("Preview")
@@ -52,8 +55,12 @@ function page() {
   }
 
   const handlecopy = (): void => {
+    setcopycode(true);
     navigator.clipboard.writeText(codeshown === "jsx" ? jsxgeneratedcode : cssgeneratedcode);
     toast.success("Code Copied to Clipboard");
+    setTimeout(() => {
+      setcopycode(false)
+    }, 2000);
   }
 
   const codeextrator = (language: string, code: string): string | null => {
@@ -88,24 +95,23 @@ function page() {
   return (
     <div className="lg:flex">
 
-      <div className="bg-darkgrey m-5 border border-gray-800 rounded-md h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
+      <div className="bg-light-white m-5 border border-light-grey rounded-md h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
 
         <div className="w-[100%] h-[100%] relative">
-          <textarea ref={textref} className="bg-black dark:bg-dark-lightblack border-1 dark:border-dark-mediumgrey w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:text-lg text-lg" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
-          <button onClick={handletext} className="bg-light-black dark:bg-dark-white dark:text-dark-black dark:hover:bg-dark-lightgrey absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw]"><FaArrowRight size="25" className="lg:hidden" /><div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center">{loading ? <>Generating.... </> : <>Generate Now</>}</div></button>
+          <textarea ref={textref} className="bg-light-mediumgrey   border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:text-lg text-lg" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
+          <button onClick={handletext} className="bg-light-black text-light-white hover:bg-light-black/90 transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw]"><FaArrowRight size="25" className="lg:hidden" /><div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center">{loading ? <>Generating.... </> : <>Generate Now</>}</div></button>
         </div>
 
       </div>
 
-      <div className="bg-black m-5 border border-gray-800 h-[60vh] lg:w-[50vw] rounded-md ">
-
-        <div className="flex justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-gray-700">
+      <div className=" bg-light-white m-5 border border-light-grey h-[60vh] lg:w-[40vw] rounded-md ">
+        <div className="flex justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-light-grey">
           <div className="text-xl">
-            <button className={onActive === "Preview" ? "border px-7 border-gray-700 py-4 cursor-pointer border-b-0 rounded-tl-md" : " px-7  py-4 cursor-pointer border-b-0 rounded-tl-md"} onClick={handlepreview}>Preview</button>
-            <button className={onActive === "Code" ? "border border-gray-700 px-9 py-4 cursor-pointer border-b-0" : " px-9 py-4 cursor-pointer border-b-0"} onClick={handlecode}>Code</button>
+            <button className={onActive === "Preview" ? "border px-7 border-light-grey py-4 cursor-pointer border-b-0 rounded-tl-md" : " px-7  py-4 cursor-pointer border-b-0 text-light-darkgrey rounded-tl-md"} onClick={handlepreview}>Preview</button>
+            <button className={onActive === "Code" ? "border border-light-grey px-9 py-4 cursor-pointer border-b-0" : " px-9 py-4 cursor-pointer border-b-0 text-light-darkgrey"} onClick={handlecode}>Code</button>
           </div>
           <div className="flex items-center gap-2 px-5 cursor-pointer" onClick={handlecopy}>
-            <LuCopy size={20} /> Copy Code
+            {copycode ? <><LuCheck size={20} /> Copied </> : <><LuCopy size={20} /> Copy code </>}
           </div>
         </div>
 
@@ -119,19 +125,20 @@ function page() {
           :
           <>
             {/* Code */}
-            <div className=" h-[52vh] rounded-b-md overflow-auto ">
+            <div className=" h-[52vh] rounded-b-md overflow-auto">
               {
-                (jsxgeneratedcode || cssgeneratedcode) && <div className="h-[10%] bg-gray-950 border border-x-0 border-t-0 flex items-center border-gray-800">
-                  {jsxgeneratedcode && <div className={codeshown === "jsx" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlejsxcodeshow}>jsx</div>}
+                (jsxgeneratedcode || cssgeneratedcode) && <div className="h-[10%] bg-light-mediumgrey border border-x-0 border-t-0 flex items-center border-light-grey">
+                  {jsxgeneratedcode && <div className={codeshown === "jsx" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0 transition-all ease-in-out" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlejsxcodeshow}>jsx</div>}
                   {cssgeneratedcode && <div className={codeshown === "css" ? "cursor-pointer border py-3 px-10 border-t-0 border-x-0" : "cursor-pointer py-3 px-10 text-grey"} onClick={handlecsscodeshow}>css</div>}
                 </div>
               }
               <div className="mx-5">
                 {
                   codeshown === "jsx" ?
-                    <pre className="whitespace-pre-wrap mb-5">{jsxgeneratedcode}</pre>
+                    <Codeblock code={jsxgeneratedcode} language="jsx" />
                     :
-                    <pre className="whitespace-pre-wrap mb-5">{cssgeneratedcode}</pre>
+                    <Codeblock code={cssgeneratedcode} language="css" />
+
                 }
 
               </div>

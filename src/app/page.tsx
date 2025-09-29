@@ -102,7 +102,6 @@ export default function Home() {
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
           The code is available on <a href="" className="underline">GitHub</a>.</div>
         <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" className="underline">Next.js</a> , Hosted on <a href="https://vercel.com/" className="underline">vercel</a> , Inspired by <a href="https://tx.shadcn.com/" className="underline">Taxonomy</a> .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline">GitHub</a> </div>
-        <AnimatePresence>
           {showtoggle && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -115,7 +114,6 @@ export default function Home() {
               <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey cursor-pointer transition-all ease-in-out duration-200"><FaLaptopCode />System</div>
             </motion.div>
           )}
-        </AnimatePresence>
         <IoLogoIonic size={30} />
         <IoSunnyOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey p-2 rounded-xl" onClick={showToggle} />
       </section>

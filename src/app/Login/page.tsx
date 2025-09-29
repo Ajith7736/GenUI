@@ -1,7 +1,7 @@
 "use client"
 import { Session } from 'next-auth';
 import { signIn, useSession } from 'next-auth/react'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link';
 import { FaArrowLeft } from "react-icons/fa";
 
@@ -10,6 +10,14 @@ function Page() {
     data: Session | null,
     status: "loading" | "authenticated" | "unauthenticated"
   } = useSession();
+  const [loading, setloading] = useState<{
+    github: boolean,
+    google: boolean
+  }>({
+    github: false,
+    google: false
+  })
+
 
   return (
     <>
@@ -20,8 +28,13 @@ function Page() {
           <div className=' font-medium text-grey text-center text-lg'>Create your free UI right now</div>
         </div>
         <div className=' rounded-md flex flex-col items-center justify-center gap-10 w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw]'>
-          <button onClick={() => signIn("google")} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
-            <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button onClick={async () => {
+            await setloading({ ...loading, google: true });
+            signIn("google");
+          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
+            {status === "unauthenticated" && loading.google ? <div className="animate-spin inline-block size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
+              <span className="sr-only">Loading...</span>
+            </div> : <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_17_40)">
                 <path d="M47.532 24.5528C47.532 22.9214 47.3997 21.2811 47.1175 19.6761H24.48V28.9181H37.4434C36.9055 31.8988 35.177 34.5356 32.6461 36.2111V42.2078H40.3801C44.9217 38.0278 47.532 31.8547 47.532 24.5528Z" fill="#4285F4" />
                 <path d="M24.48 48.0016C30.9529 48.0016 36.4116 45.8764 40.3888 42.2078L32.6549 36.2111C30.5031 37.675 27.7252 38.5039 24.4888 38.5039C18.2275 38.5039 12.9187 34.2798 11.0139 28.6006H3.03296V34.7825C7.10718 42.8868 15.4056 48.0016 24.48 48.0016Z" fill="#34A853" />
@@ -33,16 +46,23 @@ function Page() {
                   <rect width="48" height="48" fill="white" />
                 </clipPath>
               </defs>
-            </svg>
+            </svg>}
             Google
           </button>
+
           <div className='flex items-center gap-5'>
-            <div className='bg-light-darkgrey h-[0.1vh] w-[20vw] md:w-[25vw]  lg:w-[8vw]'></div>
-            <div className='font-medium text-sm'>OR CONTINUE WITH</div>
-            <div className='bg-light-darkgrey h-[0.1vh] w-[20vw] md:w-[22vw]  lg:w-[8vw]'></div>
+            <div className='bg-light-darkgrey h-[0.1vh] xss:w-[15vw] w-[20vw] md:w-[25vw]   lg:w-[8vw]'></div>
+            <div className='font-medium text-sm xss:text-xs'>OR CONTINUE WITH</div>
+            <div className='bg-light-darkgrey h-[0.1vh] xss:w-[15vw] w-[20vw] md:w-[22vw]  lg:w-[8vw]'></div>
           </div>
-          <button onClick={() => signIn("github")} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
-            <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button onClick={async () => {
+            await setloading({ ...loading, github: true });
+            signIn("github");
+          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
+
+            {status === "unauthenticated" && loading.github ? <div className="animate-spin inline-block size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
+              <span className="sr-only">Loading...</span>
+            </div> : <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_910_21)">
                 <path fillRule="evenodd" clipRule="evenodd" d="M24.0005 1C18.303 1.00296 12.7923 3.02092 8.45374 6.69305C4.11521 10.3652 1.23181 15.452 0.319089 21.044C-0.593628 26.636 0.523853 32.3684 3.47174 37.2164C6.41963 42.0643 11.0057 45.7115 16.4099 47.5059C17.6021 47.7272 18.0512 46.9883 18.0512 46.36C18.0512 45.7317 18.0273 43.91 18.0194 41.9184C11.3428 43.3608 9.93197 39.101 9.93197 39.101C8.84305 36.3349 7.26927 35.6078 7.26927 35.6078C5.09143 34.1299 7.43223 34.1576 7.43223 34.1576C9.84455 34.3275 11.1123 36.6194 11.1123 36.6194C13.2504 40.2667 16.7278 39.2116 18.0949 38.5952C18.3095 37.0501 18.9335 35.999 19.621 35.4023C14.2877 34.8017 8.68408 32.7548 8.68408 23.6108C8.65102 21.2394 9.53605 18.9461 11.156 17.2054C10.9096 16.6047 10.087 14.1785 11.3905 10.8829C11.3905 10.8829 13.4054 10.2427 17.9916 13.3289C21.9253 12.2592 26.0757 12.2592 30.0095 13.3289C34.5917 10.2427 36.6026 10.8829 36.6026 10.8829C37.9101 14.1706 37.0875 16.5968 36.8411 17.2054C38.4662 18.9464 39.353 21.2437 39.317 23.6187C39.317 32.7824 33.7015 34.8017 28.3602 35.3905C29.2186 36.1334 29.9856 37.5836 29.9856 39.8122C29.9856 43.0051 29.9578 45.5736 29.9578 46.36C29.9578 46.9962 30.391 47.7391 31.6071 47.5059C37.0119 45.7113 41.5984 42.0634 44.5462 37.2147C47.4941 32.3659 48.611 26.6326 47.6972 21.0401C46.7835 15.4476 43.8986 10.3607 39.5587 6.68921C35.2187 3.01771 29.7067 1.00108 24.0085 1H24.0005Z" fill="white" />
                 <path d="M9.08887 35.264C9.03721 35.3826 8.84645 35.4181 8.69146 35.3351C8.53646 35.2522 8.42122 35.098 8.47686 34.9755C8.5325 34.853 8.71928 34.8214 8.87428 34.9044C9.02927 34.9874 9.14848 35.1455 9.08887 35.264Z" fill="#191717" />
@@ -58,7 +78,7 @@ function Page() {
                   <rect width="48" height="48" fill="white" />
                 </clipPath>
               </defs>
-            </svg>
+            </svg>}
             Github
           </button>
         </div>
