@@ -101,7 +101,7 @@ export default function Home() {
         <div className="text-center text-3xl xl:text-4xl font-bold">Proudly Open Source</div>
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
           The code is available on <a href="" className="underline">GitHub</a>.</div>
-        <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" className="underline">Next.js</a> , Hosted on <a href="https://vercel.com/" className="underline">vercel</a> , Inspired by <a href="https://tx.shadcn.com/" className="underline">Taxonomy</a> .The source code is available on <a href="" className="underline">GitHub</a> </div>
+        <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" className="underline">Next.js</a> , Hosted on <a href="https://vercel.com/" className="underline">vercel</a> , Inspired by <a href="https://tx.shadcn.com/" className="underline">Taxonomy</a> .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline">GitHub</a> </div>
         <AnimatePresence>
           {showtoggle && (
             <motion.div

@@ -37,9 +37,9 @@ function Page() {
             Google
           </button>
           <div className='flex items-center gap-5'>
-            <div className='bg-light-darkgrey h-[0.1vh] w-[30vw] md:w-[25vw]  lg:w-[8vw]'></div>
-            <div className='font-medium'>or</div>
-            <div className='bg-light-darkgrey h-[0.1vh] w-[30vw] md:w-[22vw]  lg:w-[8vw]'></div>
+            <div className='bg-light-darkgrey h-[0.1vh] w-[20vw] md:w-[25vw]  lg:w-[8vw]'></div>
+            <div className='font-medium text-sm'>OR CONTINUE WITH</div>
+            <div className='bg-light-darkgrey h-[0.1vh] w-[20vw] md:w-[22vw]  lg:w-[8vw]'></div>
           </div>
           <button onClick={() => signIn("github")} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
             <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -62,6 +62,7 @@ function Page() {
             Github
           </button>
         </div>
+        <Link href={"/Signup"}><div className='text-light-darkgrey underline hover:text-light-black cursor-pointer text-sm lg:text-base'>Don't have an account ? SignUp</div></Link>
       </div>
 
     </>

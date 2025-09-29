@@ -45,5 +45,5 @@
   --color-dark-grey: rgb(127, 142, 163);
   --color-dark-lightgrey: rgb(225, 231, 239);
   --color-dark-white: rgb(248, 250, 252);
-  --breakpoint-xss: 450px;
+  --breakpoint-xss: 350px;
 }
