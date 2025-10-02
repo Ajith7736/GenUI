@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { PiEyesFill } from "react-icons/pi";
 import { FaLaptopCode } from "react-icons/fa";
@@ -15,8 +15,10 @@ import { Session } from "next-auth";
 
 
 
+
 export default function Home() {
   const [showtoggle, setshowtoggle] = useState<boolean>(false)
+  const moderef = useRef<HTMLDivElement>(null)
   const { data: session }: {
     data: Session | null
   } = useSession()
@@ -64,6 +66,23 @@ export default function Home() {
     setshowtoggle(!showtoggle);
   }
 
+  useEffect(() => {
+
+    const handleclickoutside = (Event: MouseEvent) => {
+      if (moderef.current && !moderef.current.contains(Event.target as Node)) {
+        setshowtoggle(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleclickoutside)
+
+    return () => {
+      document.removeEventListener("mousedown", handleclickoutside);
+    }
+
+  }, [])
+
+
 
   return (
     <div>
@@ -102,18 +121,19 @@ export default function Home() {
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
           The code is available on <a href="" className="underline">GitHub</a>.</div>
         <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" className="underline">Next.js</a> , Hosted on <a href="https://vercel.com/" className="underline">vercel</a> , Inspired by <a href="https://tx.shadcn.com/" className="underline">Taxonomy</a> .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline">GitHub</a> </div>
-          {showtoggle && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0, ease: "easeInOut", delay: 0 }}
-              className="bg-light-white transition-all ease-in-out duration-400 absolute bottom-25  h-fit w-[100px] rounded-xl shadow-md select-none">
-              <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey rounded-t-xl transition-all ease-in-out duration-200 cursor-pointer"><IoSunnyOutline />Light</div>
-              <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey cursor-pointer transition-all ease-in-out duration-200"><IoMoonOutline />Dark</div>
-              <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey cursor-pointer transition-all ease-in-out duration-200"><FaLaptopCode />System</div>
-            </motion.div>
-          )}
+        {showtoggle && (
+          <motion.div
+            ref={moderef}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0, ease: "easeInOut", delay: 0 }}
+            className="bg-light-white transition-all ease-in-out duration-400 absolute bottom-25  h-fit w-[100px] rounded-xl shadow-md select-none">
+            <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey rounded-t-xl transition-all ease-in-out duration-200 cursor-pointer"><IoSunnyOutline />Light</div>
+            <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey cursor-pointer transition-all ease-in-out duration-200"><IoMoonOutline />Dark</div>
+            <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey cursor-pointer transition-all ease-in-out duration-200"><FaLaptopCode />System</div>
+          </motion.div>
+        )}
         <IoLogoIonic size={30} />
         <IoSunnyOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey p-2 rounded-xl" onClick={showToggle} />
       </section>
