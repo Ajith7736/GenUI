@@ -19,7 +19,6 @@ export const authOptions: NextAuthOptions = {
         async signIn({ user }): Promise<boolean> {
             try {
                 await connectdb();
-
                 if (!user.email) {
                     console.log("no email returned");
                     return false;

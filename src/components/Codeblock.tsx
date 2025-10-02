@@ -16,15 +16,10 @@ function Codeblock({ code, language }: Codeblockprops) {
                 language={language}
                 style={oneLight}
                 customStyle={{
-                    background: "transparent",
-                    padding: 2
-                }}
-                lineProps={{
-                    style: {
-                        background: "white"
-                    }
+                    margin: 0
                 }}
             >
+
                 {code}
             </SyntaxHighlighter>
         </div >

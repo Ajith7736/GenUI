@@ -1,12 +1,23 @@
 import Link from 'next/link';
-import React from 'react'
+import React, { useState } from 'react'
 import { IoLogoIonic } from "react-icons/io";
 import { usePathname } from 'next/navigation';
+import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import { motion } from 'framer-motion';
+import { IoIosLogOut } from "react-icons/io";
+import { signOut } from 'next-auth/react'
+
 
 
 function Navbar() {
-
+  const { data: session }: { data: Session | null } = useSession();
   const pathname: string = usePathname();
+  const [showlogout, setshowlogout] = useState<boolean>(false)
+
+  const handleprofileclick = () => {
+    setshowlogout(!showlogout)
+  }
 
   return (
     <div className=' h-[10vh] flex items-center justify-between px-8'>
@@ -16,8 +27,17 @@ function Navbar() {
       </div>
       <div className='flex gap-5 xl:gap-8 items-center'>
         <Link href={"/About"}><div className={`text-lg font-medium font-mono ${pathname !== "/About" && `text-light-darkgrey`}`}> About</div></Link>
-        <Link href={"/Login"}><div className='text-lg rounded-md bg-light-mediumgrey hover:bg-light-mediumgrey/70 transition-all ease-in-out px-5 py-1 font-mono'>Login</div></Link>
+        {session ? <><img src={session.user?.image!} alt="" onClick={handleprofileclick} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full cursor-pointer' /></> : <Link href={"/Login"}><div className='text-lg rounded-md bg-light-mediumgrey hover:bg-light-mediumgrey/70 transition-all ease-in-out px-5 py-1 font-mono'>Login</div></Link>}
       </div>
+      {showlogout && <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -30 }}
+        transition={{ duration: 0.3, ease: "easeInOut", delay: 0 }}
+        className='absolute h-auto flex flex-col gap-2 justify-center z-1 rounded-md bg-light-white right-6 top-18 shadow-md'>
+        <button className='text-red-600 p-2 rounded-md cursor-pointer flex gap-3 hover:bg-light-lightgrey justify-center font-medium' onClick={() => signOut()}><IoIosLogOut size={25} />Logout</button>
+        <div className='p-2 hover:bg-light-lightgrey cursor-pointer'>{session?.user?.email}</div>
+      </motion.div>}
     </div>
   )
 }
