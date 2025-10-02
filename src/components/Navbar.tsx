@@ -26,17 +26,17 @@ function Navbar() {
         <Link href={"/"}><div className='text-2xl font-bold font-heading'>GenUI</div></Link>
       </div>
       <div className='flex gap-5 xl:gap-8 items-center'>
-        <Link href={"/About"}><div className={`text-lg font-medium font-mono ${pathname !== "/About" && `text-light-darkgrey`}`}> About</div></Link>
-        {session ? <><img src={session.user?.image!} alt="" onClick={handleprofileclick} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full cursor-pointer' /></> : <Link href={"/Login"}><div className='text-lg rounded-md bg-light-mediumgrey hover:bg-light-mediumgrey/70 transition-all ease-in-out px-5 py-1 font-mono'>Login</div></Link>}
+        <Link href={"/About"}><div className={`sm:text-lg font-medium font-mono xss:text-base ${pathname !== "/About" && `text-light-darkgrey`}`}> About</div></Link>
+        {session ? <><img src={session.user?.image!} alt="" onClick={handleprofileclick} className='w-8 h-8 lg:w-10 lg:h-10 rounded-full cursor-pointer' /></> : <Link href={"/Login"}><div className='sm:text-lg xss:text-base rounded-md bg-light-mediumgrey hover:bg-light-mediumgrey/70 transition-all ease-in-out px-5 py-1 font-mono'>Login</div></Link>}
       </div>
       {showlogout && <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -30 }}
         transition={{ duration: 0.3, ease: "easeInOut", delay: 0 }}
-        className='absolute h-auto flex flex-col gap-2 justify-center z-1 rounded-md bg-light-white right-6 top-18 shadow-md'>
-        <button className='text-red-600 p-2 rounded-md cursor-pointer flex gap-3 hover:bg-light-lightgrey justify-center font-medium' onClick={() => signOut()}><IoIosLogOut size={25} />Logout</button>
-        <div className='p-2 hover:bg-light-lightgrey cursor-pointer'>{session?.user?.email}</div>
+        className='absolute h-auto flex flex-col justify-center z-1 rounded-md bg-light-white right-6 top-18 shadow-md'>
+        <button className='text-red-600 p-2 rounded-md cursor-pointer flex gap-3 hover:bg-light-lightgrey justify-center font-medium xss:text-sm' onClick={() => signOut()}><IoIosLogOut className='size-5' />Logout</button>
+        <div className='p-2 hover:bg-light-lightgrey cursor-pointer text-sm xss:text-sm'>{session?.user?.email}</div>
       </motion.div>}
     </div>
   )

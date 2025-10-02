@@ -85,10 +85,10 @@ function page() {
       <div className="bg-light-white m-5 border border-light-grey rounded-md h-[60vh] xss:h-[40vh] xl:h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
 
         <div className="w-[100%] h-[100%] relative">
-          <textarea ref={textref} className="bg-light-mediumgrey   border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:xl:text-lg xl:text-lg xss:text-sm placeholder:xss:text-sm" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
+          <textarea ref={textref} className="bg-light-mediumgrey   border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:xl:text-base xl:text-base xss:text-sm placeholder:xss:text-sm" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
           <button onClick={handletext} className="bg-light-black text-light-white hover:bg-light-black/90 transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw] flex items-center lg:justify-center">
-            {loading ? <div className="animate-spin inline-block lg:mr-5 size-6 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
-            </div> : <FaArrowRight className="lg:hidden" />}<div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center lg:text-lg xl:text-xl">{loading ? <>Generating </> : <>Generate Now</>}</div></button>
+            {loading ? <div className="animate-spin inline-block lg:mr-5 xss:size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
+            </div> : <FaArrowRight className="lg:hidden" />}<div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center lg:text-lg">{loading ? <>Generating </> : <>Generate Now</>}</div></button>
         </div>
 
       </div>
