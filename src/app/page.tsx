@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
+import Loading from "@/components/Loading";
 
 
 
@@ -19,8 +20,8 @@ import { Session } from "next-auth";
 export default function Home() {
   const [showtoggle, setshowtoggle] = useState<boolean>(false)
   const moderef = useRef<HTMLDivElement>(null)
-  const { data: session }: {
-    data: Session | null
+  const { data: session, status }: {
+    data: Session | null, status: string
   } = useSession()
 
   interface Card {
@@ -28,6 +29,29 @@ export default function Home() {
     title: string,
     description: string
   }
+
+
+
+
+  useEffect(() => {
+
+    const handleclickoutside = (Event: MouseEvent) => {
+      if (moderef.current && !moderef.current.contains(Event.target as Node)) {
+        setshowtoggle(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleclickoutside)
+
+    return () => {
+      document.removeEventListener("mousedown", handleclickoutside);
+    }
+
+  }, [])
+
+  if (status === "loading") return <div className="fixed z-50 top-0">
+    <Loading />
+  </div>;
 
   const featurecard: Card[] = [
     {
@@ -66,21 +90,6 @@ export default function Home() {
     setshowtoggle(!showtoggle);
   }
 
-  useEffect(() => {
-
-    const handleclickoutside = (Event: MouseEvent) => {
-      if (moderef.current && !moderef.current.contains(Event.target as Node)) {
-        setshowtoggle(false)
-      }
-    }
-
-    document.addEventListener("mousedown", handleclickoutside)
-
-    return () => {
-      document.removeEventListener("mousedown", handleclickoutside);
-    }
-
-  }, [])
 
 
 
@@ -94,7 +103,7 @@ export default function Home() {
         <div className="text-light-darkgrey md:text-2xl text-center text-lg ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
         <div className="flex gap-3">
           <Link href={session ? "/Dashboard" : "/Login"}><button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 transition-all ease-in-out">Get Started</button></Link>
-          <a href="https://github.com/Ajith7736/GenUI"><button className="text-light-black bg-light-white border border-light-grey hover:bg-light-grey/20 transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md">Github</button></a>
+          <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer"><button className="text-light-black bg-light-white border border-light-grey hover:bg-light-grey/20 transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md">Github</button></a>
         </div>
       </section>
 
@@ -119,8 +128,14 @@ export default function Home() {
       <section className="p-10 flex relative flex-col items-center gap-5 select-none">
         <div className="text-center text-3xl xl:text-4xl font-bold">Proudly Open Source</div>
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
-          The code is available on <a href="" className="underline">GitHub</a>.</div>
-        <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" className="underline">Next.js</a> , Hosted on <a href="https://vercel.com/" className="underline">vercel</a> , Inspired by <a href="https://tx.shadcn.com/" className="underline">Taxonomy</a> .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline">GitHub</a> </div>
+          The code is available on 
+          <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer" className="underline">GitHub</a>.
+          </div>
+        <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by 
+          <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
+           , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a> 
+           , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
+            .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer">GitHub</a> </div>
         {showtoggle && (
           <motion.div
             ref={moderef}

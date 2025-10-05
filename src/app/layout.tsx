@@ -30,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${geistSans.className} ${geistMono.className} antialiased`} >
+      <body className={`${inter.className} ${geistSans.className} ${geistMono.className} antialiased `} >
         <SessionWrapper >
           <Toaster position="top-right" reverseOrder={false} />
           <NavbarWrapper />

@@ -54,7 +54,7 @@ function Navbar() {
         exit={{ opacity: 0, y: -30 }}
         transition={{ duration: 0.3, ease: "easeInOut", delay: 0 }}
         className='absolute h-auto flex flex-col justify-center z-1 rounded-md bg-light-white right-6 top-18 shadow-md'>
-        <button className='text-red-600 p-2 rounded-md cursor-pointer flex gap-3 hover:bg-light-lightgrey justify-center font-medium xss:text-sm' onClick={() => signOut()}><IoIosLogOut className='size-5' />Logout</button>
+        <button className='text-red-600 p-2 rounded-md cursor-pointer flex gap-3 hover:bg-light-lightgrey justify-center font-medium xss:text-sm' onClick={() => signOut({ callbackUrl: "/" })}><IoIosLogOut className='size-5' />Logout</button>
         <div className='p-2 hover:bg-light-lightgrey cursor-pointer text-sm xss:text-sm'>{session?.user?.email}</div>
       </motion.div>}
     </div>
