@@ -10,6 +10,8 @@ import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Loading from "@/components/Loading";
+import Editor from "@monaco-editor/react";
+
 
 
 function page() {
@@ -21,6 +23,7 @@ function page() {
   const [copycode, setcopycode] = useState<boolean>(false)
   const { data: session, status }: { data: Session | null, status: "loading" | "unauthenticated" | "authenticated" } = useSession();
   const router: AppRouterInstance = useRouter();
+  const [iseditting, setiseditting] = useState<Boolean>(false)
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -97,6 +100,7 @@ function page() {
 
 
 
+
   return (
     <>
       <div className="lg:flex">
@@ -156,13 +160,34 @@ function page() {
             :
             <>
               {/* Code */}
-              <div className=" h-[53.5vh] rounded-b-md overflow-auto bg-light-lightgrey">
+              <div className={`h-[53.5vh] rounded-b-md ${iseditting ? 'overflow-hidden' : 'overflow-auto'} bg-light-lightgrey relative`}>
                 {
                   jsxgeneratedcode.length === 0 ? <div className="m-6 xss:text-sm sm:text-base">No code to show.</div> : <>
-                    <div className="mt-0">
-                      <Codeblock code={jsxgeneratedcode} language="jsx" />
-                    </div>
-                  </>
+                    {iseditting ? <div className="h-[53.5vh]">
+                      <Editor
+                        height="100%"
+                        defaultLanguage="html"
+                        value={jsxgeneratedcode}
+                        theme="vs-light"
+                        onChange={(value) => setjsxgeneratedcode(value!)}
+                        options={{
+                          minimap: { enabled: false },
+                          fontSize: 14,
+                          automaticLayout: true,
+                          scrollBeyondLastLine: false,
+                          scrollbar: {
+                            vertical: 'hidden',
+                            horizontal: 'visible'
+                          },
+                        }}
+                      />
+                      <button className="absolute top-3 right-3 bg-light-black hover:bg-light-black/80 text-light-white px-3 py-2 rounded-md cursor-pointer transition-all ease-in-out" onClick={() => setiseditting(false)}>Done</button>
+                    </div> :
+                      (<><div className="mt-3">
+                        <Codeblock code={jsxgeneratedcode} language="jsx" />
+                      </div>
+                        <button className="absolute top-3 right-3 bg-light-black text-light-white px-3 py-2 cursor-pointer rounded-md text-sm hover:bg-light-black/80 transition ease-in-out" onClick={() => setiseditting(true)}>Edit Code</button>
+                      </>)}</>
                 }
               </div>
             </>

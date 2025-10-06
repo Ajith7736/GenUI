@@ -38,7 +38,7 @@ function Navbar() {
   }, [])
 
   return (
-    <div className=' h-[10vh] flex items-center justify-between px-8'>
+    <div className=' dark:bg-dark-black dark:text-dark-white h-[10vh] flex items-center justify-between px-8'>
       <div className='flex items-center gap-3'>
         <IoLogoIonic size={30} />
         <Link href={"/"}><div className='text-2xl font-bold font-heading'>GenUI</div></Link>

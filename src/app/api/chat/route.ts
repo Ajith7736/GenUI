@@ -9,7 +9,13 @@ export async function POST(req: Request) {
 
     const { text } = await generateText({
       model: groq("openai/gpt-oss-120b"),
-      prompt: `You are generative ui builder , Generate a HTML with tailwind css for the following UI prompt and seperate the code so that i can know the start and end of the code and the end should be #endhtmlcode ,start of the code should be htmlcode. Dont add anything else like backticks and all. Only give code and dont add js content it should only have html and tailwind css and dont add href to any link. Do not add any explanation just give the code so that i can show the code in code section:\n${prompt}`
+      prompt: `You are Generative UI Builder, an AI that generates responsive UI designs using Tailwind CSS for React developers. Generate only the <body> content (HTML inside the body tag) based on the following UI description.  
+                Use Tailwind CSS classes only — no inline styles or JavaScript.  
+                Do not include <html>, <head>, <script>, or any imports.  
+                Mark the start of the generated code with 'htmlcode' and the end with '#endhtmlcode'.  
+                Do not add explanations, backticks, comments, or any extra text.  
+                Do not include href attributes in links.  
+                \n${prompt}`
     })
 
 

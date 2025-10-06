@@ -8,11 +8,12 @@ import { IoLibrary } from "react-icons/io5";
 import { FaHandshakeSimple } from "react-icons/fa6";
 import { IoSunnyOutline } from "react-icons/io5";
 import { IoMoonOutline } from "react-icons/io5";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import Loading from "@/components/Loading";
+import Modetoggler from "@/components/Modetoggler";
 
 
 
@@ -31,23 +32,6 @@ export default function Home() {
   }
 
 
-
-
-  useEffect(() => {
-
-    const handleclickoutside = (Event: MouseEvent) => {
-      if (moderef.current && !moderef.current.contains(Event.target as Node)) {
-        setshowtoggle(false)
-      }
-    }
-
-    document.addEventListener("mousedown", handleclickoutside)
-
-    return () => {
-      document.removeEventListener("mousedown", handleclickoutside);
-    }
-
-  }, [])
 
   if (status === "loading") return <div className="fixed z-50 top-0">
     <Loading />
@@ -91,10 +75,8 @@ export default function Home() {
   }
 
 
-
-
   return (
-    <div>
+    <div className="dark:bg-dark-black bg-light-white dark:text-light-white">
 
       {/* header section */}
       <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
@@ -128,29 +110,15 @@ export default function Home() {
       <section className="p-10 flex relative flex-col items-center gap-5 select-none">
         <div className="text-center text-3xl xl:text-4xl font-bold">Proudly Open Source</div>
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
-          The code is available on 
+          The code is available on
           <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer" className="underline">GitHub</a>.
-          </div>
-        <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by 
-          <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
-           , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a> 
-           , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
-            .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer">GitHub</a> </div>
-        {showtoggle && (
-          <motion.div
-            ref={moderef}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0, ease: "easeInOut", delay: 0 }}
-            className="bg-light-white transition-all ease-in-out duration-400 absolute bottom-25  h-fit w-[100px] rounded-xl shadow-md select-none">
-            <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey rounded-t-xl transition-all ease-in-out duration-200 cursor-pointer"><IoSunnyOutline />Light</div>
-            <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey cursor-pointer transition-all ease-in-out duration-200"><IoMoonOutline />Dark</div>
-            <div className="flex items-center gap-2 p-1 hover:bg-light-mediumgrey cursor-pointer transition-all ease-in-out duration-200"><FaLaptopCode />System</div>
-          </motion.div>
-        )}
+        </div>
+        <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
+          , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a>
+          , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
+          .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer">GitHub</a> </div>
         <IoLogoIonic size={30} />
-        <IoSunnyOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey p-2 rounded-xl" onClick={showToggle} />
+        <Modetoggler />
       </section>
     </div>
   );
