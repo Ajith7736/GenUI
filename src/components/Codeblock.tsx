@@ -1,8 +1,8 @@
 "use client"
 import React from 'react'
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
-
+import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useTheme } from 'next-themes';
 interface Codeblockprops {
     code: string,
     language: string
@@ -10,12 +10,15 @@ interface Codeblockprops {
 
 
 function Codeblock({ code, language }: Codeblockprops) {
+    const { resolvedTheme } = useTheme();
     return (
-        <div>
+        <div >
             <SyntaxHighlighter
                 language={language}
-                style={oneLight}
+                style={resolvedTheme === 'light' ? oneLight : oneDark}
                 customStyle={{
+                    height: "53.5vh",
+                    width: "100%",
                     margin: 0
                 }}
             >

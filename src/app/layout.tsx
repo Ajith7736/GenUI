@@ -6,6 +6,8 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import SessionWrapper from "@/components/SessionWrapper";
 import NavbarWrapper from "@/components/NavbarWrapper";
+import { ThemeProvider } from "next-themes";
+
 
 
 const inter = Inter({
@@ -29,13 +31,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${geistSans.className} ${geistMono.className} antialiased `} >
-        <SessionWrapper >
-          <Toaster position="top-right" reverseOrder={false} />
-          <NavbarWrapper />
-          {children}
-        </SessionWrapper>
+        <ThemeProvider defaultTheme="system" attribute="class">
+          <SessionWrapper >
+            <Toaster position="top-right" reverseOrder={false} />
+            <NavbarWrapper />
+            {children}
+          </SessionWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

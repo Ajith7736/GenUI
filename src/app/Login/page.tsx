@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaArrowLeft } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
+import Loading from '@/components/Loading';
 
 function Page() {
 
@@ -22,22 +23,27 @@ function Page() {
     google: false
   })
 
-
+  if (status === "loading") return <div className="fixed z-50 top-0">
+    <Loading />
+  </div>;
 
 
   return (
     <>
-      <Link href={"/"}><div className='m-5 hover:bg-light-mediumgrey transition-all ease-in-out w-fit px-4 py-2 font-medium flex items-center gap-2 rounded-md lg:text-lg'><FaArrowLeft className='size-3.5 lg:size-3.5' />Back</div></Link>
-      <div className='p-5 flex flex-col items-center justify-center  h-[70vh] gap-5'>
+      <div className='h-[10vh] p-5 w-full bg-light-white dark:bg-dark-mediumblack'>
+        <Link href={"/"}><div className=' bg-light-white dark:bg-dark-mediumblack dark:text-dark-white hover:bg-dark-mediumgrey hover:bg-light-mediumgrey hover:dark:bg-dark-mediumgrey transition-all ease-in-out w-fit px-4 py-2 font-medium flex items-center gap-2 rounded-md lg:text-lg'><FaArrowLeft className='size-3.5 lg:size-3.5' />Back</div></Link>
+      </div>
+
+      <div className='bg-light-white dark:bg-dark-mediumblack h-[90vh] p-5 flex flex-col items-center justify-center gap-5'>
         <div className='flex flex-col gap-2'>
-          <div className='text-center text-3xl font-bold xl:text-3xl'>Welcome Back</div>
-          <div className=' font-medium text-grey text-center text-lg'>Create your free UI right now</div>
+          <div className='dark:text-dark-white text-center text-3xl font-bold xl:text-3xl'>Welcome Back</div>
+          <div className=' font-medium text-light-darkgrey text-center text-lg'>Create your free UI right now</div>
         </div>
         <div className=' rounded-md flex flex-col items-center justify-center gap-10 w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw]'>
           <button onClick={async () => {
             await setloading({ ...loading, google: true });
             signIn("google", { callbackUrl: "/Dashboard" });
-          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
+          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 dark:border-dark-mediumgrey hover:dark:bg-dark-mediumgrey dark:bg-dark-black hover:bg-da text-light-white  rounded-lg  duration-150 cursor-pointer">
             {status === "unauthenticated" && loading.google ? <div className="animate-spin inline-block size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
               <span className="sr-only">Loading...</span>
             </div> : <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -58,13 +64,13 @@ function Page() {
 
           <div className='flex items-center gap-5'>
             <div className='bg-light-darkgrey h-[0.1vh] xss:w-[15vw] w-[20vw] md:w-[25vw]   lg:w-[8vw]'></div>
-            <div className='font-medium text-sm xss:text-xs'>OR CONTINUE WITH</div>
+            <div className='font-medium text-sm xss:text-xs dark:text-dark-white'>OR CONTINUE WITH</div>
             <div className='bg-light-darkgrey h-[0.1vh] xss:w-[15vw] w-[20vw] md:w-[22vw]  lg:w-[8vw]'></div>
           </div>
           <button onClick={async () => {
             await setloading({ ...loading, github: true });
             signIn("github", { callbackUrl: "/Dashboard" });
-          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
+          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black dark:bg-dark-mediumblack hover:dark:bg-dark-mediumgrey hover:bg-light-black/90 text-light-white dark:border-dark-mediumgrey  rounded-lg  duration-150 cursor-pointer">
 
             {status === "unauthenticated" && loading.github ? <div className="animate-spin inline-block size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
               <span className="sr-only">Loading...</span>
@@ -88,7 +94,7 @@ function Page() {
             Github
           </button>
         </div>
-        <Link href={"/Signup"}><div className='text-light-darkgrey underline hover:text-light-black cursor-pointer text-sm lg:text-base'>Don't have an account ? SignUp</div></Link>
+        <Link href={"/Signup"}><div className='text-light-darkgrey hover:dark:text-dark-lightgrey underline hover:text-light-black cursor-pointer text-sm lg:text-base transition-all ease-in-out'>Don't have an account ? SignUp</div></Link>
       </div>
 
     </>

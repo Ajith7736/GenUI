@@ -6,6 +6,11 @@
 }
 
 
+pre::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
+
+
 ::-webkit-scrollbar-thumb {
   background: rgb(100, 116, 139);
   border-radius: 10px;
@@ -18,11 +23,11 @@
 }
 
 .dark ::-webkit-scrollbar-track {
-  background: #1E1E1E;
+  background: rgb(15, 22, 41);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(32, 35, 44);
+  background: rgb(29, 40, 58);
   border: 2px solid rgb(15, 23, 42);
 }
 
@@ -58,5 +63,13 @@
   --color-dark-grey: rgb(127, 142, 163);
   --color-dark-lightgrey: rgb(225, 231, 239);
   --color-dark-white: rgb(248, 250, 252);
+  --color-dark-input-box: #1C2029;
+  --color-dark-input-outline: #10141E;
   --breakpoint-xss: 350px;
+}
+
+
+html {
+  color-scheme: dark light;
+  background-color: #000;
 }

@@ -70,32 +70,29 @@ export default function Home() {
     }
   ]
 
-  const showToggle = (): void => {
-    setshowtoggle(!showtoggle);
-  }
 
 
   return (
-    <div className="dark:bg-dark-black bg-light-white dark:text-light-white">
+    <div className="dark:bg-dark-mediumblack bg-light-white dark:text-light-white">
 
       {/* header section */}
       <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
-        <div className="bg-light-mediumgrey md:text-xl py-2 px-4 rounded-full font-medium animate-pulse">This is your UI partner</div>
+        <div className="bg-light-mediumgrey dark:bg-dark-darkgrey md:text-xl py-2 px-4 rounded-full font-medium animate-pulse">This is your UI partner</div>
         <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl">A Generative UI Builder Powered By groq.</div>
         <div className="text-light-darkgrey md:text-2xl text-center text-lg ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
         <div className="flex gap-3">
-          <Link href={session ? "/Dashboard" : "/Login"}><button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 transition-all ease-in-out">Get Started</button></Link>
-          <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer"><button className="text-light-black bg-light-white border border-light-grey hover:bg-light-grey/20 transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md">Github</button></a>
+          <Link href={session ? "/Dashboard" : "/Login"}><button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 hover:dark:bg-dark-white/90 dark:bg-dark-white dark:text-dark-black transition-all ease-in-out">Get Started</button></Link>
+          <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer"><button className="text-light-black bg-light-white dark:bg-dark-black dark:text-dark-white  border dark:border-1 border-light-grey dark:border-dark-mediumgrey hover:bg-light-grey/20 hover:dark:bg-dark-mediumgrey transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md">Github</button></a>
         </div>
       </section>
 
       {/* card section */}
-      <section className="bg-light-mediumgrey/60 w-full min-h-[80vh] flex flex-col items-center py-5 px-10 gap-8 xl:px-30">
+      <section className="bg-light-mediumgrey/60 dark:bg-dark-mediumblack w-full min-h-[80vh] flex flex-col items-center py-5 px-10 gap-8 xl:px-30">
         <div className="text-3xl xl:text-4xl font-bold font-heading">Features</div>
         <div className="text-light-darkgrey text-center text-lg lg:w-[50vw] xl:text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
         <div className="flex flex-col gap-5 md:flex-row md:flex-wrap md:justify-center">
           {featurecard.map((item, index) => {
-            return (<div key={index} className="bg-light-white w-full md:w-[40vw] lg:w-[30vw] min-h-[25vh] rounded-xl border border-light-grey p-10 flex flex-col gap-5 justify-center">
+            return (<div key={index} className="bg-light-white dark:bg-dark-mediumblack dark:border-dark-mediumgrey w-full md:w-[40vw] lg:w-[30vw] min-h-[25vh] rounded-xl border border-light-grey p-10 flex flex-col gap-5 justify-center">
               <div className="text-2xl font-bold xl:text-3xl">{item.logo}</div>
               <div className="text-lg font-medium xl:text-xl">{item.title}</div>
               <div className="font-medium text-light-darkgrey">{item.description}</div>
