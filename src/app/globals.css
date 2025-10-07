@@ -65,7 +65,7 @@ pre::-webkit-scrollbar-corner {
   --color-dark-white: rgb(248, 250, 252);
   --color-dark-input-box: #1C2029;
   --color-dark-input-outline: #10141E;
-  --breakpoint-xss: 350px;
+  --breakpoint-xss: 340px;
 }
 
 

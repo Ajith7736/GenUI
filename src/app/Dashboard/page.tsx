@@ -104,20 +104,20 @@ function page() {
 
   return (
     <>
-      <div className="lg:flex">
-        <div className="bg-light-white dark:bg-dark-input-outline m-5 border border-light-grey dark:border-dark-grey/20 rounded-md h-[60vh] xss:h-[40vh] xl:h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
+      <div className="xl:flex-row flex flex-col gap-5 bg-light-white dark:bg-dark-mediumblack min-h-[90vh] p-5">
+        <div className="bg-light-white dark:bg-dark-input-outline border border-light-grey dark:border-dark-grey/20 rounded-md h-[60vh] xss:h-[40vh] xl:h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
           <div className="w-[100%] h-[100%] relative">
             <textarea ref={textref} className="bg-light-mediumgrey dark:bg-dark-input-box dark:border-dark-grey/20  border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:xl:text-base xl:text-base xss:text-sm placeholder:xss:text-sm" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
-            <button onClick={handletext} className="bg-light-black text-light-white dark:bg-dark-white dark:border dark:border-dark-grey/20 hover:bg-light-white/90 dark:text-dark-black transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw] flex items-center lg:justify-center">
-              {loading ? <div className="animate-spin inline-block lg:mr-5 xss:size-4 border-3 border-light-darkgrey dark:border-dark-white  border-t-light-white dark:border-t-dark-black rounded-full " role="status" aria-label="loading">
-              </div> : <FaArrowRight className="lg:hidden" />}<div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center lg:text-lg">{loading ? <>Generating </> : <>Generate Now</>}</div></button>
+            <button onClick={handletext} className="bg-light-black text-light-white dark:bg-dark-white dark:border dark:border-dark-grey/20 hover:bg-light-black/90 hover:dark:bg-dark-white/90 dark:text-dark-black transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw] flex items-center lg:justify-center">
+              {loading ? <div className="animate-spin inline-block lg:mr-5 xss:size-4 border-3 border-light-darkgrey dark:border-dark-grey  border-t-light-white dark:border-t-dark-black rounded-full " role="status" aria-label="loading">
+              </div> : <FaArrowRight className="lg:hidden" />}<div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center lg:text-lg">{loading ? <>Generating </> : <>Generate</>}</div></button>
           </div>
         </div>
-        <div className=" bg-light-white dark:bg-dark-input-outline m-5 border border-light-grey dark:border-dark-grey/20 h-[60vh] lg:w-[40vw] rounded-md flex flex-col justify-end mb-10">
-          <div className="flex justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-light-grey dark:border-dark-grey/20">
-            <div className="xss:text-xs sm:text-sm">
-              <button className={onActive === "Preview" ? "border px-7 xss:px-3 border-light-grey dark:border-dark-grey/20 py-4  cursor-pointer border-b-0  rounded-tl-md" : " px-7 xss:px-3  py-4 cursor-pointer border-b-0 text-light-darkgrey rounded-tl-md"} onClick={handlepreview}>Preview</button>
-              <button className={onActive === "Code" ? "border border-light-grey dark:border-dark-grey/20 px-9 xss:px-4 py-4 cursor-pointer border-b-0" : " px-9 xss:px-4 py-4 cursor-pointer border-b-0 text-light-darkgrey"} onClick={handlecode}>Code</button>
+        <div className=" bg-light-white dark:bg-dark-input-outline border border-light-grey dark:border-dark-grey/20 h-[60vh] lg:w-[40vw] rounded-md flex flex-col mb-10">
+          <div className="flex h-[6.5vh] justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-light-grey dark:border-dark-grey/20 items-center">
+            <div className="xss:text-xs sm:text-sm flex items-center">
+              <button className={onActive === "Preview" ? " border border-light-grey h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer text-light-darkgrey"} onClick={handlepreview}>Preview</button>
+              <button className={onActive === "Code" ? "border border-light-grey h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem]  cursor-pointer text-light-darkgrey"} onClick={handlecode}>Code</button>
             </div>
             <div className="flex items-center gap-2 px-5 cursor-pointer sm:text-sm xss:text-xs" onClick={handlecopy}>
               {copycode ? <><LuCheck size={20} className="xss:size-4" /> Copied </> : <><LuCopy size={20} className="xss:size-4" /> Copy code </>}
@@ -149,7 +149,7 @@ function page() {
                       `}
                     />
 
-                    : <div className="m-5 xss:text-sm sm:text-base">No preview to show.</div>
+                    : <div className="m-6 xss:text-sm sm:text-base">No preview to show.</div>
                 }
               </div>
             </>
