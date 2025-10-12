@@ -1,8 +1,31 @@
-import NextAuth, { type NextAuthOptions } from "next-auth"
+import NextAuth, { DefaultUser, Session, type NextAuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google";
 import connectdb from "@/db/connectdb";
 import User from "@/models/User";
+import { JWT } from "next-auth/jwt";
+import { DefaultSession } from "next-auth";
+
+declare module "next-auth" {
+    interface Session extends DefaultSession {
+        user: {
+            id: string;
+            name?: string | null;
+            email?: string | null;
+            image?: string | null;
+        };
+    }
+
+    interface User extends DefaultUser {
+        id: string;
+    }
+}
+
+declare module "next-auth/jwt" {
+    interface JWT {
+        id: string;
+    }
+}
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -36,8 +59,25 @@ export const authOptions: NextAuthOptions = {
                 console.error("Server Error");
                 return false
             }
-        }
-    }, secret: process.env.NEXTAUTH_SECRET
+        },
+        async jwt({ token, user }) {
+            if (user) {
+                await connectdb();
+                const dbuser = await User.findOne({ Email: user.email });
+                token.id = dbuser._id;
+            }
+            return token;
+        },
+
+
+        async session({ session, token }: { session: Session, token: JWT }) {
+            if (token) {
+                session.user.id = token.id;
+            }
+            return session;
+        },
+    },
+    secret: process.env.NEXTAUTH_SECRET
 }
 
 const handler = NextAuth(authOptions)
