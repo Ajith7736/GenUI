@@ -8,24 +8,44 @@ interface promptprops {
     code: string
 }
 
+interface Projectprops {
+    _id: string,
+    userId: string,
+    projectName: string,
+    prompts: promptprops[] | null,
+    createdAt: Date,
+    UpdatedAt: Date
+}
+
 export async function POST(req: Request) {
     try {
-        connectdb();
+        await connectdb();
         const { prompt, projectid }: { prompt: promptprops, projectid: string } = await req.json();
 
         const updatedproject = await Project.findOneAndUpdate(
+            { _id: projectid, "prompts.id": prompt.id },
+            {
+                $set: { "prompts.$.text": prompt.text, "prompts.$.code": prompt.code }
+            }, { new: true }
+        )
+
+        if (updatedproject) {
+            return NextResponse.json({ message: "Successfully updated", updatedproject }, { status: 200 })
+        }
+
+        const pushedproject = await Project.findOneAndUpdate(
             { _id: projectid },
             {
                 $push: { prompts: { id: prompt.id, text: prompt.text, code: prompt.code } },
             }, { new: true }
         )
 
-        if (!updatedproject) {
-            return NextResponse.json({ message: "No prompt or project found" }, { status: 400 })
+        if (!pushedproject) {
+            return NextResponse.json({ message: "project Not found" }, { status: 404 })
         }
 
 
-        return NextResponse.json({ message: "Updated successfully", updatedproject }, { status: 200 });
+        return NextResponse.json({ message: "Updated successfully", updatedproject : pushedproject }, { status: 200 });
 
     } catch (err) {
         console.log(err);

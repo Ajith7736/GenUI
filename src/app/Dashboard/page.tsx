@@ -20,6 +20,7 @@ import { AnimatePresence, easeInOut, motion } from "framer-motion";
 import { IoIosAdd } from "react-icons/io";
 import { v4 as uuidv4 } from "uuid";
 
+
 function page() {
 
   interface Formvalue {
@@ -62,19 +63,14 @@ function page() {
   const [copycode, setcopycode] = useState<boolean>(false)
   const { data: session, status }: { data: Session | null, status: "loading" | "unauthenticated" | "authenticated" } = useSession();
   const router: AppRouterInstance = useRouter();
-  const [iseditting, setiseditting] = useState<Boolean>(false)
+  const [prompt, setprompt] = useState<string>("");
+  const [iseditting, setiseditting] = useState<boolean>(false)
   const [projectdata, setprojectdata] = useState<Formvalue | null>(null)
   const { resolvedTheme } = useTheme();
   const [projecttoggle, setprojecttoggle] = useState<boolean>(false);
   const [projectdetails, setprojectdetails] = useState<Project[] | null>(null)
   const [showprompts, setshowprompts] = useState<showprompt | null>(null)
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
-
-  // if (status === "loading") return <div className="fixed z-2 top-0">
-  //   <Loading />
-  // </div>;
-  // if (!session) return null;
-
   const {
     register,
     handleSubmit,
@@ -86,6 +82,17 @@ function page() {
     setprojectdata(data);
   }
 
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user.id) {
+      getproject();
+    }
+  }, [session, status])
+
+
+
+
+
   const delay = (): Promise<void> => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -94,11 +101,7 @@ function page() {
     })
   }
 
-  useEffect(() => {
-    if (session?.user.id) {
-      getproject();
-    }
-  }, [session])
+
 
   const getproject = async () => {
     let res = await fetch("/api/getproject", {
@@ -164,8 +167,8 @@ function page() {
     if (res.status === 200) {
       let jsxcode: string | null = await codeextrator("htmlcode", data.text);
       if (jsxcode) {
-        await setjsxgeneratedcode(jsxcode);
-        await addprompt(prompt, jsxcode)
+        setjsxgeneratedcode(jsxcode);
+        addprompt(prompt, jsxcode)
       }
       setloading(false);
     } else if (res.status === 400 || res.status === 500) {
@@ -195,7 +198,6 @@ function page() {
     }
   }
 
-  console.log(projectdetails)
 
   const handletext = (): void => {
     if (textref.current?.value !== "") {
@@ -239,7 +241,7 @@ function page() {
     setprojecttoggle(!projecttoggle)
   }
 
-  const handleshowprompt = (e: React.MouseEvent<SVGElement> | React.MouseEvent<HTMLButtonElement> | React.MouseEvent<HTMLDivElement>) => {
+  const handleshowprompt = (e: React.MouseEvent<any>) => {
     setshowprompts({
       projectName: e.currentTarget.id,
       show: !showprompts?.show
@@ -277,15 +279,19 @@ function page() {
     const projectid = e.currentTarget.id;
     setcurrentprompt({ id, projectid, projectName, text, code })
     setjsxgeneratedcode(code)
+    setprompt(text)
   }
 
-  console.log(currentprompt)
+  console.log(prompt)
 
 
 
 
   return (
     <>
+      {status === "loading" && <div className="fixed z-40 top-0">
+        <Loading />
+      </div>}
       {projecttoggle && !isSubmitted && <div className="dark:bg-dark-black/80  w-[100vw] fixed inset-0 z-20 flex items-end justify-center">
         <div className="bg-light-white py-8 px-5 flex flex-col justify-between  gap-5 bottom-[30%] shadow-md dark:bg-dark-input-outline border dark:border-dark-grey/20 rounded-md h-auto w-[25rem] lg:w-[35rem] absolute z-10">
           <div className="flex justify-between items-center">
@@ -300,7 +306,6 @@ function page() {
           </form>
         </div>
       </div>}
-
       <div className="flex dark:bg-dark-mediumblack justify-around">
         <div className="dark:bg-dark-input-outline w-[25rem] z-10 fixed h-[90vh] left-0 flex flex-col p-5 border dark:border-dark-grey/20 border-l-0 border-y-0 ">
           <button className="p-2 dark:bg-dark-white dark:text-dark-black font-bold rounded-md cursor-pointer  hover:dark:bg-dark-white/90 flex justify-center gap-2" onClick={handleproject}><FiPlus className="size-6" />Create new Project</button>
@@ -327,10 +332,10 @@ function page() {
                         style={{ originY: 0 }}
                       >
                         {prompt.text === "" ?
-                          <div className={`${currentprompt?.id === prompt.id && currentprompt.projectName === item.projectName ? `dark:bg-dark-input-box dark:text-dark-white` : `hover:dark:bg-dark-input-box dark:text-dark-grey hover:dark:text-dark-white`} transition-all ease-in-out rounded-md p-2 mt-3 cursor-pointer`} id={item._id} onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>
+                          <div className={`${currentprompt?.id === prompt.id && currentprompt.projectName === item.projectName ? `dark:bg-dark-input-box dark:text-dark-white` : `hover:dark:bg-dark-input-box dark:text-dark-grey hover:dark:text-dark-white`} transition-all ease-in-out rounded-md p-2 mt-3 cursor-pointer w-full`} id={item._id} onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>
                             Blank Prompt
                           </div>
-                          : <div className={`${currentprompt?.id === prompt.id && currentprompt.projectid === item._id ? `dark:bg-dark-input-box dark:text-dark-white` : `hover:dark:bg-dark-input-box dark:text-dark-grey hover:dark:text-dark-white`} transition-all ease-in-out rounded-md p-2 mt-3 cursor-pointer`} id={item._id} onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>
+                          : <div className={`${currentprompt?.id === prompt.id && currentprompt.projectid === item._id ? `dark:bg-dark-input-box dark:text-dark-white` : `hover:dark:bg-dark-input-box dark:text-dark-grey hover:dark:text-dark-white`} transition-all ease-in-out rounded-md p-2 mt-3 cursor-pointer w-full text-ellipsis whitespace-nowrap overflow-hidden`} id={item._id} onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>
                             {prompt.text}
                           </div>}
                       </motion.div>
@@ -344,8 +349,8 @@ function page() {
         <div className="flex flex-col ml-[20rem] gap-5 bg-light-white dark:bg-dark-mediumblack min-h-[90vh] p-5">
           <div className="bg-light-white dark:bg-dark-input-outline border border-light-grey dark:border-dark-grey/20 rounded-md h-[60vh] xss:h-[40vh] xl:h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
             <div className="w-[100%] h-[100%] relative">
-              <textarea ref={textref} defaultValue={currentprompt?.text} className="bg-light-mediumgrey dark:bg-dark-input-box dark:border-dark-grey/20  border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:xl:text-base xl:text-base xss:text-sm placeholder:xss:text-sm" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
-              <button onClick={handletext} className="bg-light-black text-light-white dark:bg-dark-white dark:border dark:border-dark-grey/20 hover:bg-light-black/90 hover:dark:bg-dark-white/90 dark:text-dark-black transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw] flex items-center lg:justify-center">
+              <textarea ref={textref} defaultValue={prompt} className="bg-light-mediumgrey dark:bg-dark-input-box dark:border-dark-grey/20  border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:xl:text-base xl:text-base xss:text-sm placeholder:xss:text-sm" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
+              <button onClick={handletext} disabled={loading} className="bg-light-black text-light-white dark:bg-dark-white dark:border dark:border-dark-grey/20 hover:bg-light-black/90 hover:dark:bg-dark-white/90 dark:text-dark-black transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 rounded-md  font-bold text-xl cursor-pointer  h-[7vh]  lg:w-[20vw] flex items-center lg:justify-center">
                 {loading ? <div className="animate-spin inline-block lg:mr-5 xss:size-4 border-3 border-light-darkgrey dark:border-dark-grey  border-t-light-white dark:border-t-dark-black rounded-full " role="status" aria-label="loading">
                 </div> : <FaArrowRight className="lg:hidden" />}<div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center lg:text-lg">{loading ? <>Generating </> : <>Generate</>}</div></button>
             </div>
@@ -356,7 +361,7 @@ function page() {
                 <button className={onActive === "Preview" ? " border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer text-light-darkgrey"} onClick={handlepreview}>Preview</button>
                 <button className={onActive === "Code" ? "border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem]  cursor-pointer text-light-darkgrey"} onClick={handlecode}>Code</button>
               </div>
-              <div className="flexitems-center gap-2 px-5 cursor-pointer sm:text-sm xss:text-xs" onClick={handlecopy}>
+              <div className="flex items-center gap-2 px-5 cursor-pointer sm:text-sm xss:text-xs" onClick={handlecopy}>
                 {copycode ? <><LuCheck size={20} className="xss:size-4" /> Copied </> : <><LuCopy size={20} className="xss:size-4" /> Copy code </>}
               </div>
             </div>
@@ -371,7 +376,6 @@ function page() {
                         srcDoc={`
                         <html>
                           <head>
-                            <script src="https://cdn.tailwindcss.com"></script>
                                   <script>
                                     document.addEventListener('click', (e) => {
                                       if(e.target.tagName === 'A') {
@@ -379,7 +383,7 @@ function page() {
                                       }
                                     });
                                   </script>
-
+                             <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
                             </head>
                           <body>${jsxgeneratedcode}</body>
                         </html>
