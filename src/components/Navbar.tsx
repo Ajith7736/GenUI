@@ -54,9 +54,9 @@ function Navbar() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -30 }}
         transition={{ duration: 0.3, ease: "easeInOut", delay: 0 }}
-        className='absolute h-auto  flex flex-col justify-center z-1 rounded-md bg-light-white dark:bg-dark-darkgrey right-6 top-18 shadow-md'>
-        <button className='text-red-600 p-2 rounded-t-md cursor-pointer flex gap-3 hover:bg-light-lightgrey dark:hover:bg-dark-mediumgrey justify-center font-medium xss:text-sm' onClick={() => signOut({ callbackUrl: "/" })}><IoIosLogOut className='size-5' />Logout</button>
-        <div className='p-2 hover:bg-light-lightgrey hover:dark:bg-dark-mediumgrey cursor-pointer text-sm xss:text-sm rounded-b-md'>{session?.user?.email}</div>
+        className='absolute h-auto  flex flex-col justify-center z-1 rounded-md bg-light-white dark:bg-dark-input-outline border dark:border-dark-grey/20 right-6 top-18 shadow-lg'>
+        <button className='text-red-600 p-2 rounded-t-md cursor-pointer flex gap-3 hover:bg-light-lightgrey dark:hover:bg-dark-input-box justify-center font-medium xss:text-sm' onClick={() => signOut({ callbackUrl: "/" })}><IoIosLogOut className='size-5' />Logout</button>
+        <div className='p-2 hover:bg-light-lightgrey hover:dark:bg-dark-input-box text-sm xss:text-sm rounded-b-md'>{session?.user?.email}</div>
       </motion.div>}
     </div>
   )
