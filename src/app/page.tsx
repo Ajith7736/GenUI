@@ -1,14 +1,11 @@
 "use client"
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { PiEyesFill } from "react-icons/pi";
 import { FaLaptopCode } from "react-icons/fa";
 import { IoIosColorPalette, IoLogoIonic } from "react-icons/io";
 import { IoLibrary } from "react-icons/io5";
 import { FaHandshakeSimple } from "react-icons/fa6";
-import { IoSunnyOutline } from "react-icons/io5";
-import { IoMoonOutline } from "react-icons/io5";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
@@ -19,7 +16,6 @@ import Modetoggler from "@/components/Modetoggler";
 
 
 export default function Home() {
-  const [showtoggle, setshowtoggle] = useState<boolean>(false)
   const moderef = useRef<HTMLDivElement>(null)
   const { data: session, status }: {
     data: Session | null, status: string
@@ -79,7 +75,7 @@ export default function Home() {
       <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
         <div className="bg-light-mediumgrey dark:bg-dark-darkgrey md:text-xl py-2 px-4 rounded-full font-medium animate-pulse">This is your UI partner</div>
         <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl">A Generative UI Builder Powered By groq.</div>
-        <div className="text-light-darkgrey md:text-2xl text-center text-lg ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
+        <div className="text-light-darkgrey md:text-2xl text-center text-lg ">This AI-powered Generative UI Builder transforms your ideas into designs and clean React and Tailwind code — no design skills required.</div>
         <div className="flex gap-3">
           <Link href={session ? "/Dashboard" : "/Login"}><button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 hover:dark:bg-dark-white/90 dark:bg-dark-white dark:text-dark-black transition-all ease-in-out">Get Started</button></Link>
           <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer"><button className="text-light-black bg-light-white dark:bg-dark-black dark:text-dark-white  border dark:border-1 border-light-grey dark:border-dark-mediumgrey hover:bg-light-grey/20 hover:dark:bg-dark-mediumgrey transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md">Github</button></a>
@@ -89,7 +85,7 @@ export default function Home() {
       {/* card section */}
       <section className="bg-light-mediumgrey/60 dark:bg-dark-mediumblack w-full min-h-[80vh] flex flex-col items-center py-5 px-10 gap-8 xl:px-30">
         <div className="text-3xl xl:text-4xl font-bold font-heading">Features</div>
-        <div className="text-light-darkgrey text-center text-lg lg:w-[50vw] xl:text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, libero sint necessitatibus architecto nulla officia earum vero magni? Ad, debitis.</div>
+        <div className="text-light-darkgrey text-center text-lg lg:w-[50vw] xl:text-xl">Build interfaces at the speed of thought. GenUI, powered by Groq AI, transforms your text descriptions into UIs — instantly. Experience fast, intelligent UI generation built for developers and designers alike.</div>
         <div className="flex flex-col gap-5 md:flex-row md:flex-wrap md:justify-center">
           {featurecard.map((item, index) => {
             return (<div key={index} className="bg-light-white dark:bg-dark-mediumblack dark:border-dark-mediumgrey w-full md:w-[40vw] lg:w-[30vw] min-h-[25vh] rounded-xl border border-light-grey p-10 flex flex-col gap-5 justify-center">
@@ -99,7 +95,7 @@ export default function Home() {
             </div>)
           })}
         </div>
-        <div className="text-center text-light-darkgrey lg:w-[50vw] xl:text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor inventore nobis eos minima ipsam dicta corrupti ratione incidunt quo omnis?</div>
+        <div className="text-center text-light-darkgrey lg:w-[50vw] xl:text-xl">With Groq AI at its core, GenUI delivers blazing-fast generations and accurate component rendering — helping teams prototype, iterate, and build beautiful interfaces in record time.</div>
       </section>
 
 
@@ -107,13 +103,12 @@ export default function Home() {
       <section className="p-10 flex relative flex-col items-center gap-5 select-none">
         <div className="text-center text-3xl xl:text-4xl font-bold">Proudly Open Source</div>
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
-          The code is available on
-          <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer" className="underline">GitHub</a>.
+          The code is available on <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer" className="underline">GitHub</a>.
         </div>
         <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
           , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a>
           , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
-          .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer">GitHub</a> </div>
+          .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer"> GitHub</a> </div>
         <IoLogoIonic size={30} />
         <Modetoggler />
       </section>
