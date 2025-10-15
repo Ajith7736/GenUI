@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useRef } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { PiEyesFill } from "react-icons/pi";
@@ -73,7 +74,15 @@ export default function Home() {
 
       {/* header section */}
       <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
-        <div className="bg-light-mediumgrey dark:bg-dark-darkgrey md:text-xl py-2 px-4 rounded-full font-medium animate-pulse">This is your UI partner</div>
+
+
+        <div className="bg-conic/[from_var(--border-angle)] p-[.8px] rounded-full from-white dark:from-dark-black shadow-md via-light-black  dark:via-light-grey from-80% via-90% to-100% animate-rotate-border">
+          <div className="content bg-light-mediumgrey dark:bg-dark-darkgrey md:text-xl py-2 px-4 rounded-full font-medium ">This is your UI partner</div>
+        </div>
+
+
+
+
         <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl">A Generative UI Builder Powered By groq.</div>
         <div className="text-light-darkgrey md:text-2xl text-center text-lg ">This AI-powered Generative UI Builder transforms your ideas into designs and clean React and Tailwind code — no design skills required.</div>
         <div className="flex gap-3">
@@ -88,7 +97,7 @@ export default function Home() {
         <div className="text-light-darkgrey text-center text-lg lg:w-[50vw] xl:text-xl">Build interfaces at the speed of thought. GenUI, powered by Groq AI, transforms your text descriptions into UIs — instantly. Experience fast, intelligent UI generation built for developers and designers alike.</div>
         <div className="flex flex-col gap-5 md:flex-row md:flex-wrap md:justify-center">
           {featurecard.map((item, index) => {
-            return (<div key={index} className="bg-light-white dark:bg-dark-mediumblack dark:border-dark-mediumgrey w-full md:w-[40vw] lg:w-[30vw] min-h-[25vh] rounded-xl border border-light-grey p-10 flex flex-col gap-5 justify-center">
+            return (<div key={index} className="bg-light-white  dark:bg-dark-mediumblack dark:border-dark-mediumgrey w-full md:w-[40vw] lg:w-[30vw] min-h-[25vh] rounded-xl border border-light-grey p-10 flex flex-col gap-5 justify-center">
               <div className="text-2xl font-bold xl:text-3xl">{item.logo}</div>
               <div className="text-lg font-medium xl:text-xl">{item.title}</div>
               <div className="font-medium text-light-darkgrey">{item.description}</div>
@@ -110,7 +119,7 @@ export default function Home() {
           , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
           .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer"> GitHub</a> </div>
         <IoLogoIonic size={30} />
-        <Modetoggler />
+        <Modetoggler/>
       </section>
     </div>
   );

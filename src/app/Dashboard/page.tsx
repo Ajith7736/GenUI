@@ -20,6 +20,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IoIosAdd } from "react-icons/io";
 import { v4 as uuidv4 } from "uuid";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { SlOptions } from "react-icons/sl";
+import toast from "react-hot-toast";
 
 
 
@@ -58,6 +60,11 @@ function page() {
     code: string
   }
 
+  interface deletetoggleprops {
+    id: string | null,
+    show: boolean
+  }
+
   const [onActive, setonActive] = useState<string | null>("Code")
   const textref = useRef<HTMLTextAreaElement | null>(null);
   const [jsxgeneratedcode, setjsxgeneratedcode] = useState<string>("")
@@ -75,6 +82,9 @@ function page() {
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
   const [showsidebar, setshowsidebar] = useState<boolean>(false)
   const sideref = useRef<HTMLDivElement>(null);
+  const deleteref = useRef<HTMLButtonElement>(null)
+  const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null)
+  const [projectloader, setprojectloader] = useState<boolean>(true)
   const {
     register,
     handleSubmit,
@@ -92,8 +102,6 @@ function page() {
       getproject();
     }
   }, [session, status])
-
-
 
 
 
@@ -118,6 +126,9 @@ function page() {
     let data = await res.json();
     if (res.status === 200) {
       setprojectdetails(data.projects)
+      setprojectloader(false)
+    } else {
+      setprojectloader(false);
     }
   }
 
@@ -240,6 +251,7 @@ function page() {
 
   const handleproject = () => {
     setprojecttoggle(!projecttoggle)
+    setshowsidebar(false);
   }
 
   const handleshowprompt = (e: React.MouseEvent<any>) => {
@@ -254,7 +266,6 @@ function page() {
       show: !showprompts?.show
     })
   }
-
 
   const handleprojectclose = () => {
     setprojecttoggle(false);
@@ -297,9 +308,6 @@ function page() {
     }
   }, [prompt])
 
-  const handlesidebar = () => {
-    setshowsidebar(!showsidebar);
-  }
 
   useEffect(() => {
 
@@ -317,6 +325,43 @@ function page() {
   }, [])
 
 
+  const deleteprompt = async (projectid: string, promptid: string, text: string | null) => {
+    if (text === "") {
+      setprojectdetails((prev) => {
+        if (!prev) return prev;
+        return prev.map((project) => {
+          if (project._id === projectid) {
+            const updatedprompts = project.prompts!.filter((prompt) => prompt.id !== promptid)
+            return { ...project, prompts: updatedprompts };
+          }
+          return project;
+        });
+      });
+      return;
+    }
+    let res = await fetch("/api/deleteprompt", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ projectid, promptid })
+    })
+    let data = await res.json();
+
+    if (res.status === 200) {
+      projectdetails && setprojectdetails((prev) => {
+        if (!prev) return prev
+        const newpro = prev.map((project) => {
+          return project._id === data.updatedproject._id ? data.updatedproject : project;
+        })
+
+        return newpro;
+      })
+    }
+    if (res.status > 400) {
+      toast.error(data.message);
+    }
+  }
 
 
   return (
@@ -337,9 +382,12 @@ function page() {
         </div>
       </div>}
       <div className="flex dark:bg-dark-mediumblack justify-around">
-        <div className="lg:hidden fixed left-5 p-2 rounded-md hover:dark:bg-dark-white/90 dark:bg-dark-white cursor-pointer shadow-lg dark:text-dark-black" onClick={handlesidebar}><GiHamburgerMenu className="size-5" /></div>
+        <button onClick={() => setshowsidebar(!showsidebar)} className="lg:hidden fixed border border-light-darkgrey/30 bg-light-mediumgrey backdrop-blur-md hover:bg-light-darkgrey/20 z-10 transition-all ease-in-out left-5 p-2 rounded-md hover:dark:bg-dark-white/90 dark:bg-dark-white cursor-pointer shadow-md dark:text-dark-black" ><GiHamburgerMenu className="size-5" /></button>
         <div ref={sideref} className={`dark:bg-dark-input-outline w-[25rem] z-10 fixed h-[90vh] ${showsidebar ? `left-0` : `-left-100`} transition-all duration-500 ease-in-out lg:left-0 flex flex-col p-5 border dark:border-dark-grey/20 border-light-grey bg-light-lightgrey border-l-0 border-y-0 `}>
-          <button className="p-2 dark:bg-dark-white bg-light-black text-light-white hover:bg-light-black/90 dark:text-dark-black font-bold rounded-md cursor-pointer  hover:dark:bg-dark-white/90 flex justify-center gap-2" onClick={handleproject}><FiPlus className="size-6" />Create new Project</button>
+          <button className="p-2 dark:bg-dark-white bg-light-black text-light-white hover:bg-light-black/90 transition-all ease-in-out dark:text-dark-black font-bold rounded-md cursor-pointer  hover:dark:bg-dark-white/90 flex justify-center gap-2" onClick={handleproject}><FiPlus className="size-6" />Create new Project</button>
+
+          {projectloader && <> <div className="bg-light-grey dark:bg-dark-mediumgrey rounded-full mt-10 animate-pulse w-full h-[5px]"></div>
+            <div className="bg-light-grey dark:bg-dark-mediumgrey rounded-full mt-5 animate-pulse w-1/2 h-[5px]"></div></>}
           <AnimatePresence mode="sync">
             <motion.div className="flex flex-col gap-5 mt-8">
               {projectdetails?.map((item, index) => {
@@ -363,12 +411,38 @@ function page() {
                         style={{ originY: 0 }}
                       >
                         {prompt.text === "" ?
-                          <div className={`${currentprompt?.id === prompt.id && currentprompt.projectName === item.projectName ? `bg-light-grey dark:bg-dark-input-box dark:text-dark-white text-light-black` : `hover:dark:bg-dark-input-box hover:bg-light-grey dark:text-dark-grey text-light-darkgrey hover:dark:text-dark-white hover:text-light-black`} transition-all ease-in-out rounded-md p-2 mt-3 cursor-pointer w-full`} id={item._id} onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>
-                            Blank Prompt
+                          <div className={`${currentprompt?.id === prompt.id && currentprompt.projectName === item.projectName ? `bg-light-grey dark:bg-dark-input-box dark:text-dark-white text-light-black` : `hover:dark:bg-dark-input-box hover:bg-light-grey dark:text-dark-grey text-light-darkgrey hover:dark:text-dark-white hover:text-light-black`} transition-all relative  ease-in-out rounded-md p-2 mt-3 cursor-pointer w-full flex justify-between items-center`} >
+                            <div id={item._id} className="w-full" onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>Blank Prompt</div>
+                            <button onBlur={() => setdeletetoggle({ id: null, show: false })}>
+                              <SlOptions className="cursor-pointer" onClick={(e) => {
+                                e.stopPropagation();
+                                setdeletetoggle({
+                                  id: prompt.id,
+                                  show: !deletetoggle?.show
+                                })
+                              }
+                              } />
+                              {(deletetoggle?.show && prompt.id === deletetoggle?.id) && <div className="absolute bg-light-mediumgrey dark:bg-dark-mediumgrey cursor-pointer hover:dark:bg-dark-lightblack hover:bg-light-grey transition-all ease-in-out border border-light-darkgrey/70 dark:border-dark-grey/20 z-50 p-2 rounded-full -bottom-10 -right-5 text-red-500" onClick={() => deleteprompt(item._id, prompt.id, prompt.text)}>Delete</div>}
+                            </button>
                           </div>
-                          : <div className={`${currentprompt?.id === prompt.id && currentprompt.projectid === item._id ? `bg-light-grey dark:bg-dark-input-box dark:text-dark-white text-light-black` : `hover:dark:bg-dark-input-box hover:bg-light-grey dark:text-dark-grey text-light-darkgrey hover:dark:text-dark-white hover:text-light-black`} transition-all ease-in-out rounded-md p-2 mt-3 cursor-pointer w-full text-ellipsis whitespace-nowrap overflow-hidden`} id={item._id} onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>
-                            {prompt.text}
-                          </div>}
+                          : <><div className={`${currentprompt?.id === prompt.id && currentprompt.projectid === item._id ? `bg-light-grey dark:bg-dark-input-box dark:text-dark-white text-light-black` : `hover:dark:bg-dark-input-box hover:bg-light-grey dark:text-dark-grey text-light-darkgrey hover:dark:text-dark-white hover:text-light-black`} transition-all relative ease-in-out rounded-md p-2 mt-3 cursor-pointer w-full flex justify-between items-center`}>
+                            <div id={item._id} className="w-[90%] text-ellipsis whitespace-nowrap overflow-hidden" onClick={(e) => handlecurrentprompt(e, prompt.id, item.projectName, prompt.text, prompt.code)}>{prompt.text}</div>
+                            <button ref={deleteref} onBlur={() => setdeletetoggle({ id: null, show: false })}>
+                              <SlOptions className="cursor-pointer" onClick={(e) => {
+                                e.stopPropagation();
+                                setdeletetoggle({
+                                  id: prompt.id,
+                                  show: !deletetoggle?.show
+                                })
+                              }
+                              } />
+                              {(deletetoggle?.show && prompt.id === deletetoggle?.id) && <motion.div onClick={() => deleteprompt(item._id, prompt.id, prompt.text)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                                className="absolute bg-light-mediumgrey dark:bg-dark-mediumgrey cursor-pointer hover:dark:bg-dark-lightblack hover:bg-light-grey transition-all ease-in-out border border-light-darkgrey/70 dark:border-dark-grey/20 z-50 p-2 rounded-full -bottom-10 -right-5 text-red-500">Delete</motion.div>}
+                            </button>
+                          </div>
+                          </>
+                        }
+
                       </motion.div>
                     })
                   }
