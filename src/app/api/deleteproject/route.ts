@@ -2,17 +2,23 @@ import { NextResponse } from "next/server";
 import connectdb from "@/db/connectdb";
 import Project from "@/models/Project";
 
-export async function POST(req: Request) {
+export async function DELETE(req: Request) {
     try {
         await connectdb();
         const { projectid }: { projectid: string } = await req.json();
 
-        const updatedproject = await Project.findOneAndDelete({ _id: projectid }, { new: true });
+        const deletedproject = await Project.findOneAndDelete({ _id: projectid });
 
+        if (!deletedproject) {
+            return NextResponse.json({ message: "Couldn't delete the project" }, { status: 400 })
+        }
+
+        const updatedproject = await Project.find();
+        console.log(updatedproject)
         if (updatedproject) {
-            return NextResponse.json({ message: "Successfully deleted" }, { status: 200 });
+            return NextResponse.json({ message: "successfully deleted ", updatedproject }, { status: 200 });
         } else {
-            return NextResponse.json({ message: "Couldn't delete" }, { status: 400 })
+            return NextResponse.json({ message: "Somethig went wrong" })
         }
 
     } catch (err) {

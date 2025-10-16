@@ -11,6 +11,12 @@ export async function POST(req: Request) {
     try {
         await connectdb();
         let data: Formvalue = await req.json();
+        const existing = await Project.find({ userId: data.userId, projectName: data.projectName })
+
+        if (existing.length > 0) {
+            return NextResponse.json({ message: "Project already exist" }, { status: 409 })
+        }
+
         const project = await Project.create({ userId: data.userId, projectName: data.projectName })
         if (project) {
             return NextResponse.json({ message: "Project added", project }, { status: 200 })

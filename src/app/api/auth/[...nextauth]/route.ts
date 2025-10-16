@@ -43,7 +43,6 @@ export const authOptions: NextAuthOptions = {
             try {
                 await connectdb();
                 if (!user.email) {
-                    console.log("no email returned");
                     return false;
                 }
                 const existinguser = await User.findOne({ Email: user.email })

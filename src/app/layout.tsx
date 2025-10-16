@@ -3,10 +3,11 @@ import { Inter } from "next/font/google";
 import { Geist } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "react-hot-toast";
 import SessionWrapper from "@/components/SessionWrapper";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import { ThemeProvider } from "next-themes";
+import Toastwrapper from "@/components/Toastwrapper";
+
 
 
 
@@ -15,6 +16,7 @@ const inter = Inter({
   variable: "--font-body",
   display: "swap"
 });
+
 
 const geistSans = Geist({ variable: "--font-heading", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-mono", subsets: ["latin"] });
@@ -33,9 +35,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${geistSans.className} ${geistMono.className} antialiased `} >
-        <ThemeProvider defaultTheme="system" attribute="class">
+        <ThemeProvider defaultTheme="system" attribute="class" >
           <SessionWrapper >
-            <Toaster position="top-right" reverseOrder={false} />
+            <Toastwrapper />
             <NavbarWrapper />
             {children}
           </SessionWrapper>
