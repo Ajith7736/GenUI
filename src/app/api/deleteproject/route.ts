@@ -14,7 +14,6 @@ export async function DELETE(req: Request) {
         }
 
         const updatedproject = await Project.find();
-        console.log(updatedproject)
         if (updatedproject) {
             return NextResponse.json({ message: "successfully deleted ", updatedproject }, { status: 200 });
         } else {
