@@ -1,19 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react";
-import { LuCopy } from "react-icons/lu";
-import { FaArrowRight } from "react-icons/fa";
 import Codeblock from "@/components/Codeblock";
-import { LuCheck } from "react-icons/lu";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Loading from "@/components/Loading";
-import { IoClose } from "react-icons/io5";
-import Editor from "@monaco-editor/react";
-import { useTheme } from "next-themes";
-import { useForm, SubmitHandler } from "react-hook-form"
 import { FiPlus } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
 import { AnimatePresence, motion } from "framer-motion";
@@ -22,6 +15,11 @@ import { v4 as uuidv4 } from "uuid";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { SlOptions } from "react-icons/sl";
 import toast from "react-hot-toast";
+import Projectinput from "@/components/ProjectInput";
+import Preview from "@/components/Preview";
+import CodeEditor from "@/components/CodeEditor";
+import Promptinput from "@/components/Promptinput";
+import OutputToggler from "@/components/OutputToggler";
 
 
 
@@ -66,8 +64,7 @@ function page() {
     isproject: boolean
   }
 
-  const [onActive, setonActive] = useState<string | null>("Code")
-  const textref = useRef<HTMLTextAreaElement | null>(null);
+  const [onActive, setonActive] = useState<string>("Code")
   const [jsxgeneratedcode, setjsxgeneratedcode] = useState<string>("")
   const [loading, setloading] = useState<boolean>(false)
   const [copycode, setcopycode] = useState<boolean>(false)
@@ -76,7 +73,6 @@ function page() {
   const [prompt, setprompt] = useState<string>("");
   const [iseditting, setiseditting] = useState<boolean>(false)
   const [projectdata, setprojectdata] = useState<Formvalue | null>(null)
-  const { resolvedTheme } = useTheme();
   const [projecttoggle, setprojecttoggle] = useState<boolean>(false);
   const [projectdetails, setprojectdetails] = useState<Project[] | null>(null)
   const [showprompts, setshowprompts] = useState<showprompt | null>({ projectName: null, show: false })
@@ -86,16 +82,6 @@ function page() {
   const deleteref = useRef<HTMLButtonElement>(null)
   const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null)
   const [projectloader, setprojectloader] = useState<boolean>(true)
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors, isSubmitting, isSubmitted },
-  } = useForm<Formvalue>()
-  const onSubmit: SubmitHandler<Formvalue> = async (data) => {
-    await delay();
-    setprojectdata(data);
-  }
 
 
   useEffect(() => {
@@ -103,17 +89,6 @@ function page() {
       getproject();
     }
   }, [session, status])
-
-
-
-  const delay = (): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    })
-  }
-
 
 
   const getproject = async () => {
@@ -140,20 +115,24 @@ function page() {
   }, [projectdata])
 
   const addproject = async () => {
-    setprojecttoggle(true);
-    let res = await fetch("api/project",
-      {
-        method: "POST",
-        headers: {
-          'Content-Type': "application/json"
-        }, body: JSON.stringify({ ...projectdata, userId: session?.user.id })
-      })
-    let data = await res.json()
-    if (res.status === 200) {
-      projectdetails ? setprojectdetails([...projectdetails, data.project]) : setprojectdetails([data.project])
-      setprojecttoggle(false);
-    } else if (res.status >= 400) {
-      toast.error("Project Already Exists")
+    try {
+      setprojecttoggle(true);
+      let res = await fetch("api/project",
+        {
+          method: "POST",
+          headers: {
+            'Content-Type': "application/json"
+          }, body: JSON.stringify({ ...projectdata, userId: session?.user.id })
+        })
+      let data = await res.json()
+      if (res.status === 200) {
+        projectdetails ? setprojectdetails([...projectdetails, data.project]) : setprojectdetails([data.project])
+        setprojecttoggle(false);
+      } else if (res.status >= 400) {
+        toast.error("Project Already Exists")
+      }
+    } catch (err) {
+      toast.error("Server Error")
     }
   }
 
@@ -163,94 +142,6 @@ function page() {
     }
   }, [status, router]);
 
-
-  const handlepreview = (): void => {
-    setonActive("Preview")
-  }
-
-  const handlecode = (): void => {
-    setonActive("Code")
-  }
-
-  const generate = async (prompt: string) => {
-    setloading(true)
-    let res = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt })
-    });
-
-    let data = await res.json();
-
-    if (res.status === 200) {
-      let jsxcode: string | null = await codeextrator("htmlcode", data.text);
-      if (jsxcode) {
-        setjsxgeneratedcode(jsxcode);
-        addprompt(prompt, jsxcode)
-      }
-      setloading(false);
-    } else if (res.status === 400 || res.status === 500) {
-      setloading(false)
-    }
-  };
-
-  const addprompt = async (text: string, code: string) => {
-    let res = await fetch("/api/createprompt", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt: { text, code, id: currentprompt?.id }, projectid: currentprompt?.projectid })
-    })
-    let data = await res.json();
-    if (res.status === 200) {
-      setprojectdetails((prev) => {
-        if (!prev) return [data.updatedproject]
-        return prev?.map((proj) => {
-          return proj._id === data.updatedproject._id ? data.updatedproject : proj
-        })
-      })
-    }
-  }
-
-
-
-  const handletext = (): void => {
-    if (textref.current?.value !== "") {
-      if (currentprompt) {
-        generate(textref.current?.value!)
-      } else {
-        setprojecttoggle(true);
-      }
-    }
-  }
-
-  const handlecopy = (): void => {
-    setcopycode(true);
-    navigator.clipboard.writeText(jsxgeneratedcode);
-    setTimeout(() => {
-      setcopycode(false)
-    }, 2000);
-  }
-
-  const codeextrator = (language: string, code: string): string | null => {
-    let startdelimeter: string = language;
-    let enddelimeter: string = `#end${language}`;
-
-    let startindex: number = code.indexOf(startdelimeter);
-
-    let endindex: number = code.indexOf(enddelimeter);
-
-    if (startindex !== -1 && endindex !== -1) {
-      let adjustedindex: number = startindex + startdelimeter.length;
-      let extractedcode: string = code.slice(adjustedindex, endindex);
-      return extractedcode;
-    } else {
-      return null;
-    }
-  }
 
   const handleproject = () => {
     setprojecttoggle(!projecttoggle)
@@ -270,9 +161,6 @@ function page() {
     })
   }
 
-  const handleprojectclose = () => {
-    setprojecttoggle(false);
-  }
 
   const handlenewprompt = (e: React.MouseEvent<SVGElement>) => {
     const name = e.currentTarget.id;
@@ -305,14 +193,6 @@ function page() {
     setshowsidebar(false);
   }
 
-  useEffect(() => {
-    if (textref.current?.value !== prompt) {
-      textref.current!.value = prompt;
-    }
-  }, [prompt])
-
-  console.log("");
-  
 
 
   useEffect(() => {
@@ -344,7 +224,7 @@ function page() {
       if (res.status === 200) {
         setprojectdetails(data.updatedproject);
       } else if (res.status >= 400) {
-        toast.error(data.message); 
+        toast.error(data.message);
       }
     } else {
       if (text === "") {
@@ -391,18 +271,9 @@ function page() {
       {/* {status === "loading" && <div className="fixed z-40 top-0">
         <Loading />
       </div>} */}
-      {projecttoggle && <div className="dark:bg-dark-black/80 bg-light-grey/80  w-[100vw] fixed inset-0 z-20 flex items-end justify-center">
-        <div className="bg-light-white py-8 md:py-4 px-5 flex flex-col justify-between  gap-5 bottom-[30%] shadow-md dark:bg-dark-input-outline border dark:border-dark-grey/20 border-light-mediumgrey rounded-md h-auto w-[25rem] lg:w-[35rem] absolute z-10">
-          <div className="flex justify-end"><IoClose className="size-5 cursor-pointer" onClick={handleprojectclose} /></div>
-          <div className="text-xl font-bold text-center">Enter Your Project Name</div>
-          <form action="" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-            <label htmlFor="projectName">Project Name : </label>
-            <input type="text" id="projectName" {...register("projectName")} className="dark:bg-dark-input-box  border py-1 px-1 bg-light-mediumgrey border-light-grey dark:border-dark-grey/20 focus:outline-none rounded-md" />
-            {errors.projectName && <span className="text-red-500">{errors.projectName.message}</span>}
-            <input type="submit" value={isSubmitting ? 'Submitting' : 'Submit'} disabled={isSubmitting} className="p-2 disabled:dark:bg-dark-white/90 bg-light-black hover:bg-light-black/90 text-light-white dark:bg-dark-white cursor-pointer hover:dark:bg-dark-white/90 transition-all ease-in-out dark:text-dark-black font-bold rounded-md" />
-          </form>
-        </div>
-      </div>}
+
+      <Projectinput projecttoggle={projecttoggle} setprojecttoggle={setprojecttoggle} projectdetails={projectdetails} setprojectdetails={setprojectdetails} />
+
       <div className="flex dark:bg-dark-mediumblack justify-around">
         <button onClick={() => setshowsidebar(!showsidebar)} className="lg:hidden fixed border border-light-darkgrey/30 bg-light-mediumgrey backdrop-blur-md hover:bg-light-darkgrey/20 z-10 transition-all ease-in-out left-5 p-2 rounded-md hover:dark:bg-dark-white/90 dark:bg-dark-white cursor-pointer shadow-md dark:text-dark-black" ><GiHamburgerMenu className="size-5" /></button>
         <div ref={sideref} className={`dark:bg-dark-input-outline w-[25rem] z-10 fixed h-[90vh] ${showsidebar ? `left-0` : `-left-100`} transition-all duration-500 ease-in-out lg:left-0 flex flex-col p-5 border dark:border-dark-grey/20 border-light-grey bg-light-lightgrey border-l-0 border-y-0 `}>
@@ -484,81 +355,46 @@ function page() {
           </AnimatePresence>
         </div>
         <div className="flex flex-col xss:w-full md:w-[80vw] lg:w-fit lg:ml-[25rem] xl:ml-[20rem] gap-5 bg-light-white dark:bg-dark-mediumblack min-h-[90vh] p-5">
-          <div className="bg-light-white dark:bg-dark-input-outline border border-light-grey dark:border-dark-grey/20 rounded-md h-[60vh] xss:h-[40vh] xl:h-[60vh] lg:w-[50vw] p-9 flex flex-col justify-between items-center">
-            <div className="w-[100%] h-[100%] relative">
-              <textarea ref={textref} className="bg-light-mediumgrey dark:bg-dark-input-box dark:border-dark-grey/20  border border-light-grey  w-[100%]  resize-none p-4 h-[100%] rounded-md focus:outline-none placeholder:xl:text-base xl:text-base xss:text-sm placeholder:xss:text-sm" placeholder="Describe your UI... e.g., a dashboard with 3 cards and a sidebar" />
-              <button onClick={handletext} disabled={loading} className="bg-light-black text-light-white dark:bg-dark-white dark:border dark:border-dark-grey/20 hover:bg-light-black/90 hover:dark:bg-dark-white/90 dark:text-dark-black transition-all ease-in-out absolute bottom-5 right-5 px-8 py-3 lg:px-4 rounded-md  font-bold text-xl cursor-pointer  h-[7vh] lg:h-[5vh] xl:h-[6vh]  lg:w-[15vw] xl:w-[18vw] flex items-center lg:justify-center">
-                {loading ? <div className="animate-spin inline-block lg:mr-5 xss:size-4 border-3 border-light-darkgrey dark:border-dark-grey  border-t-light-white dark:border-t-dark-black rounded-full " role="status" aria-label="loading">
-                </div> : <FaArrowRight className="lg:hidden" />}<div className="hidden lg:flex lg:items-center lg:gap-10 lg:justify-center lg:text-base xl:text-lg">{loading ? <>Generating </> : <>Generate</>}</div></button>
-            </div>
-          </div>
+
+          <Promptinput
+            prompt={prompt}
+            currentprompt={currentprompt}
+            loading={loading}
+            setloading={setloading}
+            setjsxgeneratedcode={setjsxgeneratedcode}
+            setprojectdetails={setprojectdetails}
+            setprojecttoggle={setprojecttoggle}
+          />
+
           <div className=" bg-light-white dark:bg-dark-input-outline border border-light-grey dark:border-dark-grey/20 h-[60vh] lg:w-[50vw] rounded-md flex flex-col mb-10">
-            <div className="flex h-[6.5vh] justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-light-grey dark:border-dark-grey/20 items-center">
-              <div className="xss:text-xs sm:text-sm flex items-center">
-                <button className={onActive === "Preview" ? " border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer text-light-darkgrey"} onClick={handlepreview}>Preview</button>
-                <button className={onActive === "Code" ? "border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem]  cursor-pointer text-light-darkgrey"} onClick={handlecode}>Code</button>
-              </div>
-              <div className="flex items-center gap-2 px-5 cursor-pointer sm:text-sm xss:text-xs" onClick={handlecopy}>
-                {copycode ? <><LuCheck size={20} className="xss:size-4" /> Copied </> : <><LuCopy size={20} className="xss:size-4" /> Copy code </>}
-              </div>
-            </div>
+            <OutputToggler
+              copycode={copycode}
+              jsxgeneratedcode={jsxgeneratedcode}
+              onActive={onActive}
+              setcopycode={setcopycode}
+              setonActive={setonActive}
+            />
             {onActive === "Preview" ?
               <>
                 {/* Preview */}
-                < div className=" h-[53.5vh] rounded-b-md bg-light-lightgrey dark:bg-dark-input-box overflow-auto">
-                  {
-                    jsxgeneratedcode ?
-                      < iframe
-                        className="w-full h-[53.5vh] border-0 transition-all ease-in-out"
-                        srcDoc={`
-                        <html>
-                          <head>
-                                  <script>
-                                    document.addEventListener('click', (e) => {
-                                      if(e.target.tagName === 'A') {
-                                        e.preventDefault();
-                                      }
-                                    });
-                                  </script>
-                             <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-                            </head>
-                          <body>${jsxgeneratedcode}</body>
-                        </html>
-                      `}
-                      />
-
-                      : <div className="m-6 xss:text-sm sm:text-base">No preview to show.</div>
-                  }
-                </div>
+                <Preview jsxgeneratedcode={jsxgeneratedcode} />
               </>
               :
               <>
-                {/* Code */}
                 <div className={`h-[53.5vh] dark:bg-dark-input-box rounded-b-md ${iseditting ? 'overflow-hidden' : ''} bg-light-lightgrey relative`}>
                   {
                     jsxgeneratedcode.length === 0 ? <div className="m-6 xss:text-sm sm:text-base">No code to show.</div> : <>
-                      {iseditting ? <div className="h-[53.5vh]">
-                        <Editor
-                          height="100%"
-                          defaultLanguage="html"
-                          value={jsxgeneratedcode}
-                          theme={resolvedTheme === 'light' ? `vs-light` : `vs-dark`}
-                          onChange={(value) => setjsxgeneratedcode(value!)}
-                          options={{
-                            minimap: { enabled: false },
-                            fontSize: 14,
-                            automaticLayout: true,
-                            scrollBeyondLastLine: false,
-                            scrollbar: {
-                              vertical: 'hidden',
-                              horizontal: 'visible'
-                            },
-                          }}
-                        />
-                        <button className="absolute top-3 right-3 bg-light-black hover:bg-light-black/80 dark:bg-dark-white dark:text-dark-black text-light-white px-3 py-2 rounded-md cursor-pointer transition-all ease-in-out hover:dark:bg-dark-white/90" onClick={() => setiseditting(false)}>Done</button>
-                      </div> :
+                      {iseditting ?
+                        <CodeEditor
+                          jsxgeneratedcode={jsxgeneratedcode}
+                          setjsxgeneratedcode={setjsxgeneratedcode}
+                          setiseditting={setiseditting}
+                        /> :
                         (<><div className="">
-                          <Codeblock code={jsxgeneratedcode} language="jsx" />
+                          <Codeblock
+                            code={jsxgeneratedcode}
+                            language="jsx"
+                          />
                         </div>
                           <button className="absolute top-3 right-3 bg-light-black dark:bg-dark-white dark:text-dark-black text-light-white px-3 py-2 cursor-pointer rounded-md text-sm hover:bg-light-black/80 hover:dark:bg-dark-white/90 transition ease-in-out" onClick={() => setiseditting(true)}>Edit Code</button>
                         </>)}</>

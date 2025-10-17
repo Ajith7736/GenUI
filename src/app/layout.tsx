@@ -9,8 +9,6 @@ import { ThemeProvider } from "next-themes";
 import Toastwrapper from "@/components/Toastwrapper";
 
 
-
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
