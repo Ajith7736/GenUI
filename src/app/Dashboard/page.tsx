@@ -354,6 +354,7 @@ function page() {
             </motion.div>
           </AnimatePresence>
         </div>
+        
         <div className="flex flex-col xss:w-full md:w-[80vw] lg:w-fit lg:ml-[25rem] xl:ml-[20rem] gap-5 bg-light-white dark:bg-dark-mediumblack min-h-[90vh] p-5">
 
           <Promptinput
