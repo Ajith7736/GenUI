@@ -23,13 +23,12 @@ interface Project {
 }
 
 interface ProjectInputProps {
-    projectdetails: Project[] | null;
     setprojectdetails: React.Dispatch<React.SetStateAction<Project[] | null>>;
     projecttoggle: boolean;
     setprojecttoggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Projectinput({ projectdetails, setprojectdetails, projecttoggle, setprojecttoggle }: ProjectInputProps) {
+function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: ProjectInputProps) {
 
     interface Formvalue {
         projectName: string;

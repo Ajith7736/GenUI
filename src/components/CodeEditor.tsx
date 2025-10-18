@@ -11,6 +11,7 @@ interface props {
 function CodeEditor({ jsxgeneratedcode, setjsxgeneratedcode, setiseditting }: props) {
 
     const { resolvedTheme } = useTheme();
+    
     return (
         <div className="h-[53.5vh]">
             <Editor

@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
 ::-webkit-scrollbar-track {
   background: rgb(241, 245, 249);
   border-radius: 10px;

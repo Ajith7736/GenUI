@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { LuCheck, LuCopy } from 'react-icons/lu';
 
 interface props {
     onActive: string,
     setonActive: React.Dispatch<React.SetStateAction<string>>,
-    setcopycode: React.Dispatch<React.SetStateAction<boolean>>,
-    copycode: boolean,
     jsxgeneratedcode: string
 }
 
-function OutputToggler({ onActive, setonActive, setcopycode, copycode, jsxgeneratedcode }: props) {
+function OutputToggler({ onActive, setonActive, jsxgeneratedcode }: props) {
+
+    const [copycode, setcopycode] = useState<boolean>(false)
 
     const handlecopy = (): void => {
         setcopycode(true);
@@ -18,8 +18,6 @@ function OutputToggler({ onActive, setonActive, setcopycode, copycode, jsxgenera
             setcopycode(false)
         }, 2000);
     }
-
-    console.log(onActive);
 
     return (
         <div className="flex h-[6.5vh] justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-light-grey dark:border-dark-grey/20 items-center">
