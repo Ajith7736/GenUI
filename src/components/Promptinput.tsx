@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaArrowRight } from 'react-icons/fa'
@@ -43,7 +44,7 @@ function Promptinput({ prompt, setprompt, setjsxgeneratedcode, currentprompt, se
     const [suggestion, setsuggestion] = useState<string[] | null>(null)
     const [suggesstionloader, setsuggesstionloader] = useState<boolean>(false)
     const [loading, setloading] = useState<boolean>(false)
-   
+    const { data: session } = useSession();
     const codeextrator = (language: string, code: string): string | null => {
         let startdelimeter: string = language;
         let enddelimeter: string = `#end${language}`;
@@ -151,6 +152,7 @@ function Promptinput({ prompt, setprompt, setjsxgeneratedcode, currentprompt, se
                         return proj._id === data.updatedproject._id ? data.updatedproject : proj
                     })
                 })
+                localStorage.removeItem(`projects_${session?.user.id}`);
             } else if (res.status >= 400) {
                 toast.error(data.message);
             }
@@ -165,7 +167,6 @@ function Promptinput({ prompt, setprompt, setjsxgeneratedcode, currentprompt, se
         } else {
             setprompt(textref.current?.value + " \n" + value);
         }
-
     }
 
     return (

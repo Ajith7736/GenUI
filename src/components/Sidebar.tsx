@@ -76,6 +76,16 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
 
 
     const getproject = async () => {
+        let userId = session?.user.id;
+        if (!userId) return
+
+        let cachekey = `projects_${userId}`
+        let cache = localStorage.getItem(cachekey)
+
+        if (cache) {
+            setprojectdetails(JSON.parse(cache));
+            setprojectloader(false);
+        }
         let res = await fetch("/api/getproject", {
             method: "POST",
             headers: {
@@ -86,10 +96,11 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
         let data = await res.json();
         if (res.status === 200) {
             setprojectdetails(data.projects)
-            setprojectloader(false)
-        } else {
-            setprojectloader(false);
+            localStorage.setItem(cachekey, JSON.stringify(data.projects));
+        } else if (res.status === 500) {
+            toast.error(data.message);
         }
+        setprojectloader(false);
     }
 
     useEffect(() => {
@@ -160,6 +171,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
             let data = await res.json();
             if (res.status === 200) {
                 setprojectdetails(data.updatedproject);
+                localStorage.removeItem(`projects_${session?.user?.id}`);
             } else if (res.status >= 400) {
                 toast.error(data.message);
             }
@@ -192,9 +204,9 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
                     const newpro = prev.map((project) => {
                         return project._id === data.updatedproject._id ? data.updatedproject : project;
                     })
-
                     return newpro;
                 })
+                localStorage.removeItem(`projects_${session?.user?.id}`);
             }
             if (res.status >= 400) {
                 toast.error(data.message);

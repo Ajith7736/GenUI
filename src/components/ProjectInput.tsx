@@ -69,6 +69,7 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
             if (res.status === 200) {
                 setprojectdetails(prev => prev ? [...prev, resdata.project] : [resdata.project])
                 setprojecttoggle(false);
+                localStorage.removeItem(`projects_${session?.user?.id}`);
             } else if (res.status >= 400) {
                 toast.error("Project Already Exists")
             }
