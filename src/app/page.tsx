@@ -70,15 +70,12 @@ export default function Home() {
     <div className="dark:bg-dark-mediumblack bg-light-white dark:text-light-white">
 
       {/* header section */}
-      <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
 
+      <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
 
         <div className="bg-conic/[from_var(--border-angle)] p-[.8px] rounded-full from-white dark:from-dark-black shadow-md via-light-black  dark:via-light-grey from-80% via-90% to-100% animate-rotate-border">
           <div className="content bg-light-mediumgrey dark:bg-dark-darkgrey md:text-xl py-2 px-4 rounded-full font-medium ">This is your UI partner</div>
         </div>
-
-
-
 
         <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl">A Generative UI Builder Powered By groq.</div>
         <div className="text-light-darkgrey md:text-2xl text-center text-lg ">This AI-powered Generative UI Builder transforms your ideas into designs and clean React and Tailwind code — no design skills required.</div>
@@ -89,6 +86,7 @@ export default function Home() {
       </section>
 
       {/* card section */}
+
       <section className="bg-light-mediumgrey/60 dark:bg-dark-mediumblack w-full min-h-[80vh] flex flex-col items-center py-5 px-10 gap-8 xl:px-30">
         <div className="text-3xl xl:text-4xl font-bold font-heading">Features</div>
         <div className="text-light-darkgrey text-center text-lg lg:w-[50vw] xl:text-xl">Build interfaces at the speed of thought. GenUI, powered by Groq AI, transforms your text descriptions into UIs — instantly. Experience fast, intelligent UI generation built for developers and designers alike.</div>
@@ -104,8 +102,8 @@ export default function Home() {
         <div className="text-center text-light-darkgrey lg:w-[50vw] xl:text-xl">With Groq AI at its core, GenUI delivers blazing-fast generations and accurate component rendering — helping teams prototype, iterate, and build beautiful interfaces in record time.</div>
       </section>
 
-
       {/* footer section  */}
+
       <section className="p-10 flex relative flex-col items-center gap-5 select-none">
         <div className="text-center text-3xl xl:text-4xl font-bold">Proudly Open Source</div>
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
