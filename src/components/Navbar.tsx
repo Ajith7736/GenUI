@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { IoLogoIonic } from "react-icons/io";
 import { usePathname } from 'next/navigation';
 import { Session } from 'next-auth';
@@ -25,7 +25,7 @@ function Navbar() {
         <Link href={"/"}><div className='text-2xl font-bold font-heading'>GenUI</div></Link>
       </div>
       <div className='flex gap-5 xl:gap-8 items-center'>
-        <Link href={"/About"}><div className={`sm:text-lg font-medium font-mono xss:text-base ${pathname !== "/About" && `text-light-darkgrey`}`}> About</div></Link>
+        <Link href={"/"}><div className={`sm:text-lg font-medium font-mono xss:text-base ${pathname !== "/" && `text-light-darkgrey`}`}>Home</div></Link>
         {session ? (<div tabIndex={0} onBlur={() => setTimeout(() => setshowlogout(false), 100)}><Image onClick={() => setshowlogout((prev) => !prev)} src={session.user?.image!} unoptimized width={40} height={40} alt="Profile" className='w-8 h-8 lg:w-10 lg:h-10 rounded-full cursor-pointer' />
           {showlogout && (<motion.div
             initial={{ opacity: 0, y: -20 }}
