@@ -30,8 +30,6 @@ interface currentprompt {
 interface props {
     prompt: string,
     setprompt: React.Dispatch<React.SetStateAction<string>>,
-    loading: boolean,
-    setloading: React.Dispatch<React.SetStateAction<boolean>>,
     setjsxgeneratedcode: React.Dispatch<React.SetStateAction<string>>,
     currentprompt: currentprompt | null,
     setprojecttoggle: React.Dispatch<React.SetStateAction<boolean>>,
@@ -40,11 +38,12 @@ interface props {
 
 
 
-function Promptinput({ prompt, setprompt, loading, setloading, setjsxgeneratedcode, currentprompt, setprojecttoggle, setprojectdetails }: props) {
+function Promptinput({ prompt, setprompt, setjsxgeneratedcode, currentprompt, setprojecttoggle, setprojectdetails }: props) {
     const textref = useRef<HTMLTextAreaElement>(null);
     const [suggestion, setsuggestion] = useState<string[] | null>(null)
     const [suggesstionloader, setsuggesstionloader] = useState<boolean>(false)
-
+    const [loading, setloading] = useState<boolean>(false)
+   
     const codeextrator = (language: string, code: string): string | null => {
         let startdelimeter: string = language;
         let enddelimeter: string = `#end${language}`;
@@ -70,26 +69,31 @@ function Promptinput({ prompt, setprompt, loading, setloading, setjsxgeneratedco
 
     const generate = async (prompt: string) => {
         setloading(true)
-        let res = await fetch("/api/chat", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ prompt })
-        });
+        try {
+            let res = await fetch("/api/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ prompt })
+            });
 
-        let data = await res.json();
+            let data = await res.json();
 
-        if (res.status === 200) {
-            let jsxcode: string | null = await codeextrator("htmlcode", data.text);
-            if (jsxcode) {
-                setjsxgeneratedcode(jsxcode);
-                addprompt(prompt, jsxcode)
+            if (res.status === 200) {
+                let jsxcode: string | null = await codeextrator("htmlcode", data.text);
+                if (jsxcode) {
+                    setjsxgeneratedcode(jsxcode);
+                    addprompt(prompt, jsxcode)
+                }
+                setloading(false);
+            } else if (res.status === 400 || res.status === 500) {
+                toast.error(data.message)
+                setloading(false)
             }
+        } catch (err) {
+            toast.error("Server Error");
             setloading(false);
-        } else if (res.status === 400 || res.status === 500) {
-            toast.error(data.message)
-            setloading(false)
         }
     };
 

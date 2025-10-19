@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useRef } from "react";
+import React from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { PiEyesFill } from "react-icons/pi";
 import { FaLaptopCode } from "react-icons/fa";
@@ -17,7 +17,6 @@ import Modetoggler from "@/components/Modetoggler";
 
 
 export default function Home() {
-  const moderef = useRef<HTMLDivElement>(null)
   const { data: session, status }: {
     data: Session | null, status: string
   } = useSession()
@@ -27,8 +26,6 @@ export default function Home() {
     title: string,
     description: string
   }
-
-
 
   if (status === "loading") return <div className="fixed z-50 top-0">
     <Loading />
@@ -114,12 +111,14 @@ export default function Home() {
         <div className="text-center text-light-darkgrey xl:text-lg xl:w-[40vw]">GenUI is open source and powered by open source software.
           The code is available on <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer" className="underline">GitHub</a>.
         </div>
-        <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
-          , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a>
-          , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
-          .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer"> GitHub</a> </div>
         <IoLogoIonic size={30} />
-        <Modetoggler/>
+        <div className="md:flex items-center md:justify-between">
+          <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
+            , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a>
+            , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
+            .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer"> GitHub</a> </div>
+          <Modetoggler />
+        </div>
       </section>
     </div>
   );

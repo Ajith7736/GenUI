@@ -18,11 +18,12 @@ export async function POST(req: Request) {
                 \n${prompt}`
     })
 
-
     return NextResponse.json({ success: true, text }, { status: 200 })
+
   } catch (err) {
-    console.log(err)
+
     return NextResponse.json({ success: false, message: "Server Error" }, { status: 500 })
+
   }
 
 }

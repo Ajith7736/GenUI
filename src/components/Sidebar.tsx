@@ -1,4 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
+import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast';
 import { FiPlus } from 'react-icons/fi';
@@ -46,7 +48,6 @@ interface currentprompt {
 interface props {
     setprojecttoggle: React.Dispatch<React.SetStateAction<boolean>>,
     projecttoggle: boolean,
-    projectloader: boolean,
     projectdetails: Project[] | null,
     setprojectdetails: React.Dispatch<React.SetStateAction<Project[] | null>>,
     showprompts: showprompt | null,
@@ -59,9 +60,37 @@ interface props {
     setprompt: React.Dispatch<React.SetStateAction<string>>
 }
 
-function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprompt, projectloader, deletetoggle, setdeletetoggle, setshowprompts, showprompts, projectdetails, setprojectdetails, projecttoggle, setprojecttoggle }: props) {
+function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprompt, deletetoggle, setdeletetoggle, setshowprompts, showprompts, projectdetails, setprojectdetails, projecttoggle, setprojecttoggle }: props) {
+
     const sideref = useRef<HTMLDivElement>(null);
     const [showsidebar, setshowsidebar] = useState<boolean>(false)
+    const { data: session, status }: { data: Session | null, status: string } = useSession();
+    const [projectloader, setprojectloader] = useState<boolean>(true)
+
+
+    useEffect(() => {
+        if (status === "authenticated" && session?.user.id) {
+            getproject();
+        }
+    }, [session, status])
+
+
+    const getproject = async () => {
+        let res = await fetch("/api/getproject", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ userId: session?.user.id })
+        })
+        let data = await res.json();
+        if (res.status === 200) {
+            setprojectdetails(data.projects)
+            setprojectloader(false)
+        } else {
+            setprojectloader(false);
+        }
+    }
 
     useEffect(() => {
 

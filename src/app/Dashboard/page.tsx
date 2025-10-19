@@ -1,34 +1,22 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Codeblock from "@/components/Codeblock";
 import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import Loading from "@/components/Loading";
-import { FiPlus } from "react-icons/fi";
-import { IoIosArrowDown } from "react-icons/io";
-import { AnimatePresence, motion } from "framer-motion";
-import { IoIosAdd } from "react-icons/io";
-import { v4 as uuidv4 } from "uuid";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { SlOptions } from "react-icons/sl";
-import toast from "react-hot-toast";
 import Projectinput from "@/components/ProjectInput";
 import Preview from "@/components/Preview";
 import CodeEditor from "@/components/CodeEditor";
 import Promptinput from "@/components/Promptinput";
 import OutputToggler from "@/components/OutputToggler";
 import Sidebar from "@/components/Sidebar";
+import Loading from "@/components/Loading";
 
 
 
 function page() {
-
-  interface Formvalue {
-    projectName: string | null
-  }
 
   interface prompts {
     id: string,
@@ -67,71 +55,15 @@ function page() {
 
   const [onActive, setonActive] = useState<string>("Code")
   const [jsxgeneratedcode, setjsxgeneratedcode] = useState<string>("")
-  const [loading, setloading] = useState<boolean>(false)
-  const { data: session, status }: { data: Session | null, status: "loading" | "unauthenticated" | "authenticated" } = useSession();
+  const { status }: { status: "loading" | "unauthenticated" | "authenticated" } = useSession();
   const router: AppRouterInstance = useRouter();
   const [prompt, setprompt] = useState<string>("");
   const [iseditting, setiseditting] = useState<boolean>(false)
-  const [projectdata, setprojectdata] = useState<Formvalue | null>(null)
   const [projecttoggle, setprojecttoggle] = useState<boolean>(false);
   const [projectdetails, setprojectdetails] = useState<Project[] | null>(null)
   const [showprompts, setshowprompts] = useState<showprompt | null>({ projectName: null, show: false })
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
-  const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null)
-  const [projectloader, setprojectloader] = useState<boolean>(true)
-
-
-  useEffect(() => {
-    if (status === "authenticated" && session?.user.id) {
-      getproject();
-    }
-  }, [session, status])
-
-
-  const getproject = async () => {
-    let res = await fetch("/api/getproject", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ userId: session?.user.id })
-    })
-    let data = await res.json();
-    if (res.status === 200) {
-      setprojectdetails(data.projects)
-      setprojectloader(false)
-    } else {
-      setprojectloader(false);
-    }
-  }
-
-  useEffect(() => {
-    if (projectdata) {
-      addproject();
-    }
-  }, [projectdata])
-
-  const addproject = async () => {
-    try {
-      setprojecttoggle(true);
-      let res = await fetch("api/project",
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': "application/json"
-          }, body: JSON.stringify({ ...projectdata, userId: session?.user.id })
-        })
-      let data = await res.json()
-      if (res.status === 200) {
-        projectdetails ? setprojectdetails([...projectdetails, data.project]) : setprojectdetails([data.project])
-        setprojecttoggle(false);
-      } else if (res.status >= 400) {
-        toast.error("Project Already Exists")
-      }
-    } catch (err) {
-      toast.error("Server Error")
-    }
-  }
+  const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -139,14 +71,11 @@ function page() {
     }
   }, [status, router]);
 
-
-
-
   return (
     <>
-      {/* {status === "loading" && <div className="fixed z-40 top-0">
+      {status === "loading" && <div className="fixed z-40 top-0">
         <Loading />
-      </div>} */}
+      </div>}
 
       <Projectinput
         projecttoggle={projecttoggle}
@@ -159,7 +88,6 @@ function page() {
           currentprompt={currentprompt}
           deletetoggle={deletetoggle}
           projectdetails={projectdetails}
-          projectloader={projectloader}
           projecttoggle={projecttoggle}
           setcurrentprompt={setcurrentprompt}
           setdeletetoggle={setdeletetoggle}
@@ -177,8 +105,6 @@ function page() {
             prompt={prompt}
             setprompt={setprompt}
             currentprompt={currentprompt}
-            loading={loading}
-            setloading={setloading}
             setjsxgeneratedcode={setjsxgeneratedcode}
             setprojectdetails={setprojectdetails}
             setprojecttoggle={setprojecttoggle}

@@ -1,6 +1,6 @@
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoClose } from 'react-icons/io5';
@@ -34,13 +34,12 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
         projectName: string;
     }
 
-
     const { data: session }: { data: Session | null } = useSession();
     const {
         register,
         handleSubmit,
         watch,
-        formState: { errors, isSubmitting, isSubmitted },
+        formState: { errors, isSubmitting },
     } = useForm<Formvalue>()
     const onSubmit: SubmitHandler<Formvalue> = async (data) => {
         await delay();
@@ -91,7 +90,10 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
                     <div className="text-xl font-bold text-center">Enter Your Project Name</div>
                     <form action="" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
                         <label htmlFor="projectName">Project Name : </label>
-                        <input type="text" id="projectName" {...register("projectName", { required: { value: true, message: "This field is required!" } })} className="dark:bg-dark-input-box  border py-1 px-1 bg-light-mediumgrey border-light-grey dark:border-dark-grey/20 focus:outline-none rounded-md" />
+                        <input type="text" id="projectName" {...register("projectName", {
+                            required: { value: true, message: "This field is required!" },
+                            pattern: { value: /^[^\s]+$/, message: "Whitespace not allowed" }
+                        })} className="dark:bg-dark-input-box  border py-1 px-1 bg-light-mediumgrey border-light-grey dark:border-dark-grey/20 focus:outline-none rounded-md" />
                         {errors.projectName && <span className="text-red-500">{errors.projectName.message}</span>}
                         <input type="submit" value={isSubmitting ? 'Submitting' : 'Submit'} disabled={isSubmitting} className="p-2 disabled:dark:bg-dark-white/90 bg-light-black hover:bg-light-black/90 text-light-white dark:bg-dark-white cursor-pointer hover:dark:bg-dark-white/90 transition-all ease-in-out dark:text-dark-black font-bold rounded-md" />
                     </form>

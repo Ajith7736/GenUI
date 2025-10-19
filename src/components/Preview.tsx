@@ -5,7 +5,7 @@ function Preview({ jsxgeneratedcode }: { jsxgeneratedcode: string }) {
         < div className=" h-[53.5vh] rounded-b-md bg-light-lightgrey dark:bg-dark-input-box overflow-auto">
             {
                 jsxgeneratedcode ?
-                    < iframe
+                    <iframe
                         className="w-full h-[53.5vh] border-0 transition-all ease-in-out"
                         srcDoc={`
                         <html>
