@@ -112,7 +112,7 @@ export default function Home() {
         <IoLogoIonic size={30} />
       </section>
 
-      <section className="md:flex p-10 items-center md:justify-between">
+      <section className="xl:flex p-10 items-center xl:justify-between">
         <div className="text-center xl:text-base xl:w-[60vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
           , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a>
           , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
