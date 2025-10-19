@@ -11,14 +11,14 @@ function Modetoggler() {
 
 
     return (
-        <div tabIndex={0} onBlur={() => setshowtoggle(false)} className='flex flex-col items-center'>
+        <div tabIndex={0} onBlur={() => setshowtoggle(false)} className='flex flex-col items-center relative'>
             {showtoggle && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
                     transition={{ duration: 0, ease: "easeInOut", delay: 0 }}
-                    className="bg-light-white dark:text-dark-white dark:bg-dark-lightblack dark:border dark:border-dark-mediumgrey transition-all ease-in-out duration-400 absolute bottom-25  h-fit w-[100px] rounded-xl shadow-md select-none">
+                    className="bg-light-white dark:text-dark-white dark:bg-dark-lightblack dark:border dark:border-dark-mediumgrey transition-all ease-in-out duration-400 absolute bottom-13  h-fit w-[100px] rounded-xl shadow-md select-none">
                     {[
                         { id: "light", icon: <IoSunnyOutline />, label: "Light" },
                         { id: "dark", icon: <IoMoonOutline />, label: "Dark" },
@@ -31,7 +31,7 @@ function Modetoggler() {
                     })}
                 </motion.div>
             )}
-            {theme === "light" ? <IoSunnyOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} /> : theme === "dark" ? <IoMoonOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} /> : <FaLaptopCode size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} />}
+            <button>{theme === "light" ? <IoSunnyOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} /> : theme === "dark" ? <IoMoonOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} /> : <FaLaptopCode size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} />}</button>
         </div>
     )
 }

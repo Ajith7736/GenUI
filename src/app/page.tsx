@@ -110,13 +110,15 @@ export default function Home() {
           The code is available on <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer" className="underline">GitHub</a>.
         </div>
         <IoLogoIonic size={30} />
-        <div className="md:flex items-center md:justify-between">
-          <div className="text-center mt-20 xl:text-lg xl:w-[40vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
-            , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a>
-            , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
-            .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer"> GitHub</a> </div>
-          <Modetoggler />
+      </section>
+
+      <section className="md:flex p-10 items-center md:justify-between">
+        <div className="text-center xl:text-base xl:w-[60vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
+          , Hosted on <a href="https://vercel.com/" target="_blank" rel="noopener noreferrer" className="underline">vercel</a>
+          , Inspired by <a href="https://tx.shadcn.com/" target="_blank" rel="noopener noreferrer" className="underline">Taxonomy</a>
+          .The source code is available on <a href="https://github.com/Ajith7736/GenUI" className="underline" target="_blank" rel="noopener noreferrer"> GitHub</a>
         </div>
+        <Modetoggler />
       </section>
     </div>
   );
