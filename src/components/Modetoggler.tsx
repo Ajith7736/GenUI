@@ -11,7 +11,7 @@ function Modetoggler() {
 
 
     return (
-        <div tabIndex={0} onBlur={() => setshowtoggle(false)} className='flex flex-col items-center relative'>
+        <div className='flex flex-col items-center relative' >
             {showtoggle && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -32,7 +32,7 @@ function Modetoggler() {
                 </motion.div>
             )}
             <button>{theme === "light" ? <IoSunnyOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} /> : theme === "dark" ? <IoMoonOutline size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} /> : <FaLaptopCode size={40} className="mt-6 cursor-pointer transition-all ease-in-out hover:bg-light-mediumgrey hover:dark:bg-dark-lightblack p-2 rounded-xl" onClick={() => setshowtoggle(!showtoggle)} />}</button>
-        </div>
+        </div >
     )
 }
 
