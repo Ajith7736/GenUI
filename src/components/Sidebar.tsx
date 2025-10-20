@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast';
 import { FiPlus } from 'react-icons/fi';
 import { GiHamburgerMenu } from 'react-icons/gi'
@@ -67,33 +67,25 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
     const { data: session, status }: { data: Session | null, status: string } = useSession();
     const [projectloader, setprojectloader] = useState<boolean>(true)
 
-
-    useEffect(() => {
-        if (status === "authenticated" && session?.user.id) {
-            getproject();
-        }
-    }, [session, status])
-
-
-    const getproject = async () => {
-        let userId = session?.user.id;
+    const getproject = useCallback(async () => {
+        const userId = session?.user.id;
         if (!userId) return
 
-        let cachekey = `projects_${userId}`
-        let cache = localStorage.getItem(cachekey)
+        const cachekey = `projects_${userId}`
+        const cache = localStorage.getItem(cachekey)
 
         if (cache) {
             setprojectdetails(JSON.parse(cache));
             setprojectloader(false);
         }
-        let res = await fetch("/api/getproject", {
+        const res = await fetch("/api/getproject", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ userId: session?.user.id })
         })
-        let data = await res.json();
+        const data = await res.json();
         if (res.status === 200) {
             setprojectdetails(data.projects)
             localStorage.setItem(cachekey, JSON.stringify(data.projects));
@@ -101,7 +93,14 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
             toast.error(data.message);
         }
         setprojectloader(false);
-    }
+    }, [session])
+
+    useEffect(() => {
+        if (status === "authenticated" && session?.user.id) {
+            getproject();
+        }
+    }, [session, status, getproject])
+
 
     useEffect(() => {
 
@@ -123,7 +122,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
         setshowsidebar(false);
     }
 
-    const handleshowprompt = (e: React.MouseEvent<any>) => {
+    const handleshowprompt = (e: React.MouseEvent<HTMLDivElement | SVGElement>) => {
         if (showprompts?.projectName !== e.currentTarget.id) {
             return setshowprompts({
                 projectName: e.currentTarget.id,
@@ -146,7 +145,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
             if (!prev) return prev
             return prev.map((project) => {
                 if (project.projectName === name) {
-                    let newprompt = { id: uuidv4(), text: "", code: "", createdAt: new Date() }
+                    const newprompt = { id: uuidv4(), text: "", code: "", createdAt: new Date() }
                     return {
                         ...project,
                         prompts: project.prompts
@@ -161,14 +160,14 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
 
     const deleteprompt = async (projectid: string, promptid: string | null | undefined, text: string | null | undefined, isproject: boolean) => {
         if (isproject) {
-            let res = await fetch("/api/deleteproject", {
+            const res = await fetch("/api/deleteproject", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ projectid })
             })
-            let data = await res.json();
+            const data = await res.json();
             if (res.status === 200) {
                 setprojectdetails(data.updatedproject);
                 localStorage.removeItem(`projects_${session?.user?.id}`);
@@ -189,14 +188,14 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
                 });
                 return;
             }
-            let res = await fetch("/api/deleteprompt", {
+            const res = await fetch("/api/deleteprompt", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ projectid, promptid })
             })
-            let data = await res.json();
+            const data = await res.json();
 
             if (res.status === 200) {
                 projectdetails && setprojectdetails((prev) => {

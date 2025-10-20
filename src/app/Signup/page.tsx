@@ -1,13 +1,11 @@
 "use client"
-import { Session } from 'next-auth';
 import { signIn, useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import Link from 'next/link';
 
 function Page() {
 
-    const { data: session, status }: {
-        data: Session | null,
+    const { status }: {
         status: "loading" | "authenticated" | "unauthenticated"
     } = useSession();
 

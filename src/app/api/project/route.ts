@@ -10,7 +10,7 @@ interface Formvalue {
 export async function POST(req: Request) {
     try {
         await connectdb();
-        let data: Formvalue = await req.json();
+        const data: Formvalue = await req.json();
         const existing = await Project.find({ userId: data.userId, projectName: data.projectName })
 
         if (existing.length > 0) {
@@ -24,6 +24,6 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Failed to add project" }, { status: 400 })
         }
     } catch (err) {
-        return NextResponse.json({ message: "Server error" }, { status: 500 })
+        return NextResponse.json({ message: "Server error",err }, { status: 500 })
     }
 }

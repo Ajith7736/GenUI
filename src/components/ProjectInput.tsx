@@ -38,7 +38,6 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors, isSubmitting },
     } = useForm<Formvalue>()
     const onSubmit: SubmitHandler<Formvalue> = async (data) => {
@@ -47,7 +46,7 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
     }
 
     const delay = (): Promise<void> => {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             setTimeout(() => {
                 resolve();
             }, 2000);
@@ -58,14 +57,14 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
     const addproject = async (data: Formvalue) => {
         try {
             setprojecttoggle(true);
-            let res = await fetch("/api/project",
+            const res = await fetch("/api/project",
                 {
                     method: "POST",
                     headers: {
                         'Content-Type': "application/json"
                     }, body: JSON.stringify({ ...data, userId: session?.user.id })
                 })
-            let resdata = await res.json()
+            const resdata = await res.json()
             if (res.status === 200) {
                 setprojectdetails(prev => prev ? [...prev, resdata.project] : [resdata.project])
                 setprojecttoggle(false);

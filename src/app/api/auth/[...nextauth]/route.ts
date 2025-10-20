@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
                 }
                 return true;
             } catch (err) {
-                console.error("Server Error");
+                console.error("Server Error :",err);
                 return false
             }
         },

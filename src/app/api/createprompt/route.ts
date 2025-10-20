@@ -48,7 +48,6 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: "Updated successfully", updatedproject: pushedproject }, { status: 200 });
 
     } catch (err) {
-        console.log(err);
-        return NextResponse.json({ message: "Server error" }, { status: 500 })
+        return NextResponse.json({ message: "Server error",err }, { status: 500 })
     }
 }
