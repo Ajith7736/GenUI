@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Codeblock from "@/components/Codeblock";
 import { useSession } from "next-auth/react";
-import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import Projectinput from "@/components/ProjectInput";

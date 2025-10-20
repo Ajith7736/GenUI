@@ -68,7 +68,6 @@ export const authOptions: NextAuthOptions = {
             return token;
         },
 
-
         async session({ session, token }: { session: Session, token: JWT }) {
             if (token) {
                 session.user.id = token.id;
