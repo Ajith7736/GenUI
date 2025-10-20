@@ -33,7 +33,7 @@ export async function DELETE(req: Request) {
         if (updatedproject) {
             return NextResponse.json({ message: "successfully deleted ", updatedproject }, { status: 200 });
         } else {
-            return NextResponse.json({ message: "Somethig went wrong" })
+            return NextResponse.json({ message: "Something went wrong" })
         }
 
     } catch (err) {
