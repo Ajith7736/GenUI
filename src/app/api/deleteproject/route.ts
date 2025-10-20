@@ -20,7 +20,7 @@ interface Projectprops {
 export async function DELETE(req: Request) {
     try {
         await connectdb();
-        const { projectid }: { projectid: string } = await req.json();
+        const { projectid, userId }: { projectid: string, userId: string } = await req.json();
 
         const deletedproject: promptprops | null = await Project.findOneAndDelete({ _id: projectid });
 
@@ -28,7 +28,7 @@ export async function DELETE(req: Request) {
             return NextResponse.json({ message: "Couldn't delete the project" }, { status: 400 })
         }
 
-        const updatedproject: Projectprops[] | null = await Project.find();
+        const updatedproject: Projectprops[] | null = await Project.find({ userId });
 
         if (updatedproject) {
             return NextResponse.json({ message: "successfully deleted ", updatedproject }, { status: 200 });

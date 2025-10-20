@@ -165,7 +165,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ projectid })
+                body: JSON.stringify({ projectid, userId: session?.user.id })
             })
             const data = await res.json();
             if (res.status === 200) {
