@@ -102,7 +102,7 @@ export default function Home() {
         <div className="text-center text-light-darkgrey lg:w-[50vw] xl:text-xl">With Groq AI at its core, GenUI delivers blazing-fast generations and accurate component rendering — helping teams prototype, iterate, and build beautiful interfaces in record time.</div>
       </section>
 
-      {/* footer section  */}
+      {/* Project details section  */}
 
       <section className="p-10 flex relative flex-col items-center gap-5 select-none">
         <div className="text-center text-3xl xl:text-4xl font-bold">Proudly Open Source</div>
@@ -111,6 +111,8 @@ export default function Home() {
         </div>
         <IoLogoIonic size={30} />
       </section>
+
+      {/* footer section */}
 
       <section className="xl:flex p-10 items-center xl:justify-between">
         <div className="text-center xl:text-base xl:w-[60vw]">Built by <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer" className="underline">Next.js</a>
