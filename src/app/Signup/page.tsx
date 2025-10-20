@@ -4,7 +4,7 @@ import { signIn, useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import Link from 'next/link';
 
-function page() {
+function Page() {
 
     const { data: session, status }: {
         data: Session | null,
@@ -86,4 +86,4 @@ function page() {
     )
 }
 
-export default page
+export default Page;

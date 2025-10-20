@@ -89,7 +89,7 @@ function Page() {
             Github
           </button>
         </div>
-        <Link href={"/Signup"}><div className='text-light-darkgrey hover:dark:text-dark-lightgrey underline hover:text-light-black cursor-pointer text-sm lg:text-base transition-all ease-in-out'>Don't have an account ? SignUp</div></Link>
+        <Link href={"/Signup"}><div className='text-light-darkgrey hover:dark:text-dark-lightgrey underline hover:text-light-black cursor-pointer text-sm lg:text-base transition-all ease-in-out'>Don&apos;t have an account ? SignUp</div></Link>
       </div>
 
     </>

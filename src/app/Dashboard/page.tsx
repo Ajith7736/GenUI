@@ -15,7 +15,7 @@ import Loading from "@/components/Loading";
 
 
 
-function page() {
+function Page() {
 
   interface prompts {
     id: string,
@@ -153,4 +153,4 @@ function page() {
   )
 }
 
-export default page;
+export default Page;
