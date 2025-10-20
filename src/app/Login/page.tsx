@@ -1,20 +1,15 @@
 "use client"
-import { Session } from 'next-auth';
 import { signIn, useSession } from 'next-auth/react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link';
 import { FaArrowLeft } from "react-icons/fa";
-import { useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import Loading from '@/components/Loading';
 
 function Page() {
 
-  const { data: session, status }: {
-    data: Session | null,
+  const { status }: {
     status: "loading" | "authenticated" | "unauthenticated"
   } = useSession();
-  const router: AppRouterInstance = useRouter();
   const [loading, setloading] = useState<{
     github: boolean,
     google: boolean

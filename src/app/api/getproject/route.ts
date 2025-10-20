@@ -2,11 +2,26 @@ import connectdb from "@/db/connectdb";
 import Project from "@/models/Project";
 import { NextResponse } from "next/server";
 
+interface promptprops {
+    id: string,
+    text: string,
+    code: string
+}
+
+interface Projectprops {
+    _id: string,
+    userId: string,
+    projectName: string,
+    prompts: promptprops[] | null,
+    createdAt: Date,
+    UpdatedAt: Date
+}
+
 export async function POST(req: Request) {
     try {
         await connectdb();
         let { userId }: { userId: string } = await req.json();
-        let projects = await Project.find({ userId }).sort({ UpdatedAt: -1 });
+        let projects: Projectprops[] | null = await Project.find({ userId }).sort({ UpdatedAt: -1 });
         if (projects) {
             return NextResponse.json({ success: true, projects }, { status: 200 })
         } else {
