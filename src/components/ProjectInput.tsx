@@ -73,6 +73,7 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
                 toast.error("Project Already Exists")
             }
         } catch (err) {
+            console.error(err);
             toast.error("Server Error")
         }
     }

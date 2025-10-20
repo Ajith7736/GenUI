@@ -2,7 +2,6 @@ import { useSession } from 'next-auth/react';
 import React, { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { FaArrowRight } from 'react-icons/fa'
-import { WiStars } from "react-icons/wi";
 
 interface prompts {
     id: string,
@@ -124,11 +123,13 @@ function Promptinput({ prompt, setprompt, setjsxgeneratedcode, currentprompt, se
 
 
     const handletext = async (): Promise<void> => {
-        if (textref.current?.value !== "") {
+        const inputvalue = textref.current?.value;
+
+        if (inputvalue) {
             if (currentprompt) {
-                setprompt(textref.current?.value!);
-                await generate(textref.current?.value!);
-                await generatesuggestions(textref.current?.value!);
+                setprompt(inputvalue);
+                await generate(inputvalue);
+                await generatesuggestions(inputvalue);
             } else {
                 setprojecttoggle(true);
             }
@@ -182,7 +183,7 @@ function Promptinput({ prompt, setprompt, setjsxgeneratedcode, currentprompt, se
                 <div className='w-[13rem] h-1 dark:bg-dark-mediumgrey bg-light-mediumgrey rounded-full animate-pulse'></div>
                 <div className='w-[13rem] h-1 dark:bg-dark-mediumgrey bg-light-mediumgrey rounded-full animate-pulse'></div>
             </div>}
-            {!suggesstionloader && suggestion?.length! > 0 && <div className='flex gap-3 w-full flex-wrap'>
+            {!suggesstionloader && suggestion && suggestion?.length > 0 && <div className='flex gap-3 w-full flex-wrap'>
                 {suggestion?.map((item, indx) => {
                     return <button key={indx} className='dark:bg-dark-input-box bg-light-lightgrey hover:bg-light-mediumgrey border-light-darkgrey/20 p-2 sm:min-w-[12rem] xss:text-xs sm:text-sm rounded-full flex items-center justify-center border dark:border-dark-grey/20 hover:dark:bg-dark-input-box/50 transition-all ease-in-out cursor-pointer' onClick={() => handlesuggestion(item)}>{item}</button>
                 })}
