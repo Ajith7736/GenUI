@@ -27,7 +27,7 @@ declare module "next-auth/jwt" {
     }
 }
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_ID!,
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
                 }
                 return true;
             } catch (err) {
-                console.error("Server Error :",err);
+                console.error("Server Error :", err);
                 return false
             }
         },
@@ -76,8 +76,7 @@ export const authOptions: NextAuthOptions = {
         },
     },
     secret: process.env.NEXTAUTH_SECRET
-}
+});
 
-const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }
