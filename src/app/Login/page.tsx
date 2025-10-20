@@ -38,7 +38,7 @@ function Page() {
           <button onClick={async () => {
             await setloading({ ...loading, google: true });
             signIn("google", { callbackUrl: "/Dashboard" });
-          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 dark:border-dark-mediumgrey hover:dark:bg-dark-mediumgrey dark:bg-dark-black hover:bg-da text-light-white  rounded-lg  duration-150 cursor-pointer">
+          }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 dark:border-dark-mediumgrey hover:dark:bg-dark-mediumgrey dark:bg-dark-mediumblack hover:bg-da text-light-white  rounded-lg  duration-150 cursor-pointer">
             {status === "unauthenticated" && loading.google ? <div className="animate-spin inline-block size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
               <span className="sr-only">Loading...</span>
             </div> : <svg className="w-5 h-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
