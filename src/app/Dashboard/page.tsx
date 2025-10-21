@@ -98,7 +98,7 @@ function Page() {
           showprompts={showprompts}
         />
 
-        <div className="flex flex-col xss:w-full md:w-[80vw] lg:w-fit lg:ml-[25rem] xl:ml-[20rem] gap-5 bg-light-white dark:bg-dark-mediumblack min-h-[90vh] p-5">
+        <div className="flex flex-col xss:w-full md:w-[80vw] lg:w-fit lg:ml-100 xl:ml-80 gap-5 bg-light-white dark:bg-dark-mediumblack min-h-[90vh] p-5">
 
           <Promptinput
             prompt={prompt}

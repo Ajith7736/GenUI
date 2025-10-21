@@ -85,8 +85,8 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
 
     return (
         <>
-            {projecttoggle && <div className="dark:bg-dark-black/80 bg-light-grey/80 w-[100%] fixed inset-0 z-20 flex items-end justify-center">
-                <div className="bg-light-white pt-2 pb-6 px-2 flex flex-col justify-between  gap-3 bottom-[30%] shadow-md dark:bg-dark-input-outline border dark:border-dark-grey/20 border-light-mediumgrey rounded-md h-auto w-[25rem] lg:w-[35rem] absolute z-10">
+            {projecttoggle && <div className="dark:bg-dark-black/80 bg-light-grey/80 w-full fixed inset-0 z-20 flex items-end justify-center">
+                <div className="bg-light-white pt-2 pb-6 px-2 flex flex-col justify-between  gap-3 bottom-[30%] shadow-md dark:bg-dark-input-outline border dark:border-dark-grey/20 border-light-mediumgrey rounded-md h-auto w-100 lg:w-140 absolute z-10">
                     <div className="flex justify-end"><IoClose className="size-5 cursor-pointer" onClick={handleprojectclose} /></div>
                     <div className="text-xl font-bold text-center">Enter Your Project Name</div>
                     <form action="" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>

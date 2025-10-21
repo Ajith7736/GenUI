@@ -71,7 +71,7 @@ export default function Home() {
 
       {/* header section */}
 
-      <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter landscape:xss:h-[100vh] landscape:md:h-auto  md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
+      <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter landscape:xss:h-screen landscape:md:h-auto  md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
 
         <div className="bg-conic/[from_var(--border-angle)] p-[.8px] rounded-full from-white dark:from-dark-black shadow-md via-light-black  dark:via-light-grey from-80% via-90% to-100% animate-rotate-border">
           <div className="content bg-light-mediumgrey dark:bg-dark-darkgrey md:text-xl xss:text-sm py-2 px-4 rounded-full font-medium ">This is your UI partner</div>
@@ -81,7 +81,7 @@ export default function Home() {
         <div className="text-light-darkgrey md:text-2xl text-center text-lg xss:text-sm">This AI-powered Generative UI Builder transforms your ideas into designs and clean React and Tailwind code — no design skills required.</div>
         <div className="flex gap-3">
           <Link href={session ? "/Dashboard" : "/Login"}><button className="text-light-white bg-light-black px-5 py-3 rounded-md cursor-pointer hover:bg-light-black/90 hover:dark:bg-dark-white/90 dark:bg-dark-white dark:text-dark-black transition-all ease-in-out xss:text-sm">Get Started</button></Link>
-          <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer"><button className="text-light-black bg-light-white dark:bg-dark-black dark:text-dark-white  border dark:border-1 border-light-grey dark:border-dark-mediumgrey hover:bg-light-grey/20 hover:dark:bg-dark-mediumgrey transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md xss:text-sm">Github</button></a>
+          <a href="https://github.com/Ajith7736/GenUI" target="_blank" rel="noopener noreferrer"><button className="text-light-black bg-light-white dark:bg-dark-black dark:text-dark-white  border dark:border border-light-grey dark:border-dark-mediumgrey hover:bg-light-grey/20 hover:dark:bg-dark-mediumgrey transition-all ease-in-out cursor-pointer px-5 py-3 rounded-md xss:text-sm">Github</button></a>
         </div>
       </section>
 
