@@ -29,3 +29,9 @@
 - [Contact](#contact)
 
 ---
+
+### About
+
+Gen UI Builder is an AI-powered web application built with Next.js, Node.js, and MongoDB, designed to help users generate responsive UI components and layouts instantly. The app leverages Vercel’s AI SDK integrated with the Groq API to provide intelligent UI generation, real-time design suggestions, and customizable component outputs. With a clean and interactive interface, it streamlines the process of turning ideas or prompts into production-ready code, making front-end development faster and more efficient.
+
+---
