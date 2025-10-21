@@ -132,3 +132,121 @@ Follow these steps to run the project on your machine:
    This will run on port 3000
 
 ---
+
+## Folder Structure
+
+```
+📦 
+├─ .gitignore
+├─ README.md
+├─ eslint.config.mjs
+├─ next.config.ts
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ src
+│  ├─ app
+│  │  ├─ Dashboard
+│  │  │  └─ page.tsx
+│  │  ├─ Login
+│  │  │  └─ page.tsx
+│  │  ├─ Signup
+│  │  │  └─ page.tsx
+│  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  └─ [...nextauth]
+│  │  │  │     └─ route.ts
+│  │  │  ├─ chat
+│  │  │  │  └─ route.ts
+│  │  │  ├─ createprompt
+│  │  │  │  └─ route.ts
+│  │  │  ├─ deleteproject
+│  │  │  │  └─ route.ts
+│  │  │  ├─ deleteprompt
+│  │  │  │  └─ route.ts
+│  │  │  ├─ getproject
+│  │  │  │  └─ route.ts
+│  │  │  ├─ project
+│  │  │  │  └─ route.ts
+│  │  │  └─ suggestion
+│  │  │     └─ route.ts
+│  │  ├─ globals.css
+│  │  ├─ layout.tsx
+│  │  └─ page.tsx
+│  ├─ components
+│  │  ├─ CodeEditor.tsx
+│  │  ├─ Codeblock.tsx
+│  │  ├─ Loading.tsx
+│  │  ├─ Modetoggler.tsx
+│  │  ├─ Navbar.tsx
+│  │  ├─ NavbarWrapper.tsx
+│  │  ├─ OutputToggler.tsx
+│  │  ├─ Preview.tsx
+│  │  ├─ ProjectInput.tsx
+│  │  ├─ Promptinput.tsx
+│  │  ├─ SessionWrapper.tsx
+│  │  ├─ Sidebar.tsx
+│  │  └─ Toastwrapper.tsx
+│  ├─ db
+│  │  └─ connectdb.ts
+│  └─ models
+│     ├─ Project.ts
+│     └─ User.ts
+└─ tsconfig.json
+```
+---
+
+## Usage
+
+- Create Account via Google, Github.
+- Enter the prompt in the input field.
+- Wait for 2-5 sec until AI generates the code.
+- Edit the code for your preferences.
+
+---
+
+## Roadmap
+
+- Add More AI LLMs.
+- Add More Languages.
+
+---
+
+## Contributing
+
+Contributions are welcome! 🎉  
+
+1. Fork the repo  
+2. Create a new branch (`git checkout -b feature/your-feature`)  
+3. Commit changes (`git commit -m "Add some feature"`)  
+4. Push to the branch (`git push origin feature/your-feature`)  
+5. Open a Pull Request  
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.  
+You’re free to use, modify, and distribute with proper credit.  
+
+---
+
+## Acknowledgements
+
+- [Next.js](https://nextjs.org/)
+- [Node.js](https://nodejs.org/)  
+- [TailwindCSS](https://tailwindcss.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Vercel AI SDK](https://ai-sdk.dev/)
+- [Vercel](https://vercel.com/) (for deployment)  
+
+---
+
+## Contact
+
+👤 **Ajith P**  
+📩 Email: [ajith.aju39502@gmail.com]  
+🔗 GitHub: [Ajith7736](https://github.com/Ajith7736)  
+
+---
+
