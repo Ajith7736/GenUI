@@ -1,4 +1,4 @@
-# Bug-Lab
+# GenUI
 
 [![Live Demo](https://img.shields.io/badge/live_demo-click_here-blue)](https://gen-ui-builder.vercel.app)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
