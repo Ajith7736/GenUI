@@ -85,8 +85,8 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
 
     return (
         <>
-            {projecttoggle && <div className="dark:bg-dark-black/80 bg-light-grey/80  w-[100vw] fixed inset-0 z-20 flex items-end justify-center">
-                <div className="bg-light-white py-8 md:py-4 px-5 flex flex-col justify-between  gap-5 bottom-[30%] shadow-md dark:bg-dark-input-outline border dark:border-dark-grey/20 border-light-mediumgrey rounded-md h-auto w-[25rem] lg:w-[35rem] absolute z-10">
+            {projecttoggle && <div className="dark:bg-dark-black/80 bg-light-grey/80 w-[100%] fixed inset-0 z-20 flex items-end justify-center">
+                <div className="bg-light-white pt-2 pb-6 px-2 flex flex-col justify-between  gap-3 bottom-[30%] shadow-md dark:bg-dark-input-outline border dark:border-dark-grey/20 border-light-mediumgrey rounded-md h-auto w-[25rem] lg:w-[35rem] absolute z-10">
                     <div className="flex justify-end"><IoClose className="size-5 cursor-pointer" onClick={handleprojectclose} /></div>
                     <div className="text-xl font-bold text-center">Enter Your Project Name</div>
                     <form action="" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -96,7 +96,7 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
                             pattern: { value: /^[^\s]+$/, message: "Whitespace not allowed" }
                         })} className="dark:bg-dark-input-box  border py-1 px-1 bg-light-mediumgrey border-light-grey dark:border-dark-grey/20 focus:outline-none rounded-md" />
                         {errors.projectName && <span className="text-red-500">{errors.projectName.message}</span>}
-                        <input type="submit" value={isSubmitting ? 'Submitting' : 'Submit'} disabled={isSubmitting} className="p-2 disabled:dark:bg-dark-white/90 bg-light-black hover:bg-light-black/90 text-light-white dark:bg-dark-white cursor-pointer hover:dark:bg-dark-white/90 transition-all ease-in-out dark:text-dark-black font-bold rounded-md" />
+                        <input type="submit" value={isSubmitting && projecttoggle ? 'Submitting' : 'Submit'} disabled={isSubmitting} className="p-2 disabled:dark:bg-dark-white/90 bg-light-black hover:bg-light-black/90 text-light-white dark:bg-dark-white cursor-pointer hover:dark:bg-dark-white/90 transition-all ease-in-out dark:text-dark-black font-bold rounded-md" />
                     </form>
                 </div>
             </div>}

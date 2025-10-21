@@ -22,6 +22,7 @@ export async function DELETE(req: Request) {
         await connectdb();
         const { projectid, userId }: { projectid: string, userId: string } = await req.json();
 
+
         const deletedproject: promptprops | null = await Project.findOneAndDelete({ _id: projectid });
 
         if (!deletedproject) {
@@ -29,6 +30,7 @@ export async function DELETE(req: Request) {
         }
 
         const updatedproject: Projectprops[] | null = await Project.find({ userId });
+
 
         if (updatedproject) {
             return NextResponse.json({ message: "successfully deleted ", updatedproject }, { status: 200 });
