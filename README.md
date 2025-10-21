@@ -65,7 +65,16 @@ Here are some of the things this app can do:
 
 ### HomePage
 
+<img width="1907" height="896" alt="genui-3" src="https://github.com/user-attachments/assets/8b014c3a-5dde-4288-a64c-072f9bf32296" />
+
+
 ### Dashboard
+
+<img width="1912" height="890" alt="Genui-4" src="https://github.com/user-attachments/assets/fae3ed66-3678-49b4-b9db-333ba04139d9" />
+
+<img width="1913" height="897" alt="Genui-2" src="https://github.com/user-attachments/assets/6ce2b8ee-bd92-4096-8d03-383e5ee09a61" />
+
+<img width="1897" height="885" alt="Genui-1" src="https://github.com/user-attachments/assets/01f4022e-a958-4f08-beb2-1fd2832e60d3" />
 
 ---
 
