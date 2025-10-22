@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { Session } from "next-auth";
 import Loading from "@/components/Loading";
 import Modetoggler from "@/components/Modetoggler";
+import ShinyText from "@/components/ShinyText";
 
 
 
@@ -45,7 +46,7 @@ export default function Home() {
     {
       logo: <FaLaptopCode size={35} />,
       title: "Code Export",
-      description: "Copy or download clean React + Tailwind code.",
+      description: "Copy clean React + Tailwind code.",
     },
     {
       logo: <IoIosColorPalette size={35} />,
@@ -65,16 +66,18 @@ export default function Home() {
   ]
 
 
-
   return (
     <div className="dark:bg-dark-mediumblack bg-light-white dark:text-light-white">
 
       {/* header section */}
 
-      <section className="flex flex-col items-center py-10 px-10 gap-5 font-inter landscape:xss:h-screen landscape:md:h-auto  md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
+
+      <section className="relative z-0 flex flex-col items-center py-10 px-10 gap-5 font-inter landscape:xss:h-screen landscape:md:h-auto  md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
+
+        <div className="absolute bottom-0 left-0 right-0 top-0 -z-10 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgb(225, 231, 239)_1px,transparent_1px),linear-gradient(to_bottom,rgb(225, 231, 239)_1px,transparent_1px)] bg-size-[50px_55px] mask-[radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
 
         <div className="bg-conic/[from_var(--border-angle)] p-[.8px] rounded-full from-white dark:from-dark-black shadow-md via-light-black  dark:via-light-grey from-80% via-90% to-100% animate-rotate-border">
-          <div className="content bg-light-mediumgrey dark:bg-dark-darkgrey md:text-xl xss:text-sm py-2 px-4 rounded-full font-medium ">This is your UI partner</div>
+          <div className="content bg-light-mediumgrey dark:bg-dark-darkgrey md:text-lg xss:text-sm py-2 px-4 rounded-full font-medium "><ShinyText text="This is your UI Partner" className="" disabled={false} speed={4} /></div>
         </div>
 
         <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl xss:text-3xl">A Generative UI Builder Powered By groq.</div>

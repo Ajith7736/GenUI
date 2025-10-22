@@ -12,9 +12,12 @@ interface Codeblockprops {
 
 
 function Codeblock({ code, language }: Codeblockprops) {
+
     const { resolvedTheme } = useTheme();
+
     return (
         <div >
+            {/* Syntax highlighter for highlighting the code */}
             <SyntaxHighlighter
                 language={language}
                 style={resolvedTheme === 'light' ? oneLight : oneDark}
