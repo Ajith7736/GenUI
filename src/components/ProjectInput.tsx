@@ -45,6 +45,7 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
         addproject(data);
     }
 
+    // custom delay for 2 second
     const delay = (): Promise<void> => {
         return new Promise((resolve) => {
             setTimeout(() => {
@@ -53,6 +54,7 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
         })
     }
 
+    // fetch api call to add a new project
 
     const addproject = async (data: Formvalue) => {
         try {
@@ -68,6 +70,10 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
             if (res.status === 200) {
                 setprojectdetails(prev => prev ? [...prev, resdata.project] : [resdata.project])
                 setprojecttoggle(false);
+
+                // removing the previous project details from the localstorage 
+                // so that when the user refresh new project will be added
+
                 localStorage.removeItem(`projects_${session?.user?.id}`);
             } else if (res.status >= 400) {
                 toast.error("Project Already Exists")
@@ -77,6 +83,8 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
             toast.error("Server Error")
         }
     }
+
+    // close the project input field
 
     const handleprojectclose = () => {
         setprojecttoggle(false);
@@ -89,8 +97,14 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
                 <div className="bg-light-white pt-2 pb-6 px-2 flex flex-col justify-between  gap-3 bottom-[30%] shadow-md dark:bg-dark-input-outline border dark:border-dark-grey/20 border-light-mediumgrey rounded-md h-auto w-100 lg:w-140 absolute z-10">
                     <div className="flex justify-end"><IoClose className="size-5 cursor-pointer" onClick={handleprojectclose} /></div>
                     <div className="text-xl font-bold text-center">Enter Your Project Name</div>
+
+                        {/* Submit project name using react hook form */}
+
                     <form action="" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
                         <label htmlFor="projectName">Project Name : </label>
+
+                        {/* regex to indicate whether the project name has any whitespace */}
+
                         <input type="text" id="projectName" {...register("projectName", {
                             required: { value: true, message: "This field is required!" },
                             pattern: { value: /^[^\s]+$/, message: "Whitespace not allowed" }

@@ -64,6 +64,8 @@ function Page() {
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
   const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null);
 
+  // navigate user to home page when the user is unauthenticated
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/")

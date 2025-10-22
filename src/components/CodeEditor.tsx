@@ -14,6 +14,7 @@ function CodeEditor({ jsxgeneratedcode, setjsxgeneratedcode, setiseditting }: pr
     
     return (
         <div className="h-[53.5vh]">
+            {/* Editor for the code implemented using monaco editor */}
             <Editor
                 height="100%"
                 defaultLanguage="html"

@@ -73,13 +73,10 @@ export default function Home() {
 
 
       <section className="relative z-0 flex flex-col items-center py-10 px-10 gap-5 font-inter landscape:xss:h-screen landscape:md:h-auto  md:h-[60vh] lg:h-[70vh] lg:justify-center xl:h-[90vh]  xl:px-80 xl:gap-10">
-
         <div className="absolute bottom-0 left-0 right-0 top-0 -z-10 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgb(225, 231, 239)_1px,transparent_1px),linear-gradient(to_bottom,rgb(225, 231, 239)_1px,transparent_1px)] bg-size-[50px_55px] mask-[radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
-
         <div className="bg-conic/[from_var(--border-angle)] p-[.8px] rounded-full from-white dark:from-dark-black shadow-md via-light-black  dark:via-light-grey from-80% via-90% to-100% animate-rotate-border">
           <div className="content bg-light-mediumgrey dark:bg-dark-darkgrey md:text-lg xss:text-sm py-2 px-4 rounded-full font-medium "><ShinyText text="This is your UI Partner" className="" disabled={false} speed={4} /></div>
         </div>
-
         <div className="text-3xl md:text-5xl text-center font-bold font-heading xl:text-6xl xss:text-3xl">A Generative UI Builder Powered By groq.</div>
         <div className="text-light-darkgrey md:text-2xl text-center text-lg xss:text-sm">This AI-powered Generative UI Builder transforms your ideas into designs and clean React and Tailwind code — no design skills required.</div>
         <div className="flex gap-3">

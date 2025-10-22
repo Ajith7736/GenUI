@@ -11,6 +11,8 @@ function OutputToggler({ onActive, setonActive, jsxgeneratedcode }: props) {
 
     const [copycode, setcopycode] = useState<boolean>(false)
 
+    // To copy the code to clipboard whenever the user clicks the copy code.
+    
     const handlecopy = (): void => {
         setcopycode(true);
         navigator.clipboard.writeText(jsxgeneratedcode);
@@ -22,8 +24,8 @@ function OutputToggler({ onActive, setonActive, jsxgeneratedcode }: props) {
     return (
         <div className="flex h-[6.5vh] justify-between bg-darkgrey font-semibold border border-x-0 border-t-0 border-light-grey dark:border-dark-grey/20 items-center">
             <div className="xss:text-xs sm:text-sm flex items-center">
-                <button className={onActive === "Preview" ? " border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer text-light-darkgrey"} onClick={() => setonActive("Preview")}>Preview</button>
-                <button className={onActive === "Code" ? "border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-[6rem] xss:w-[5rem] cursor-pointer border-b-0" : "h-[6.5vh] md:w-[6rem] xss:w-[5rem]  cursor-pointer text-light-darkgrey"} onClick={() => setonActive("Code")}>Code</button>
+                <button className={onActive === "Preview" ? " border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-24 xss:w-20 cursor-pointer border-b-0" : "h-[6.5vh] md:w-24 xss:w-20 cursor-pointer text-light-darkgrey"} onClick={() => setonActive("Preview")}>Preview</button>
+                <button className={onActive === "Code" ? "border border-light-grey dark:border-dark-grey/20 h-[6.5vh] md:w-24 xss:w-20 cursor-pointer border-b-0" : "h-[6.5vh] md:w-24 xss:w-20  cursor-pointer text-light-darkgrey"} onClick={() => setonActive("Code")}>Code</button>
             </div>
             <div className="flex items-center gap-2 px-5 cursor-pointer sm:text-sm xss:text-xs" onClick={handlecopy}>
                 {copycode ? <><LuCheck size={20} className="xss:size-4" /> Copied </> : <><LuCopy size={20} className="xss:size-4" /> Copy code </>}

@@ -6,6 +6,7 @@ import { ReactElement } from "react";
 
 
 export default function NavbarWrapper(): ReactElement | null {
+    // Navbarwrapper for not displaying the navbar in certain pages.
     const pathname = usePathname();
     const nonavbarpath = ["/Login", "/Signup"];
     const shownavbar = !nonavbarpath.includes(pathname)

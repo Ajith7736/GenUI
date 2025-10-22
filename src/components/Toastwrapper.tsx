@@ -6,7 +6,9 @@ import { useTheme } from 'next-themes'
 function Toastwrapper() {
 
     const { resolvedTheme } = useTheme();
-
+    
+    // Toast wrapper
+    
     return (
         <Toaster position="top-right" reverseOrder={false} toastOptions={{
             className: '',

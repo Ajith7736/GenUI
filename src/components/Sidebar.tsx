@@ -67,6 +67,8 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
     const { data: session, status }: { data: Session | null, status: string } = useSession();
     const [projectloader, setprojectloader] = useState<boolean>(true)
 
+    // fetch api call to get all the project of the specific user from the DB.
+
     const getproject = useCallback(async () => {
         const userId = session?.user.id;
         if (!userId) return
@@ -102,6 +104,8 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
     }, [session, status, getproject])
 
 
+    // close the sidebar when user clicks outside the sidebar
+
     useEffect(() => {
 
         const handleclickoutside = (Event: MouseEvent) => {
@@ -117,10 +121,14 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
         }
     }, [])
 
+    // show the project input and hide the side bar.
+
     const handleproject = () => {
         setprojecttoggle(!projecttoggle)
         setshowsidebar(false);
     }
+
+    // when the user clicks on a particular project it will show all the prompts inside that project.
 
     const handleshowprompt = (e: React.MouseEvent<HTMLDivElement | SVGElement>) => {
         if (showprompts?.projectName !== e.currentTarget.id) {
@@ -134,6 +142,8 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
             show: !showprompts?.show
         })
     }
+
+    // creates a blank prompt
 
     const handlenewprompt = (e: React.MouseEvent<SVGElement>) => {
         const name = e.currentTarget.id;
@@ -157,6 +167,8 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
             })
         })
     }
+
+    // fetch api call for deleting project or prompt
 
     const deleteprompt = async (projectid: string, promptid: string | null | undefined, text: string | null | undefined, isproject: boolean) => {
         if (isproject) {
@@ -213,6 +225,8 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
         }
     }
 
+    // set current prompt when user click on a particular prompt
+
     const handlecurrentprompt = (e: React.MouseEvent<HTMLDivElement>, id: string, projectName: string, text: string, code: string) => {
         const projectid = e.currentTarget.id;
         setcurrentprompt({ id, projectid, projectName, text, code })
@@ -224,7 +238,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
     return (
         <div>
             <button onClick={() => setshowsidebar(!showsidebar)} className="lg:hidden fixed border border-light-darkgrey/30 bg-light-mediumgrey backdrop-blur-md hover:bg-light-darkgrey/20 z-10 transition-all ease-in-out left-5 p-2 rounded-md hover:dark:bg-dark-white/90 dark:bg-dark-white cursor-pointer shadow-md dark:text-dark-black" ><GiHamburgerMenu className="size-5" /></button>
-            <div ref={sideref} className={`dark:bg-dark-input-outline sm:w-[25rem] xss:w-[20rem] z-10 fixed h-[90vh] ${showsidebar ? `left-0` : `-left-100`} transition-all duration-500 ease-in-out lg:left-0 flex flex-col p-5 border dark:border-dark-grey/20 border-light-grey bg-light-lightgrey border-l-0 border-y-0 `}>
+            <div ref={sideref} className={`dark:bg-dark-input-outline sm:w-100 xss:w-[20rem] z-10 fixed h-[90vh] ${showsidebar ? `left-0` : `-left-100`} transition-all duration-500 ease-in-out lg:left-0 flex flex-col p-5 border dark:border-dark-grey/20 border-light-grey bg-light-lightgrey border-l-0 border-y-0 `}>
                 <button className="p-2 dark:bg-dark-white bg-light-black text-light-white hover:bg-light-black/90 transition-all ease-in-out dark:text-dark-black font-bold rounded-md cursor-pointer  hover:dark:bg-dark-white/90 flex justify-center gap-2" onClick={handleproject}><FiPlus className="size-6" />Create new Project</button>
                 {projectloader && <> <div className="bg-light-grey dark:bg-dark-mediumgrey rounded-full mt-10 animate-pulse w-full h-[5px]"></div>
                     <div className="bg-light-grey dark:bg-dark-mediumgrey rounded-full mt-5 animate-pulse w-1/2 h-[5px]"></div></>}
@@ -232,7 +246,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
                     <motion.div className="flex flex-col gap-5 mt-8">
                         {projectdetails?.map((project, index) => {
                             return <motion.div key={index} >
-                                <button className="rounded-md w-[100%] flex items-center justify-between focus:outline-none cursor-pointer" id={project.projectName} >
+                                <button className="rounded-md w-full flex items-center justify-between focus:outline-none cursor-pointer" id={project.projectName} >
                                     <div className="w-full text-start" id={project.projectName} onClick={(e) => handleshowprompt(e)}>{project.projectName}</div>
                                     <div className="flex gap-2 items-center">
                                         <IoIosAdd className="size-6 dark:text-dark-white" id={project.projectName} onClick={(e) => handlenewprompt(e)} />

@@ -2,6 +2,7 @@ import React from 'react'
 
 function Preview({ jsxgeneratedcode }: { jsxgeneratedcode: string }) {
     return (
+      // used iframe to showcase live preview of the code and added tailwind to it.
         < div className=" h-[53.5vh] rounded-b-md bg-light-lightgrey dark:bg-dark-input-box overflow-auto">
             {
                 jsxgeneratedcode ?

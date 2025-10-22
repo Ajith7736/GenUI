@@ -12,6 +12,8 @@ const ShinyText: React.FC<ShinyTextProps> = ({ text, disabled = false, speed = 5
   const animationDuration = `${speed}s`;
   const { resolvedTheme } = useTheme();
 
+  // shiny text effect
+
   return (
     <div
       className={`text-[#b5b5b5a4] bg-clip-text inline-block ${disabled ? '' : 'animate-shine'} ${className}`}

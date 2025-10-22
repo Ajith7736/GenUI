@@ -11,6 +11,7 @@ function Modetoggler() {
 
 
     return (
+        // Theme toggler using Next-themes
         <div className='flex flex-col items-center relative' >
             {showtoggle && (
                 <motion.div
