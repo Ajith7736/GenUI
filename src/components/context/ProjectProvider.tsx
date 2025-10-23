@@ -41,6 +41,9 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
 }
 
 export function useProject() {
+
+    // return useProject for direct use rather than calling it useContext(ProjectContext)
+
     const context = useContext(ProjectContext);
 
     if (context === undefined) {
