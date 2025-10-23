@@ -12,26 +12,11 @@ import Promptinput from "@/components/Promptinput";
 import OutputToggler from "@/components/OutputToggler";
 import Sidebar from "@/components/Sidebar";
 import Loading from "@/components/Loading";
+import { useProject } from "@/components/context/ProjectProvider";
 
 
 
 function Page() {
-
-  interface prompts {
-    id: string,
-    text: string,
-    code: string,
-    createdAt: Date
-  }
-
-  interface Project {
-    _id: string,
-    userId: string,
-    projectName: string,
-    prompts: prompts[] | null,
-    createdAt: Date,
-    UpdatedAt: Date
-  }
 
   interface showprompt {
     projectName: string | null,
@@ -59,7 +44,6 @@ function Page() {
   const [prompt, setprompt] = useState<string>("");
   const [iseditting, setiseditting] = useState<boolean>(false)
   const [projecttoggle, setprojecttoggle] = useState<boolean>(false);
-  const [projectdetails, setprojectdetails] = useState<Project[] | null>(null)
   const [showprompts, setshowprompts] = useState<showprompt | null>({ projectName: null, show: false })
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
   const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null);
@@ -81,19 +65,16 @@ function Page() {
       <Projectinput
         projecttoggle={projecttoggle}
         setprojecttoggle={setprojecttoggle}
-        setprojectdetails={setprojectdetails}
       />
 
       <div className="flex dark:bg-dark-mediumblack justify-around">
         <Sidebar
           currentprompt={currentprompt}
           deletetoggle={deletetoggle}
-          projectdetails={projectdetails}
           projecttoggle={projecttoggle}
           setcurrentprompt={setcurrentprompt}
           setdeletetoggle={setdeletetoggle}
           setjsxgeneratedcode={setjsxgeneratedcode}
-          setprojectdetails={setprojectdetails}
           setprojecttoggle={setprojecttoggle}
           setprompt={setprompt}
           setshowprompts={setshowprompts}
@@ -107,7 +88,6 @@ function Page() {
             setprompt={setprompt}
             currentprompt={currentprompt}
             setjsxgeneratedcode={setjsxgeneratedcode}
-            setprojectdetails={setprojectdetails}
             setprojecttoggle={setprojecttoggle}
           />
 

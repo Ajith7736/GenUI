@@ -4,36 +4,20 @@ import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { IoClose } from 'react-icons/io5';
+import { useProject } from './context/ProjectProvider';
 
-
-interface prompts {
-    id: string,
-    text: string,
-    code: string,
-    createdAt: Date
-}
-
-interface Project {
-    _id: string,
-    userId: string,
-    projectName: string,
-    prompts: prompts[] | null,
-    createdAt: Date,
-    UpdatedAt: Date
-}
 
 interface ProjectInputProps {
-    setprojectdetails: React.Dispatch<React.SetStateAction<Project[] | null>>;
     projecttoggle: boolean;
     setprojecttoggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: ProjectInputProps) {
+function Projectinput({ projecttoggle, setprojecttoggle }: ProjectInputProps) {
 
     interface Formvalue {
         projectName: string;
     }
-
+    const { setprojectdetails } = useProject();
     const { data: session }: { data: Session | null } = useSession();
     const {
         register,
@@ -98,7 +82,7 @@ function Projectinput({ setprojectdetails, projecttoggle, setprojecttoggle }: Pr
                     <div className="flex justify-end"><IoClose className="size-5 cursor-pointer" onClick={handleprojectclose} /></div>
                     <div className="text-xl font-bold text-center">Enter Your Project Name</div>
 
-                        {/* Submit project name using react hook form */}
+                    {/* Submit project name using react hook form */}
 
                     <form action="" className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
                         <label htmlFor="projectName">Project Name : </label>

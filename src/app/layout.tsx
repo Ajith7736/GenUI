@@ -7,6 +7,7 @@ import SessionWrapper from "@/components/SessionWrapper";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import { ThemeProvider } from "next-themes";
 import Toastwrapper from "@/components/Toastwrapper";
+import { ProjectProvider } from "@/components/context/ProjectProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,13 +33,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} ${geistSans.className} ${geistMono.className} antialiased `} >
-        <ThemeProvider defaultTheme="system" attribute="class" >
-          <SessionWrapper >
-            <Toastwrapper />
-            <NavbarWrapper />
-            {children}
-          </SessionWrapper>
-        </ThemeProvider>
+        <ProjectProvider>
+          <ThemeProvider defaultTheme="system" attribute="class" >
+            <SessionWrapper >
+              <Toastwrapper />
+              <NavbarWrapper />
+              {children}
+            </SessionWrapper>
+          </ThemeProvider>
+        </ProjectProvider>
       </body>
     </html>
   );

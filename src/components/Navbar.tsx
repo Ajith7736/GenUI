@@ -12,6 +12,7 @@ import Image from 'next/image';
 
 
 function Navbar() {
+
   const { data: session }: { data: Session | null } = useSession();
   const pathname: string = usePathname();
   const [showlogout, setshowlogout] = useState<boolean>(false)
@@ -19,9 +20,8 @@ function Navbar() {
 
 
   return (
-    // Navbar Component
     <div className='bg-light-white/60 sticky top-0 z-40 backdrop-blur-md dark:bg-dark-mediumblack/70 dark:text-dark-white h-[10vh] flex items-center justify-between px-8'>
-      // Logo
+      {/* Logo */}
       <div className='flex items-center gap-3'>
         <IoLogoIonic size={30} />
         <Link href={"/"}><div className='text-2xl font-bold font-heading'>GenUI</div></Link>

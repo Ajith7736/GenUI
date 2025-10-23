@@ -8,6 +8,7 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { IoIosAdd, IoIosArrowDown } from 'react-icons/io';
 import { SlOptions } from 'react-icons/sl';
 import { v4 as uuidv4 } from "uuid";
+import { useProject } from './context/ProjectProvider';
 
 interface prompts {
     id: string,
@@ -48,8 +49,6 @@ interface currentprompt {
 interface props {
     setprojecttoggle: React.Dispatch<React.SetStateAction<boolean>>,
     projecttoggle: boolean,
-    projectdetails: Project[] | null,
-    setprojectdetails: React.Dispatch<React.SetStateAction<Project[] | null>>,
     showprompts: showprompt | null,
     setshowprompts: React.Dispatch<React.SetStateAction<showprompt | null>>,
     deletetoggle: deletetoggleprops | null,
@@ -60,12 +59,13 @@ interface props {
     setprompt: React.Dispatch<React.SetStateAction<string>>
 }
 
-function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprompt, deletetoggle, setdeletetoggle, setshowprompts, showprompts, projectdetails, setprojectdetails, projecttoggle, setprojecttoggle }: props) {
+function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprompt, deletetoggle, setdeletetoggle, setshowprompts, showprompts, projecttoggle, setprojecttoggle }: props) {
 
     const sideref = useRef<HTMLDivElement>(null);
     const [showsidebar, setshowsidebar] = useState<boolean>(false)
     const { data: session, status }: { data: Session | null, status: string } = useSession();
     const [projectloader, setprojectloader] = useState<boolean>(true)
+    const { projectdetails, setprojectdetails } = useProject()
 
     // fetch api call to get all the project of the specific user from the DB.
 
@@ -183,6 +183,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
             if (res.status === 200) {
                 setprojectdetails(data.updatedproject);
                 localStorage.removeItem(`projects_${session?.user?.id}`);
+                projectid === currentprompt?.projectid && setcurrentprompt(null);
             } else if (res.status >= 400) {
                 toast.error(data.message);
             }
@@ -238,7 +239,7 @@ function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprom
     return (
         <div>
             <button onClick={() => setshowsidebar(!showsidebar)} className="lg:hidden fixed border border-light-darkgrey/30 bg-light-mediumgrey backdrop-blur-md hover:bg-light-darkgrey/20 z-10 transition-all ease-in-out left-5 p-2 rounded-md hover:dark:bg-dark-white/90 dark:bg-dark-white cursor-pointer shadow-md dark:text-dark-black" ><GiHamburgerMenu className="size-5" /></button>
-            <div ref={sideref} className={`dark:bg-dark-input-outline sm:w-100 xss:w-[20rem] z-10 fixed h-[90vh] ${showsidebar ? `left-0` : `-left-100`} transition-all duration-500 ease-in-out lg:left-0 flex flex-col p-5 border dark:border-dark-grey/20 border-light-grey bg-light-lightgrey border-l-0 border-y-0 `}>
+            <div ref={sideref} className={`dark:bg-dark-input-outline overflow-auto sm:w-100 xss:w-[20rem] z-10 fixed h-[90vh] ${showsidebar ? `left-0` : `-left-100`} transition-all duration-500 ease-in-out lg:left-0 flex flex-col p-5 border dark:border-dark-grey/20 border-light-grey bg-light-lightgrey border-l-0 border-y-0 `}>
                 <button className="p-2 dark:bg-dark-white bg-light-black text-light-white hover:bg-light-black/90 transition-all ease-in-out dark:text-dark-black font-bold rounded-md cursor-pointer  hover:dark:bg-dark-white/90 flex justify-center gap-2" onClick={handleproject}><FiPlus className="size-6" />Create new Project</button>
                 {projectloader && <> <div className="bg-light-grey dark:bg-dark-mediumgrey rounded-full mt-10 animate-pulse w-full h-[5px]"></div>
                     <div className="bg-light-grey dark:bg-dark-mediumgrey rounded-full mt-5 animate-pulse w-1/2 h-[5px]"></div></>}

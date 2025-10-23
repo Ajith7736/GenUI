@@ -15,8 +15,6 @@ import Modetoggler from "@/components/Modetoggler";
 import ShinyText from "@/components/ShinyText";
 
 
-
-
 export default function Home() {
   const { data: session, status }: {
     data: Session | null, status: string
