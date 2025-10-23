@@ -46,26 +46,28 @@ interface currentprompt {
     code: string
 }
 
+interface showprompt {
+    projectName: string | null,
+    show: boolean;
+}
+
 interface props {
     setprojecttoggle: React.Dispatch<React.SetStateAction<boolean>>,
     projecttoggle: boolean,
-    showprompts: showprompt | null,
-    setshowprompts: React.Dispatch<React.SetStateAction<showprompt | null>>,
     deletetoggle: deletetoggleprops | null,
     setdeletetoggle: React.Dispatch<React.SetStateAction<deletetoggleprops | null>>,
     currentprompt: currentprompt | null,
     setcurrentprompt: React.Dispatch<React.SetStateAction<currentprompt | null>>,
-    setjsxgeneratedcode: React.Dispatch<React.SetStateAction<string>>,
-    setprompt: React.Dispatch<React.SetStateAction<string>>
 }
 
-function Sidebar({ setjsxgeneratedcode, setprompt, currentprompt, setcurrentprompt, deletetoggle, setdeletetoggle, setshowprompts, showprompts, projecttoggle, setprojecttoggle }: props) {
+function Sidebar({ currentprompt, setcurrentprompt, deletetoggle, setdeletetoggle, projecttoggle, setprojecttoggle }: props) {
 
     const sideref = useRef<HTMLDivElement>(null);
     const [showsidebar, setshowsidebar] = useState<boolean>(false)
     const { data: session, status }: { data: Session | null, status: string } = useSession();
     const [projectloader, setprojectloader] = useState<boolean>(true)
-    const { projectdetails, setprojectdetails } = useProject()
+    const { projectdetails, setprojectdetails, setprompt, setjsxgeneratedcode } = useProject();
+    const [showprompts, setshowprompts] = useState<showprompt | null>({ projectName: null, show: false })
 
     // fetch api call to get all the project of the specific user from the DB.
 

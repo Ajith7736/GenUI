@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
 import { LuCheck, LuCopy } from 'react-icons/lu';
+import { useProject } from './context/ProjectProvider';
 
 interface props {
     onActive: string,
-    setonActive: React.Dispatch<React.SetStateAction<string>>,
-    jsxgeneratedcode: string
+    setonActive: React.Dispatch<React.SetStateAction<string>>
 }
 
-function OutputToggler({ onActive, setonActive, jsxgeneratedcode }: props) {
+function OutputToggler({ onActive, setonActive }: props) {
 
     const [copycode, setcopycode] = useState<boolean>(false)
-
+    const { jsxgeneratedcode } = useProject()
     // To copy the code to clipboard whenever the user clicks the copy code.
-    
+
     const handlecopy = (): void => {
         setcopycode(true);
         navigator.clipboard.writeText(jsxgeneratedcode);

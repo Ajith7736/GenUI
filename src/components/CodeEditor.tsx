@@ -1,17 +1,16 @@
 import React from 'react'
 import { useTheme } from 'next-themes'
 import Editor from "@monaco-editor/react";
+import { useProject } from './context/ProjectProvider';
 
 interface props {
-    jsxgeneratedcode: string,
-    setjsxgeneratedcode: React.Dispatch<React.SetStateAction<string>>,
     setiseditting: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function CodeEditor({ jsxgeneratedcode, setjsxgeneratedcode, setiseditting }: props) {
-
+function CodeEditor({ setiseditting }: props) {
+    const { jsxgeneratedcode, setjsxgeneratedcode } = useProject()
     const { resolvedTheme } = useTheme();
-    
+
     return (
         <div className="h-[53.5vh]">
             {/* Editor for the code implemented using monaco editor */}

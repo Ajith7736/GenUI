@@ -4,15 +4,15 @@ import React from 'react'
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from 'next-themes';
+import { useProject } from './context/ProjectProvider';
 
 interface Codeblockprops {
-    code: string,
     language: string
 }
 
 
-function Codeblock({ code, language }: Codeblockprops) {
-
+function Codeblock({ language }: Codeblockprops) {
+    const { jsxgeneratedcode } = useProject()
     const { resolvedTheme } = useTheme();
 
     return (
@@ -28,7 +28,7 @@ function Codeblock({ code, language }: Codeblockprops) {
                 }}
             >
 
-                {code}
+                {jsxgeneratedcode}
             </SyntaxHighlighter>
         </div >
     )

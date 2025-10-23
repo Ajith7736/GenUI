@@ -1,14 +1,17 @@
 import React from 'react'
+import { useProject } from './context/ProjectProvider'
 
-function Preview({ jsxgeneratedcode }: { jsxgeneratedcode: string }) {
-    return (
-      // used iframe to showcase live preview of the code and added tailwind to it.
-        < div className=" h-[53.5vh] rounded-b-md bg-light-lightgrey dark:bg-dark-input-box overflow-auto">
-            {
-                jsxgeneratedcode ?
-                    <iframe
-                        className="w-full h-[53.5vh] border-0 transition-all ease-in-out"
-                        srcDoc={`
+function Preview() {
+  const { jsxgeneratedcode } = useProject()
+
+  return (
+    // used iframe to showcase live preview of the code and added tailwind to it.
+    < div className=" h-[53.5vh] rounded-b-md bg-light-lightgrey dark:bg-dark-input-box overflow-auto">
+      {
+        jsxgeneratedcode ?
+          <iframe
+            className="w-full h-[53.5vh] border-0 transition-all ease-in-out"
+            srcDoc={`
                         <html>
                           <head>
                                   <script>
@@ -23,12 +26,12 @@ function Preview({ jsxgeneratedcode }: { jsxgeneratedcode: string }) {
                           <body>${jsxgeneratedcode}</body>
                         </html>
                       `}
-                    />
+          />
 
-                    : <div className="m-6 xss:text-sm sm:text-base">No preview to show.</div>
-            }
-        </div>
-    )
+          : <div className="m-6 xss:text-sm sm:text-base">No preview to show.</div>
+      }
+    </div>
+  )
 }
 
 export default Preview

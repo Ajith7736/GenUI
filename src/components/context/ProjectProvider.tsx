@@ -19,15 +19,22 @@ interface prompts {
 
 interface ProjectContextprops {
     projectdetails: Project[] | null,
-    setprojectdetails: React.Dispatch<React.SetStateAction<Project[] | null>>
+    setprojectdetails: React.Dispatch<React.SetStateAction<Project[] | null>>,
+    prompt: string,
+    setprompt: React.Dispatch<React.SetStateAction<string>>,
+    jsxgeneratedcode: string,
+    setjsxgeneratedcode: React.Dispatch<React.SetStateAction<string>>,
+
 }
 
 const ProjectContext = createContext<ProjectContextprops | undefined>(undefined);
 
 export function ProjectProvider({ children }: { children: ReactNode }) {
     const [projectdetails, setprojectdetails] = useState<Project[] | null>(null);
+    const [prompt, setprompt] = useState<string>("")
+    const [jsxgeneratedcode, setjsxgeneratedcode] = useState<string>("")
     return (
-        <ProjectContext.Provider value={{ projectdetails, setprojectdetails }}>
+        <ProjectContext.Provider value={{ projectdetails, setprojectdetails, prompt, setprompt, jsxgeneratedcode, setjsxgeneratedcode }}>
             {children}
         </ProjectContext.Provider>
     );

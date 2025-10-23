@@ -18,11 +18,6 @@ import { useProject } from "@/components/context/ProjectProvider";
 
 function Page() {
 
-  interface showprompt {
-    projectName: string | null,
-    show: boolean;
-  }
-
   interface currentprompt {
     id: string,
     projectid: string,
@@ -38,15 +33,13 @@ function Page() {
   }
 
   const [onActive, setonActive] = useState<string>("Code")
-  const [jsxgeneratedcode, setjsxgeneratedcode] = useState<string>("")
   const { status }: { status: "loading" | "unauthenticated" | "authenticated" } = useSession();
   const router: AppRouterInstance = useRouter();
-  const [prompt, setprompt] = useState<string>("");
   const [iseditting, setiseditting] = useState<boolean>(false)
   const [projecttoggle, setprojecttoggle] = useState<boolean>(false);
-  const [showprompts, setshowprompts] = useState<showprompt | null>({ projectName: null, show: false })
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
   const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null);
+  const { jsxgeneratedcode } = useProject();
 
   // navigate user to home page when the user is unauthenticated
 
@@ -74,33 +67,25 @@ function Page() {
           projecttoggle={projecttoggle}
           setcurrentprompt={setcurrentprompt}
           setdeletetoggle={setdeletetoggle}
-          setjsxgeneratedcode={setjsxgeneratedcode}
           setprojecttoggle={setprojecttoggle}
-          setprompt={setprompt}
-          setshowprompts={setshowprompts}
-          showprompts={showprompts}
         />
 
         <div className="flex flex-col xss:w-full md:w-[80vw] lg:w-fit lg:ml-100 xl:ml-80 gap-5 bg-light-white dark:bg-dark-mediumblack min-h-[90vh] p-5">
 
           <Promptinput
-            prompt={prompt}
-            setprompt={setprompt}
             currentprompt={currentprompt}
-            setjsxgeneratedcode={setjsxgeneratedcode}
             setprojecttoggle={setprojecttoggle}
           />
 
           <div className=" bg-light-white dark:bg-dark-input-outline border border-light-grey dark:border-dark-grey/20 h-[60vh] lg:w-[50vw] rounded-md flex flex-col mb-10">
             <OutputToggler
-              jsxgeneratedcode={jsxgeneratedcode}
               onActive={onActive}
               setonActive={setonActive}
             />
             {onActive === "Preview" ?
               <>
                 {/* Preview */}
-                <Preview jsxgeneratedcode={jsxgeneratedcode} />
+                <Preview />
               </>
               :
               <>
@@ -109,13 +94,11 @@ function Page() {
                     jsxgeneratedcode.length === 0 ? <div className="m-6 xss:text-sm sm:text-base">No code to show.</div> : <>
                       {iseditting ?
                         <CodeEditor
-                          jsxgeneratedcode={jsxgeneratedcode}
-                          setjsxgeneratedcode={setjsxgeneratedcode}
+
                           setiseditting={setiseditting}
                         /> :
                         (<><div className="">
                           <Codeblock
-                            code={jsxgeneratedcode}
                             language="jsx"
                           />
                         </div>
