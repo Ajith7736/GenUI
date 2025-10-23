@@ -26,19 +26,12 @@ function Page() {
     code: string
   }
 
-  interface deletetoggleprops {
-    id: string | null,
-    show: boolean,
-    isproject: boolean
-  }
-
   const [onActive, setonActive] = useState<string>("Code")
   const { status }: { status: "loading" | "unauthenticated" | "authenticated" } = useSession();
   const router: AppRouterInstance = useRouter();
   const [iseditting, setiseditting] = useState<boolean>(false)
   const [projecttoggle, setprojecttoggle] = useState<boolean>(false);
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
-  const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null);
   const { jsxgeneratedcode } = useProject();
 
   // navigate user to home page when the user is unauthenticated
@@ -63,10 +56,8 @@ function Page() {
       <div className="flex dark:bg-dark-mediumblack justify-around">
         <Sidebar
           currentprompt={currentprompt}
-          deletetoggle={deletetoggle}
           projecttoggle={projecttoggle}
           setcurrentprompt={setcurrentprompt}
-          setdeletetoggle={setdeletetoggle}
           setprojecttoggle={setprojecttoggle}
         />
 

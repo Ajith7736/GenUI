@@ -54,20 +54,19 @@ interface showprompt {
 interface props {
     setprojecttoggle: React.Dispatch<React.SetStateAction<boolean>>,
     projecttoggle: boolean,
-    deletetoggle: deletetoggleprops | null,
-    setdeletetoggle: React.Dispatch<React.SetStateAction<deletetoggleprops | null>>,
     currentprompt: currentprompt | null,
     setcurrentprompt: React.Dispatch<React.SetStateAction<currentprompt | null>>,
 }
 
-function Sidebar({ currentprompt, setcurrentprompt, deletetoggle, setdeletetoggle, projecttoggle, setprojecttoggle }: props) {
+function Sidebar({ currentprompt, setcurrentprompt, projecttoggle, setprojecttoggle }: props) {
 
     const sideref = useRef<HTMLDivElement>(null);
     const [showsidebar, setshowsidebar] = useState<boolean>(false)
     const { data: session, status }: { data: Session | null, status: string } = useSession();
     const [projectloader, setprojectloader] = useState<boolean>(true)
     const { projectdetails, setprojectdetails, setprompt, setjsxgeneratedcode } = useProject();
-    const [showprompts, setshowprompts] = useState<showprompt | null>({ projectName: null, show: false })
+    const [showprompts, setshowprompts] = useState<showprompt | null>({ projectName: null, show: false });
+    const [deletetoggle, setdeletetoggle] = useState<deletetoggleprops | null>(null);
 
     // fetch api call to get all the project of the specific user from the DB.
 
