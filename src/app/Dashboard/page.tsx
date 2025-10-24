@@ -33,6 +33,7 @@ function Page() {
   const [projecttoggle, setprojecttoggle] = useState<boolean>(false);
   const [currentprompt, setcurrentprompt] = useState<currentprompt | null>(null)
   const { jsxgeneratedcode } = useProject();
+  
 
   // navigate user to home page when the user is unauthenticated
 

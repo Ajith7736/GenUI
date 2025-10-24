@@ -19,7 +19,7 @@ function Page() {
 
     return (
         <div>
-            <Link href={"/Login"} className='flex justify-end'><div className='m-5 bg-light-mediumgrey hover:bg-light-mediumgrey/70 transition-all ease-in-out w-fit px-4 py-2 font-medium flex items-center gap-2 rounded-md lg:text-lg '>Login</div></Link>
+            <Link href={"/Login"} className='flex justify-end'><div className='m-5 bg-light-mediumgrey dark:bg-dark-mediumgrey hover:bg-light-mediumgrey/70 hover:dark:bg-dark-mediumgrey/70 transition-all ease-in-out w-fit px-4 py-2 font-medium flex items-center gap-2 rounded-md lg:text-lg '>Login</div></Link>
             <div className='p-5 flex flex-col items-center justify-center  h-[70vh] gap-5'>
                 <div className='flex flex-col gap-2'>
                     <div className='text-center font-bold xl:text-3xl xss:text-2xl text-3xl'>Create an account</div>
@@ -28,7 +28,7 @@ function Page() {
                 <div className=' rounded-md flex flex-col items-center justify-center gap-10 w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[30vw]'>
                     <button onClick={() => {
                         setloading({ ...loading, google: true })
-                        signIn("google")
+                        signIn("google", { callbackUrl: "/" })
                     }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
                         {status === "unauthenticated" && loading.google ? <div className="animate-spin inline-block size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
                             <span className="sr-only">Loading...</span>
@@ -54,7 +54,7 @@ function Page() {
                     </div>
                     <button onClick={async () => {
                         await setloading({ ...loading, github: true })
-                        signIn("github")
+                        signIn("github", { callbackUrl: "/" })
                     }} className="w-full lg:w-[20vw] xss:text-sm max-[390px]:text-xs flex items-center justify-center gap-x-3 py-2.5 border bg-light-black hover:bg-light-black/90 text-light-white  rounded-lg  duration-150 cursor-pointer">
                         {status === "unauthenticated" && loading.github ? <div className="animate-spin inline-block size-4 border-3 border-light-darkgrey  border-t-light-white rounded-full " role="status" aria-label="loading">
                             <span className="sr-only">Loading...</span>
