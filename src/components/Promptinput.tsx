@@ -103,7 +103,7 @@ function Promptinput({ currentprompt, setprojecttoggle }: props) {
             })
             const data = await res.json();
             if (res.status === 200) {
-                setsuggestion((JSON.parse(data.text)).suggestions);
+                setsuggestion(data.suggestions);
                 setsuggesstionloader(false);
             } else if (res.status === 500 || res.status === 400) {
                 toast.error(data.message);
